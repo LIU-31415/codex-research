@@ -2,6 +2,8 @@
 
 Date: 2026-08-30
 
+Status: **exploratory internal smoke test**, not a reproducible benchmark.
+
 ## Method
 
 Three representative first-response tasks were run twice in parallel:
@@ -9,7 +11,9 @@ Three representative first-response tasks were run twice in parallel:
 - with `codex-research` loaded;
 - baseline without reading any local Skill.
 
-A blind reviewer received candidates as A/B with order swapped for two cases. External web and paper search were disabled so the test focused on stage control, interaction, and evidence boundaries rather than retrieval quality.
+A blind reviewer received candidates as A/B with order swapped for two cases. The reviewer compared stage control, evidence/access boundaries, overclaiming, recommendation quality, and whether the response asked only one decision-changing question. External web and paper search were disabled so the test focused on interaction and evidence discipline rather than retrieval quality.
+
+The raw candidate transcripts, fixed model identifiers, and complete runtime configuration are not committed, so the result cannot be independently reproduced from this repository alone.
 
 ## Results
 

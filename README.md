@@ -24,7 +24,7 @@ Copy or install the `codex-research` folder into a Codex Skill location, for exa
 $HOME/.agents/skills/codex-research/
 ```
 
-The folder name must remain `codex-research` so it matches the `name` in `SKILL.md`.
+Keeping the folder name `codex-research` is recommended so it remains easy to identify alongside the `name` in `SKILL.md`.
 
 Restart Codex if the Skill does not appear immediately. Invoke it explicitly with:
 

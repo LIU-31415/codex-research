@@ -6,17 +6,17 @@ Use one lightweight state document to preserve a long, interactive research proc
 
 ## When to create it
 
-Explicitly recommend creating or updating `research_state.md` when any of these conditions occurs:
+Use the recommendation only when the work is already long or substantially revisable, is likely to continue across sessions, or needs a durable record for formal delivery. Within that context, recommend creating or updating `research_state.md` when one or more of these conditions occurs:
 
 - the work enters a second substantial retrieval round;
 - the question or scope is revised;
-- a consequential claim has been formed;
+- consequential claims need to remain auditable across later revisions;
 - a conflict or missing-full-text checkpoint must be tracked;
 - formal delivery is being prepared;
 - the session is likely to pause or move to another Codex conversation;
 - the user asks for a durable research record.
 
-Create it after the user agrees or when the user already requested a persistent research document. Do not create it for a short lookup or when the user prefers conversation only. Before writing in an unrelated repository, tell the user where the file will be created.
+Create it after the user agrees or when the user already requested a persistent research document. Do not recommend it for a short lookup merely because the answer contains an important claim, or when the user prefers conversation only. Before writing in an unrelated repository, tell the user where the file will be created.
 
 ## Update behavior
 
@@ -66,7 +66,7 @@ Adapt this structure to the task. Omit empty sections.
 - Coverage limitations:
 
 ## Key papers
-| ID | Stable identifier | Role | Access state | Version/independence notes |
+| ID | Stable identifier | Role | Access state | Identity, version, and independence notes |
 |---|---|---|---|---|
 
 ## Consequential claims

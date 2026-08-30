@@ -121,17 +121,18 @@ Read [interactive-workflow.md](references/interactive-workflow.md) for entry mod
 
 ## Preserve evidence access states
 
-For important sources, distinguish what was actually obtained:
+For important sources, assign one access state according to what was actually obtained:
 
 - `SEARCH_HIT`;
 - `METADATA_ONLY`;
 - `ABSTRACT_READ`;
 - `FULLTEXT_FILE_AVAILABLE`;
 - `FULLTEXT_TEXT_READ`;
-- `FULLTEXT_LOCATED`;
-- explicit human verification when it occurs.
+- `FULLTEXT_LOCATED`.
 
-A downloaded file is not automatically readable full text. Readable full text is not automatically a located claim. A located claim is not automatically a valid method, causal conclusion, or scientific truth.
+Record explicit human verification, when it occurs, as a separate orthogonal flag; it does not automatically upgrade the access state.
+
+A discovered or downloaded asset does not automatically belong to the target paper. Promote it to `FULLTEXT_FILE_AVAILABLE` only after checking title, authors, stable identifier, document type, and publication-version relationship. Readable verified full text is not automatically a located claim. A located claim is not automatically a valid method, causal conclusion, or scientific truth.
 
 Use only openly licensed or publicly available text, access provided through the user's lawful institutional rights, or files the user legally supplies. Do not bypass access controls or recommend unauthorized acquisition, even if an external connector exposes such an option.
 
@@ -195,7 +196,7 @@ A search gap, inaccessible evidence, inconsistent result, methodological weaknes
 
 ## Maintain long research with one state file
 
-For a long, revisable, or pausing task, explicitly recommend creating or updating `research_state.md`. Trigger this recommendation when entering a second substantial retrieval round, forming consequential claims, changing scope, encountering a full-text or conflict checkpoint, preparing formal delivery, or pausing across sessions. Ask before writing it in an unrelated repository.
+For work that is long, revisable, likely to pause across sessions, or intended for formal delivery, explicitly recommend creating or updating `research_state.md`. Relevant triggers include entering a second substantial retrieval round, forming consequential claims that must remain auditable, changing scope, encountering a full-text or conflict checkpoint, preparing formal delivery, or pausing across sessions. Do not recommend a state file for a short lookup merely because it contains one important claim. Ask before writing it in an unrelated repository.
 
 Use it as shared working memory for:
 

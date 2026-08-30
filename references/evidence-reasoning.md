@@ -32,14 +32,18 @@ Ordinary definitions, bibliographic facts, and low-stakes background can remain 
 
 ## Preserve evidence boundaries
 
-Distinguish:
+Use one ordered access-state vocabulary:
 
-- `SEARCH_HIT`: discovery lead only;
-- `METADATA`: paper identity and bibliographic facts;
-- `ABSTRACT`: content explicitly present in an opened abstract;
-- `FULLTEXT`: content in the article body that was actually read;
-- `FULLTEXT_LOCATED`: a supporting passage, table, figure, equation, or section was located;
-- `HUMAN_VERIFIED`: the user or researcher explicitly checked the relevant source detail.
+- `SEARCH_HIT`: discovery lead or snippet only;
+- `METADATA_ONLY`: paper identity and bibliographic facts were obtained;
+- `ABSTRACT_READ`: an explicit abstract was opened and read;
+- `FULLTEXT_FILE_AVAILABLE`: an accessible asset passed the paper-identity gate;
+- `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
+- `FULLTEXT_LOCATED`: a supporting passage, table, figure, equation, or section was located in the verified full text.
+
+A discovered or downloaded asset remains a candidate asset until its title, authors, stable identifier, and publication-version relationship are checked against the target paper. Do not promote it to any `FULLTEXT_*` state before that identity gate passes.
+
+Record `HUMAN_VERIFIED` as an orthogonal verification flag when the user or researcher explicitly checks a relevant source detail. It does not replace or automatically upgrade the access state.
 
 Full-text access does not imply validation of methods, figures, statistics, retraction status, or scientific truth.
 

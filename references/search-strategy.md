@@ -44,9 +44,11 @@ Record what was actually obtained:
 - `SEARCH_HIT`: discovery result or snippet only;
 - `METADATA_ONLY`: title, authors, year, venue, identifiers;
 - `ABSTRACT_READ`: an explicit abstract was opened and read;
-- `FULLTEXT_FILE_AVAILABLE`: a likely full-text asset exists;
-- `FULLTEXT_TEXT_READ`: article body text was parsed or read;
-- `FULLTEXT_LOCATED`: the passage, table, figure, or section supporting a claim was located.
+- `FULLTEXT_FILE_AVAILABLE`: an accessible asset passed the paper-identity gate;
+- `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
+- `FULLTEXT_LOCATED`: the passage, table, figure, or section supporting a claim was located in the verified full text.
+
+Treat every discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement as a candidate asset first. Verify the title, authors, stable identifier, document type, and publication-version relationship against the target paper. Until that identity check passes, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state.
 
 Never infer a stronger state from a tool's name or a successful return status.
 
