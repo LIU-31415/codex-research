@@ -1,0 +1,21 @@
+# Local planning and session state
+task_plan.md
+findings.md
+progress.md
+research_state.md
+
+# Generated review workspaces
+*-workspace/
+.review/
+
+# Local environment
+.env
+.venv/
+__pycache__/
+*.py[cod]
+
+# OS and editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
