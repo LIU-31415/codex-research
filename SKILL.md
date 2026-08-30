@@ -1,6 +1,6 @@
 ---
 name: codex-research
-description: Conduct interactive, question-driven literature research with Codex. Use when a user wants to explore a vague research direction, refine a research question, find and assess academic papers, obtain key full text, compare methods or evidence, reason about mechanisms or causes, identify research gaps, or develop evidence-grounded hypotheses. Begin with lightweight web orientation when useful, confirm direction before heavy paper retrieval, and collaborate through decision checkpoints. Designed across engineering and scientific domains rather than for a fixed discipline.
+description: Conduct interactive, question-driven literature research with Codex. Use when a user wants to explore a vague research direction, refine a research question, find and assess academic papers, obtain key full text, compare methods or evidence, reason about mechanisms or causes, identify research gaps, or develop evidence-grounded hypotheses. Begin with lightweight web orientation when useful, confirm direction before heavy paper retrieval, and collaborate through decision checkpoints. Designed across engineering and scientific domains rather than for a fixed discipline. Do not use for paper translation, citation reformatting, isolated PDF extraction, data analysis, simple factual web lookup, MCP setup, or prose polishing unless embedded in an active literature research task.
 license: MIT
 compatibility: Designed for Codex with Web Search/Web Fetch and user-configured academic tools. For paper search, download, and reading, recommend paper-search-mcp from its official project; this Skill does not install or maintain it. Write access is optional and used only for research_state.md when the user agrees.
 ---
@@ -19,7 +19,7 @@ The research process may change the question. Do not rush from a vague prompt to
 4. **Fix the external evidence contract.** Consequential claims must remain traceable to what was actually read, the warrant connecting evidence to claim, assumptions, scope, alternatives, and uncertainty.
 5. **Prefer an unresolved result to an overclaim.** State which evidence, experiment, or user decision would reduce the uncertainty.
 
-Respond in the user's language unless they request another. Preserve useful field terminology and define it when needed.
+Respond in the user's language unless they request another. Preserve useful field terminology and define it when needed. Do not narrate that you are loading this Skill, reading its references, or following an evaluation constraint; communicate the practical research boundary instead. If an audit status label appears in user-facing text, explain it in plain language on first use.
 
 ## Scope
 

@@ -29,7 +29,7 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 - citation relationships;
 - source-specific filters.
 
-For `paper-search-mcp`, prefer its unified search and fallback tools when appropriate, then use source-specific tools when their disciplinary coverage or retrieval ability adds value. Tool names and capabilities may change; inspect the current tool metadata.
+For `paper-search-mcp`, prefer its unified `search_papers` capability for initial academic discovery, then use source-specific search, download, or read tools when their coverage or retrieval ability adds decision value. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
 
 If the connector is absent, tell the user that academic retrieval requires their own configuration and point to the official project:
 

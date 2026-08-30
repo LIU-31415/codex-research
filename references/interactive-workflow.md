@@ -119,7 +119,7 @@ Offer to continue at abstract level with an explicit limitation, wait for a user
 
 Trigger when comparable studies materially disagree or when competing explanations remain plausible.
 
-First classify the conflict by scope, conditions, measurement, design, analysis, or reporting. Then offer choices such as further retrieval, narrowing the scope, or retaining parallel conclusions.
+Before weighing the disagreement, check whether the publications represent independent studies or reuse the same dataset, sample, project, implementation, or policy intervention. Then classify the conflict by scope, conditions, measurement, design, analysis, or reporting. Offer choices such as further retrieval, narrowing the scope, or retaining parallel conclusions.
 
 ### Delivery checkpoint
 
@@ -129,7 +129,7 @@ Confirm the intended evidence standard and the unresolved items that must remain
 
 ## Progress updates
 
-A checkpoint update should be concise and decision-oriented. Adapt the headings rather than forcing a template. It normally contains:
+A checkpoint update should be concise and decision-oriented. Do not narrate Skill loading or internal evaluation instructions. Adapt the headings rather than forcing a template. It normally contains:
 
 - what is currently understood;
 - what changed in this round;
