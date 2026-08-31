@@ -1,5 +1,7 @@
 # codex-research
 
+**Current release: `v0.2.0`**
+
 `codex-research` is a lightweight, interactive literature-research Skill for Codex. It helps a user move from a vague research interest to a clearer question, progressively retrieve academic evidence, inspect key full text, reason across studies, and preserve a traceable evidence boundary.
 
 It is driven by the research question and evidence type rather than a fixed discipline. It is intended to work across engineering and scientific research, subject to the sources available in the user's Codex environment.

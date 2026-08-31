@@ -80,6 +80,6 @@ Use `null` only before a check is scored. Do not turn a failed run into a missin
 
 ## Minimum release gate
 
-For the current v0.1.x validation cycle, a case is a **must-pass** when all of its declared checks score `2` in the Skill run. A baseline may fail; the purpose of the pair is to expose the difference without hiding failures.
+For the current v0.2.x validation cycle, a case is a **must-pass** when all of its declared checks score `2` in the Skill run. A baseline may fail; the purpose of the pair is to expose the difference without hiding failures.
 
 Do not report a general improvement percentage from a handful of cases. Report case-level scores, raw transcripts, configuration, and limitations instead.
