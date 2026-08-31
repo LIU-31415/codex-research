@@ -271,15 +271,16 @@ def run_one(
         "w", encoding="utf-8"
     ) as stderr_file:
         try:
+            # Codex expects UTF-8 on stdin. Do not let the Windows locale
+            # encode Chinese prompts as the system code page.
             completed = subprocess.run(
                 command,
                 cwd=str(workspace),
                 env=environment,
-                input=prompt,
+                input=prompt.encode("utf-8"),
                 stdout=events_file,
                 stderr=stderr_file,
                 check=False,
-                text=True,
                 timeout=timeout,
             )
             return_code: Optional[int] = completed.returncode
