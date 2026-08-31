@@ -325,6 +325,21 @@ def print_dry_run(
         print("  prompt: {}".format(prompt.replace("\n", " ")))
 
 
+def cleanup_temporary_workspace(path: Path) -> Optional[str]:
+    last_error: Optional[str] = None
+    for attempt in range(3):
+        if not path.exists():
+            return None
+        try:
+            shutil.rmtree(path)
+            return None
+        except OSError as exc:
+            last_error = str(exc)
+            if attempt < 2:
+                time.sleep(1)
+    return last_error
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", action="append", default=[], help="case id; repeatable")
@@ -457,8 +472,8 @@ def main() -> int:
         },
     )
 
-    with tempfile.TemporaryDirectory(prefix="codex-research-eval-") as temporary:
-        temporary_root = Path(temporary)
+    temporary_root = Path(tempfile.mkdtemp(prefix="codex-research-eval-"))
+    try:
         for case in cases:
             case_dir = run_dir / case["id"]
             prompt_path = case_dir / "request.md"
@@ -501,6 +516,14 @@ def main() -> int:
                 case_record[label] = result
             manifest["cases"].append(case_record)
             json_write(run_dir / "manifest.json", manifest)
+    finally:
+        cleanup_error = cleanup_temporary_workspace(temporary_root)
+        if cleanup_error:
+            manifest["temporary_workspace"] = str(temporary_root)
+            manifest["temporary_workspace_cleanup_error"] = cleanup_error
+        else:
+            manifest["temporary_workspace_cleanup"] = "cleaned"
+        json_write(run_dir / "manifest.json", manifest)
 
     print("Evaluation run complete: {}".format(run_dir))
     print("Score the saved outputs with evals/rubric.md; do not treat this as a benchmark.")
