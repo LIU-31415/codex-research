@@ -1,0 +1,19 @@
+{
+  "connector": "paper-search-mcp",
+  "repository": "https://github.com/openags/paper-search-mcp",
+  "tracked_ref": "main",
+  "tracked_commit": "234678ab231074a7977320978ee0496dcdaddd1f",
+  "checked_at": "2026-09-01",
+  "review_policy": "manual_review_on_upstream_change",
+  "expected_capabilities": [
+    "paper discovery",
+    "stable metadata",
+    "source-specific retrieval"
+  ],
+  "safety_constraints": [
+    "ask for explicit user approval before installation or configuration",
+    "never invent or store credentials",
+    "do not use unauthorized access paths",
+    "verify paper identity before promoting an asset to full-text evidence"
+  ]
+}

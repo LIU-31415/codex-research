@@ -31,11 +31,19 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 
 For `paper-search-mcp`, prefer its unified `search_papers` capability for initial academic discovery, then use source-specific search, download, or read tools when their coverage or retrieval ability adds decision value. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
 
-If the connector is absent, tell the user that academic retrieval requires their own configuration and point to the official project:
+If the connector is absent and the requested work depends on it:
+
+1. Explain which capability is unavailable and how that limits the current task.
+2. Ask whether the user wants Codex to install or configure a suitable connector, and wait for the answer.
+3. Before approval, do not install software, edit MCP configuration, start authentication, or request credentials.
+4. After approval, inspect the current official instructions and existing configuration, preserve user customizations, complete only the approved setup, restart when required, and verify with one harmless real tool call.
+5. If the user declines, stop this MCP-dependent path. Remove only temporary files created by the attempted setup, preserve existing files and configuration, and do not call the connector. Report the coverage limitation and wait for a separately requested non-MCP route.
+
+The official project reference is:
 
 https://github.com/openags/paper-search-mcp
 
-Do not install, host, fork, or maintain the connector as part of this Skill. Use only public/open access, the user's lawful institutional access, or user-supplied files. Do not invoke or recommend options that bypass paywalls or access controls.
+This Skill does not bundle, host, fork, or maintain the connector. Use only public/open access, the user's lawful institutional access, or user-supplied files. Do not invoke or recommend options that bypass paywalls or access controls.
 
 ## Evidence access states
 

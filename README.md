@@ -63,13 +63,14 @@ If a research task requires an academic MCP or connector and no suitable tool is
 4. If the user agrees, inspect the connector's current official instructions and the existing Codex configuration before making changes.
 5. Preserve existing configuration and user customizations. Never invent credentials or place secrets in the repository, logs, or public output.
 6. Complete installation and authentication within the approved scope, restart the MCP connection when required, and verify it with a real harmless tool call.
-7. If the user declines or installation is unavailable, continue with existing tools where useful and state the resulting coverage limitation.
+7. If the user declines, stop the MCP-dependent path immediately. Remove only temporary files created by the attempted setup; preserve existing files and Codex configuration. Do not call the connector or pretend it is available. Report the coverage limitation and wait for a separately requested non-MCP route.
 
 [openags/paper-search-mcp](https://github.com/openags/paper-search-mcp) is one optional academic connector. It is maintained separately and is not bundled with this Skill.
 
 ## Privacy and safety
 
 - Do not publish or commit user-specific local paths, usernames, credentials, private research topics, private paper lists, prompts, or research-state content.
+- This public-example rule does not prevent a user-authorized research task from using its real topic; it keeps that topic out of this repository's examples, fixtures, logs, and issue reports.
 - Do not copy local configuration, environment files, evaluation runs, or user data into the installed Skill.
 - Redact secrets and identifying local information from diagnostics and public issue reports.
 - Use only access methods authorized by the user. Do not bypass paywalls or access controls.
@@ -81,7 +82,9 @@ If a research task requires an academic MCP or connector and no suitable tool is
 codex-research/
 ├─ SKILL.md
 ├─ references/
+├─ scripts/                  # deterministic public-content and compatibility checks
 ├─ evals/
+├─ .github/workflows/        # push/PR quality check and weekly compatibility check
 ├─ CHANGELOG.md
 ├─ VERSION
 └─ LICENSE
@@ -94,6 +97,12 @@ Only `SKILL.md` and `references/` are required at runtime. The evaluation materi
 `codex-research` does not guarantee exhaustive literature coverage, treat abstracts as full-text confirmation, use citation count as a substitute for evidence quality, or upgrade association into causation. It does not by itself complete a formal systematic review or replace experiments, domain experts, and human verification of consequential details.
 
 The fixed evaluation cases and their limits are documented in [`evals/`](evals/).
+
+## Maintenance checks
+
+- Every push and pull request runs deterministic checks for public-content privacy patterns, Skill metadata, JSON fixtures, and internal Markdown links.
+- A weekly compatibility check compares the tracked `paper-search-mcp` revision with its public upstream revision. A change stops the check for manual review; it never installs or runs the connector automatically.
+- The live MCP smoke record is manual-only. Update it only after a user-authorized end-to-end run, using the actual installation, authentication, restart, and handshake result. CI does not spend tokens on model or live-MCP tests.
 
 ## License
 

@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Replaced topic-specific public evaluation prompts and fixture names with neutral synthetic descriptions so public examples do not reveal a maintainer's research direction.
+- Unified MCP consent behavior across the Skill and references: ask, wait, install only after approval, and stop the MCP-dependent path on refusal while cleaning only attempt-created temporary files.
+- Marked the live MCP smoke record as manual-only; CI does not run model or live-connector tests.
+
+### Added
+
+- Added deterministic public-repository checks for sensitive paths, credentials, Skill metadata, JSON fixtures, and Markdown links.
+- Added a weekly, manual-review-only compatibility check for the tracked `paper-search-mcp` revision.
+
 ## v0.2.1 — 2026-09-01
 
 ### Changed

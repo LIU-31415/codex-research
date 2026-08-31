@@ -11,7 +11,7 @@ This is a synthetic article record used for a source-reading evaluation.
 
 ## Abstract
 
-The synthetic abstract reports that measurement error changed across environmental conditions in the tested sensor batch. It does not establish that the observed change generalizes to other devices or locations.
+The synthetic abstract reports that measurement error changed across environmental conditions in the tested device batch. It does not establish that the observed change generalizes to other devices or locations.
 
 ## Editorial note
 

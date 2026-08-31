@@ -1,5 +1,7 @@
 # Live MCP Smoke Test
 
+Status: historical manual record. This file is not executed by CI. Update it only after a user-authorized end-to-end run and record the actual installation, authentication, restart, and handshake result. Do not invent results or spend CI tokens on model/MCP execution.
+
 Date: 2026-08-30
 
 ## Capability inspected

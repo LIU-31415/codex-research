@@ -60,7 +60,7 @@ If academic search tools are missing and paper retrieval is needed:
 2. Ask whether the user wants Codex to install or configure a suitable academic connector. Recommend one only after checking its current official project and compatibility with the user's Codex environment.
 3. Wait for the user's answer. Do not install software, edit MCP configuration, start authentication, or request credentials before explicit approval.
 4. If the user approves, inspect the existing installation and configuration before making changes. Preserve user customizations, add only user-provided credentials through an appropriate secret mechanism, complete the approved setup, restart the connection when required, and verify it with a real harmless tool call.
-5. If the user declines or setup is unavailable, continue with the tools that are available where useful and state the resulting coverage limitation.
+5. If the user declines, stop this MCP-dependent research path immediately. Remove only temporary files created by the attempted installation or configuration; preserve existing user files, credentials, and configuration. Do not call the connector or continue as if it were available. Return the coverage limitation and wait for a separately requested non-MCP route. If setup is unavailable for another reason, report the limitation and use existing tools only when the user still wants that route.
 
 `paper-search-mcp` is one optional connector:
 

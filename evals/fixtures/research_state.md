@@ -4,7 +4,7 @@
 
 ## Current question
 
-- How do local local public systems affect protective action in communities with unequal information access?
+- How does a local public system affect protective action when access to information is unequal?
 
 ## Scope and decisions
 
