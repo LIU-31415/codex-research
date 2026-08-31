@@ -234,6 +234,8 @@ def command_for(
         "--json",
         "-C",
         str(workspace),
+        "--add-dir",
+        str(workspace),
         "-o",
         str(final_path),
     ]
@@ -267,35 +269,51 @@ def run_one(
     started = time.monotonic()
     timed_out = False
     error: Optional[str] = None
+    process_id: Optional[int] = None
+    return_code: Optional[int] = None
     with events_path.open("w", encoding="utf-8") as events_file, stderr_path.open(
         "w", encoding="utf-8"
     ) as stderr_file:
         try:
             # Codex expects UTF-8 on stdin. Do not let the Windows locale
             # encode Chinese prompts as the system code page.
-            completed = subprocess.run(
+            process = subprocess.Popen(
                 command,
                 cwd=str(workspace),
                 env=environment,
-                input=prompt.encode("utf-8"),
+                stdin=subprocess.PIPE,
                 stdout=events_file,
                 stderr=stderr_file,
-                check=False,
-                timeout=timeout,
             )
-            return_code: Optional[int] = completed.returncode
-        except subprocess.TimeoutExpired:
-            timed_out = True
-            return_code = None
-            error = "timeout after {} seconds".format(timeout)
+            process_id = process.pid
+            try:
+                process.communicate(input=prompt.encode("utf-8"), timeout=timeout)
+                return_code = process.returncode
+            except subprocess.TimeoutExpired:
+                timed_out = True
+                error = "timeout after {} seconds".format(timeout)
+                if os.name == "nt":
+                    subprocess.run(
+                        ["taskkill.exe", "/PID", str(process.pid), "/T", "/F"],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        check=False,
+                    )
+                else:
+                    process.kill()
+                try:
+                    process.communicate(timeout=30)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.communicate()
         except OSError as exc:
-            return_code = None
             error = str(exc)
 
     result = {
         "started_at_utc": started_at,
         "duration_seconds": round(time.monotonic() - started, 3),
         "exit_code": return_code,
+        "process_id": process_id,
         "timed_out": timed_out,
         "error": error,
         "final_file": str(final_path.name) if final_path.exists() else None,
