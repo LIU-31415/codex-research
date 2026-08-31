@@ -16,7 +16,7 @@ Connector: `paper-search-mcp`
 Query:
 
 ```text
-structural batteries multifunctional energy storage mechanical performance
+[research-topic query omitted from the public record]
 ```
 
 Sources:
@@ -31,9 +31,9 @@ Depth: 2 results per source.
 
 - 6 records returned: 2 OpenAlex, 2 Crossref, 2 arXiv.
 - No connector errors were reported.
-- Only one result was directly aligned with multifunctional structural battery composites.
-- Crossref results concerned structural thermal-energy-storage book chapters rather than structural batteries.
-- arXiv results concerned networked or shared battery-energy-storage systems rather than load-bearing battery materials.
+- Only one result was directly aligned with the intended target concept.
+- Crossref results included neighboring-domain lexical false positives.
+- arXiv results included records that shared broad vocabulary but addressed a different system.
 - Some records contained abstracts, while others provided metadata only.
 - A returned `pdf_url` cannot be assumed to belong to the canonical paper until title/identifier identity is verified.
 
@@ -42,15 +42,15 @@ Depth: 2 results per source.
 Query:
 
 ```text
-"structural battery" load-bearing composite mechanical electrochemical performance
+[refined research-topic query omitted from the public record]
 ```
 
 Sources: OpenAlex and Crossref, 3 results per source.
 
 Observed comparison:
 
-- All 3 OpenAlex records were closely aligned with structural batteries or multifunctional structural lithium-ion battery composites.
-- Crossref returned 1 relevant structural energy-storage preprint and 2 lexical false positives about load-bearing composite structures without batteries.
+- All 3 OpenAlex records were closely aligned with the intended target concept.
+- Crossref returned 1 relevant record and 2 lexical false positives.
 - The refined query materially improved relevance over the broad pilot, while source-level concept screening remained necessary.
 
 ## Design conclusions

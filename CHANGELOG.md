@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.1 — 2026-09-01
+
+### Changed
+
+- Consolidated installation guidance in `README.md` and removed redundant installation documents.
+- Added an explicit user-consent checkpoint before Codex installs or configures an academic MCP connector.
+- Added runtime privacy guardrails for local paths, credentials, private research context, external transfers, and public artifacts.
+- Removed user-specific paths and research-topic details from public documentation and evaluation records.
+
 ## v0.2.0 — 2026-08-31
 
 ### Added
