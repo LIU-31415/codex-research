@@ -1,5 +1,7 @@
 # Smoke A/B Results
 
+> Historical record from the initial design review. Run new paired cases with [`evals/README.md`](README.md) and `run_eval.py`; the 3/3 result below is not a reproducible benchmark.
+
 Date: 2026-08-30
 
 Status: **exploratory internal smoke test**, not a reproducible benchmark.

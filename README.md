@@ -18,15 +18,18 @@ It is driven by the research question and evidence type rather than a fixed disc
 
 ## Installation
 
-Copy or install the `codex-research` folder into a Codex Skill location, for example:
+The recommended path is to ask Codex to install the Skill and verify the destination:
+
+- [Installation task for Codex](INSTALL_FOR_CODEX.md) — an execution brief that can be given to Codex after the user explicitly approves installation;
+- [Installation guide for humans](INSTALL_FOR_HUMANS.md) — explains what to send, where the Skill is installed, and how to verify it.
+
+The usual user-level destination is:
 
 ```text
 $HOME/.agents/skills/codex-research/
 ```
 
-Keeping the folder name `codex-research` is recommended so it remains easy to identify alongside the `name` in `SKILL.md`.
-
-Restart Codex if the Skill does not appear immediately. Invoke it explicitly with:
+Only the runtime files (`SKILL.md` and `references/`) are needed there. Do not install an MCP connector as a side effect. Start a new Codex turn if the Skill does not appear immediately. Invoke it explicitly with:
 
 ```text
 $codex-research
@@ -71,14 +74,16 @@ codex-research/
    ├─ interactive-workflow.md
    ├─ search-strategy.md
    ├─ evidence-reasoning.md
-   └─ research-state-and-delivery.md
+   ├─ research-state-and-delivery.md
+   └─ source-safety.md
 ```
 
-- `SKILL.md`: routing and core behavior.
+- `SKILL.md`: routing, core behavior, and the source-safety boundary.
 - `interactive-workflow.md`: collaboration checkpoints and interaction policy.
 - `search-strategy.md`: progressive search and query evolution.
 - `evidence-reasoning.md`: evidence boundaries and consequential-claim contract.
 - `research-state-and-delivery.md`: resumable state and adaptive outputs.
+- `source-safety.md`: handling prompt injection and other instructions embedded in research material.
 
 ## Boundaries
 
@@ -93,7 +98,12 @@ The Skill does not:
 - treat repeated publications as independent studies;
 - upgrade association or plausibility into causation;
 - claim completion of a formal systematic review without its full protocol;
-- replace experiments, domain experts, or human verification of consequential details.
+- replace experiments, domain experts, or human verification of consequential details;
+- execute instructions embedded in webpages, papers, PDFs, metadata, or other research material.
+
+## Evaluation
+
+The fixed cases, fixtures, runner, and scoring rubric are in [`evals/`](evals/). The evaluation records are intentionally bounded: a small run can show whether a behavior was handled in a tested setup, but cannot prove universal retrieval coverage or model reliability.
 
 ## License
 

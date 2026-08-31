@@ -8,6 +8,11 @@
 *-workspace/
 .review/
 
+# Evaluation outputs may contain prompts, tool traces, or source excerpts
+/evals/runs/*
+!/evals/runs/README.md
+/evals/.runtime/
+
 # Local environment
 .env
 .venv/
