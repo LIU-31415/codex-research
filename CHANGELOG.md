@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.2 — 2026-09-01
+
 ### Changed
 
 - Reduced avoidable interaction pauses by treating prior explicit user choices as resolved checkpoints and by offering connector setup and degraded existing-tool routes together.

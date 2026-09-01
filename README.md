@@ -1,6 +1,6 @@
 # codex-research
 
-**Current version: `v0.2.1`**
+**Current version: `v0.2.2`**
 
 `codex-research` is an interactive literature-research Skill for Codex. It helps users refine research questions, retrieve evidence at an appropriate depth, compare studies, and produce conclusions with visible evidence boundaries.
 
