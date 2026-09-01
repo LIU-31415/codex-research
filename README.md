@@ -58,12 +58,12 @@ The Skill can refine questions and perform web orientation with the tools alread
 If a research task requires an academic MCP or connector and no suitable tool is available, Codex must:
 
 1. Explain which capability is unavailable and how that limits the requested research.
-2. Ask the user whether they want Codex to install or configure a suitable connector.
-3. Wait for the user's answer. Do not install software, edit MCP configuration, start an OAuth flow, or request credentials before the user agrees.
+2. Ask the user whether they want Codex to install or configure a suitable connector, or continue with existing tools under an explicit coverage or evidence limitation. Present both routes in one checkpoint and recommend one.
+3. Wait for the user's answer only when the user has not already selected a route. Do not install software, edit MCP configuration, start an OAuth flow, or request credentials before the user agrees.
 4. If the user agrees, inspect the connector's current official instructions and the existing Codex configuration before making changes.
 5. Preserve existing configuration and user customizations. Never invent credentials or place secrets in the repository, logs, or public output.
 6. Complete installation and authentication within the approved scope, restart the MCP connection when required, and verify it with a real harmless tool call.
-7. If the user declines, stop the MCP-dependent path immediately. Remove only temporary files created by the attempted setup; preserve existing files and Codex configuration. Do not call the connector or pretend it is available. Report the coverage limitation and wait for a separately requested non-MCP route.
+7. If the user declines, stop the MCP-dependent path immediately. Remove only temporary files created by the attempted setup; preserve existing files and Codex configuration. Do not call the connector or pretend it is available. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait.
 
 [openags/paper-search-mcp](https://github.com/openags/paper-search-mcp) is one optional academic connector. It is maintained separately and is not bundled with this Skill.
 

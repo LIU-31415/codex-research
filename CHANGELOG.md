@@ -4,6 +4,10 @@
 
 ### Changed
 
+- Reduced avoidable interaction pauses by treating prior explicit user choices as resolved checkpoints and by offering connector setup and degraded existing-tool routes together.
+- Added exploratory, focused, and coverage-oriented search intent, plus batching, deduplication, retrieval escalation, failover, and bounded-saturation guidance.
+- Added declared rubric checks to the theory-model evaluation case so it participates in the evaluation gate.
+- Removed the unsupported and redundant `compatibility` frontmatter field so the Skill passes the current structural validator.
 - Replaced topic-specific public evaluation prompts and fixture names with neutral synthetic descriptions so public examples do not reveal a maintainer's research direction.
 - Unified MCP consent behavior across the Skill and references: ask, wait, install only after approval, and stop the MCP-dependent path on refusal while cleaning only attempt-created temporary files.
 - Marked the live MCP smoke record as manual-only; CI does not run model or live-connector tests.

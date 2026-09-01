@@ -40,6 +40,18 @@ Goal:
 - retrieve the most decision-relevant evidence;
 - synthesize within the confirmed scope.
 
+### Coverage-oriented review
+
+Use when the user explicitly wants broad coverage or wants to reduce missed literature within declared boundaries.
+
+Goal:
+
+- declare the source, date, language, and publication-type boundaries;
+- use complementary query families, known-paper recall, and citation expansion when relevant;
+- stop on bounded saturation and preserve a coverage statement.
+
+Do not call this a formal systematic or scoping review unless the required protocol, duplicate screening, appraisal, and reporting workflow was actually completed.
+
 ### Known-paper or claim verification
 
 Use when the user provides a DOI, title, PDF, or scientific claim.
@@ -69,6 +81,8 @@ Before broad academic retrieval, return a compact field map:
 - one decision question.
 
 Wait for the user's answer unless the user explicitly delegated the choice or requested uninterrupted execution.
+
+Treat a clear instruction already present in the conversation as a resolved checkpoint. Do not ask the user to confirm the same scope, route, or execution preference again.
 
 ## Risk-triggered checkpoints
 
@@ -106,6 +120,8 @@ Do not silently redirect the research. Explain what changed and ask the user whe
 
 Trigger when a consequential conclusion requires methods, conditions, numbers, figures, tables, limitations, or mechanism details unavailable from the abstract.
 
+Before pausing, try one low-cost lawful alternative access path when it is reversible and likely to resolve the missing evidence. Do not repeat equivalent retrieval attempts across sources without a new reason.
+
 List only the papers worth the user's effort. For each, explain:
 
 - stable identifier and link;
@@ -125,7 +141,7 @@ Before weighing the disagreement, check whether the publications represent indep
 
 Trigger before turning exploratory work into a formal report, proposal input, or decision document.
 
-Confirm the intended evidence standard and the unresolved items that must remain visible.
+Confirm the intended evidence standard and the unresolved items that must remain visible only when the conversation has not already established them or when new evidence would materially change the user's choice.
 
 ## Progress updates
 

@@ -2,7 +2,6 @@
 name: codex-research
 description: Conduct interactive, question-driven literature research with Codex. Use when a user wants to explore a vague research direction, refine a research question, find and assess academic papers, obtain key full text, compare methods or evidence, reason about mechanisms or causes, identify research gaps, or develop evidence-grounded hypotheses. Begin with lightweight web orientation when useful, confirm direction before heavy paper retrieval, and collaborate through decision checkpoints. Designed across engineering and scientific domains rather than for a fixed discipline. Do not use for paper translation, citation reformatting, isolated PDF extraction, data analysis, simple factual web lookup, MCP setup, or prose polishing unless embedded in an active literature research task.
 license: MIT
-compatibility: Designed for Codex with Web Search/Web Fetch and optional user-approved academic tools. If required academic tooling is unavailable, explain the limitation and ask whether the user wants Codex to install or configure a connector. Never install software, change MCP configuration, start authentication, or request credentials before the user explicitly agrees. Write access is optional and used only for research_state.md when the user agrees.
 ---
 
 # Codex Research
@@ -34,6 +33,7 @@ It does not by itself complete a formal systematic review, meta-analysis, method
 Before searching, determine from the conversation and available files:
 
 - whether the user is finding a direction, deepening a question, conducting a focused review, or verifying a known paper or claim;
+- whether the search intent is exploratory, focused, or coverage-oriented;
 - the current question, scope, exclusions, known papers, and user priorities;
 - whether a `research_state.md` or user-provided papers already exist;
 - which next uncertainty is important enough to resolve.
@@ -54,13 +54,13 @@ Inspect the tools actually available. Distinguish:
 
 Do not infer capability from a connector name or successful call alone.
 
-If academic search tools are missing and paper retrieval is needed:
+If the agreed evidence level depends on an academic capability that the current tools do not provide:
 
 1. Explain which retrieval capability is unavailable and how that limits the current research task.
-2. Ask whether the user wants Codex to install or configure a suitable academic connector. Recommend one only after checking its current official project and compatibility with the user's Codex environment.
-3. Wait for the user's answer. Do not install software, edit MCP configuration, start authentication, or request credentials before explicit approval.
+2. Ask whether the user wants Codex to install or configure a suitable academic connector, or to continue with existing tools under an explicit coverage or evidence limitation. Present both routes in one checkpoint, recommend one, and explain why.
+3. Wait for the user's answer only when the user has not already selected a route. Do not install software, edit MCP configuration, start authentication, or request credentials before explicit approval.
 4. If the user approves, inspect the existing installation and configuration before making changes. Preserve user customizations, add only user-provided credentials through an appropriate secret mechanism, complete the approved setup, restart the connection when required, and verify it with a real harmless tool call.
-5. If the user declines, stop this MCP-dependent research path immediately. Remove only temporary files created by the attempted installation or configuration; preserve existing user files, credentials, and configuration. Do not call the connector or continue as if it were available. Return the coverage limitation and wait for a separately requested non-MCP route. If setup is unavailable for another reason, report the limitation and use existing tools only when the user still wants that route.
+5. If the user declines, stop this MCP-dependent research path immediately. Remove only temporary files created by the attempted installation or configuration; preserve existing user files, credentials, and configuration. Do not call the connector or continue as if it were available. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait. If setup is unavailable for another reason, follow the same boundary.
 
 `paper-search-mcp` is one optional connector:
 

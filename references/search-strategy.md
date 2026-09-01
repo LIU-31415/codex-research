@@ -15,6 +15,16 @@ A typical progression is:
 
 This progression is adaptive. Do not restart from the beginning when the user provides a precise question, known papers, or an existing research state.
 
+## Search intent
+
+Infer the least demanding search intent that satisfies the request:
+
+- `EXPLORATORY`: discover vocabulary, branches, and candidate questions;
+- `FOCUSED`: answer a defined question with decision-relevant evidence;
+- `COVERAGE`: reduce missed literature within declared source, date, language, and publication-type boundaries.
+
+Do not force these labels into user-facing output. In `COVERAGE`, record the important query families and sources, use known-paper recall and citation or related-paper expansion when relevant, and state the remaining coverage limits. This is still not a formal systematic or scoping review unless the required protocol and review procedures were completed.
+
 ## Capability negotiation
 
 Before relying on an academic connector, inspect the tools actually available in the current Codex environment.
@@ -31,13 +41,13 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 
 For `paper-search-mcp`, prefer its unified `search_papers` capability for initial academic discovery, then use source-specific search, download, or read tools when their coverage or retrieval ability adds decision value. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
 
-If the connector is absent and the requested work depends on it:
+If the agreed evidence level depends on a capability that the current tools do not provide:
 
 1. Explain which capability is unavailable and how that limits the current task.
-2. Ask whether the user wants Codex to install or configure a suitable connector, and wait for the answer.
-3. Before approval, do not install software, edit MCP configuration, start authentication, or request credentials.
+2. Ask whether the user wants Codex to install or configure a suitable connector, or to continue with existing tools under an explicit coverage or evidence limitation. Present both routes in one checkpoint and recommend one.
+3. If the user has not already selected a route, wait for the answer. Before approval, do not install software, edit MCP configuration, start authentication, or request credentials.
 4. After approval, inspect the current official instructions and existing configuration, preserve user customizations, complete only the approved setup, restart when required, and verify with one harmless real tool call.
-5. If the user declines, stop this MCP-dependent path. Remove only temporary files created by the attempted setup, preserve existing files and configuration, and do not call the connector. Report the coverage limitation and wait for a separately requested non-MCP route.
+5. If the user declines, stop this MCP-dependent path. Remove only temporary files created by the attempted setup, preserve existing files and configuration, and do not call the connector. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait.
 
 The official project reference is:
 
@@ -112,6 +122,14 @@ Do not require fixed R1-R5 labels. Select search purposes dynamically:
 
 Every query should have a purpose. Avoid exhaustive keyword permutations.
 
+## Tool-call execution
+
+- Batch independent discovery queries in one call when the tool supports it.
+- Normalize paper identities, version relationships, and duplicates before opening or downloading full text.
+- Retrieve or parse full text only for papers with high decision value or claims that require it.
+- Retry a failed source at most once without a changed reason, then switch to a lawful alternative or record the coverage gap.
+- After each substantial batch, assess newly added independent, high-relevance evidence before deciding to continue, refine, or stop.
+
 ## Source selection
 
 Choose sources according to the question and available evidence, not a universal database ranking. Broad indexes, disciplinary databases, repositories, preprint servers, standards databases, and patent sources play different roles.
@@ -183,6 +201,8 @@ Stop or pause when:
 - unresolved disagreement cannot be reduced with accessible evidence;
 - further work belongs to a formal systematic-review protocol;
 - the user chooses to narrow, pause, or conclude.
+
+For `COVERAGE`, decision sufficiency alone is not a stopping condition. First complete the declared query families and sources, address material expansion gaps, confirm that successive batches add little or no new independent high-relevance evidence, and document the remaining coverage limits.
 
 Phrase absence cautiously:
 
