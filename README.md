@@ -101,6 +101,7 @@ The fixed evaluation cases and their limits are documented in [`evals/`](evals/)
 ## Maintenance checks
 
 - Every push and pull request runs deterministic checks for public-content privacy patterns, Skill metadata, JSON fixtures, and internal Markdown links.
+- Tracked evaluation outputs are scanned even under normally ignored runtime directories. Ignored, untracked local runs remain excluded; pattern checks do not replace manual review before publication.
 - A weekly compatibility check compares the tracked `paper-search-mcp` revision with its public upstream revision. A change stops the check for manual review; it never installs or runs the connector automatically.
 - The live MCP smoke record is manual-only. Update it only after a user-authorized end-to-end run, using the actual installation, authentication, restart, and handshake result. CI does not spend tokens on model or live-MCP tests.
 

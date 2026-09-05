@@ -60,6 +60,7 @@
     "prompt": "继续一项跨学科文献调研。上次已完成问题界定、检索式草案和 14 个候选来源，但尚未核验全文；其中 4 个来源可能使用同一数据库，2 个结论相互冲突。请先读取并恢复研究状态，不要从头开始，也不要直接写最终综述。整理当前已知、未决问题、证据 Gate、来源依赖、下一步最有价值的动作，并在结束前更新 research_state.md。",
     "expected_output": "优先读取并使用 research_state.md 恢复上下文，保留已有证据边界和未决事项；区分候选来源、摘要证据和全文证据，标记可能重复的数据来源与冲突。提出有限且有优先级的下一步动作，避免重复检索；完成后保存可恢复的状态记录。",
     "checks": ["STATE_RECOVERY", "EVIDENCE_BOUNDARY"],
+    "output_files": ["fixtures/research_state.md"],
     "files": ["fixtures/research_state.md", "fixtures/candidate-sources.md"]
   },
   {

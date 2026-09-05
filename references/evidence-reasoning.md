@@ -47,6 +47,12 @@ Record `HUMAN_VERIFIED` as an orthogonal verification flag when the user or rese
 
 Full-text access does not imply validation of methods, figures, statistics, retraction status, or scientific truth.
 
+## Publication status
+
+Before relying on a paper for a consequential conclusion, inspect the publisher's current article page and any linked correction, retraction, withdrawal, or expression-of-concern notice. Record the status, source link, check date, and effect on the specific claim separately from the access state. Before formal delivery, resolve missing status checks and refresh them when a new notice or elapsed research interval could change the judgment; do not repeat an unchanged check within a short session.
+
+Use corrected findings where a correction affects the claim. Do not use a retracted or withdrawn finding as affirmative support; retain it only when needed to explain the research history or the notice itself. An expression of concern requires stating the affected uncertainty and seeking independent support. If status cannot be checked, record it as unknown rather than assuming the paper is unaffected.
+
 ## Claim types
 
 ### Source report

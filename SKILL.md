@@ -163,6 +163,8 @@ Record explicit human verification, when it occurs, as a separate orthogonal fla
 
 A discovered or downloaded asset does not automatically belong to the target paper. Promote it to `FULLTEXT_FILE_AVAILABLE` only after checking title, authors, stable identifier, document type, and publication-version relationship. Readable verified full text is not automatically a located claim. A located claim is not automatically a valid method, causal conclusion, or scientific truth.
 
+For papers supporting consequential conclusions, check current publication status as described in [evidence-reasoning.md](references/evidence-reasoning.md#publication-status). Keep this separate from the access state.
+
 Use only openly licensed or publicly available text, access provided through the user's lawful institutional rights, or files the user legally supplies. Do not bypass access controls or recommend unauthorized acquisition, even if an external connector exposes such an option.
 
 Source failures, rate limits, paywalls, and missing connector capabilities are coverage gaps. They are not negative scientific evidence.

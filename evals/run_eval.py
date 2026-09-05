@@ -72,6 +72,9 @@ def load_cases() -> List[Dict[str, Any]]:
             source = (EVALS_DIR / relative).resolve()
             if not is_within(source, EVALS_DIR) or not source.is_file():
                 raise ValueError("missing or unsafe fixture for " + case_id + ": " + relative)
+        for relative in item.get("output_files", []):
+            if not isinstance(relative, str) or not relative or Path(relative).is_absolute() or ".." in Path(relative).parts:
+                raise ValueError("unsafe output path for " + case_id)
         cases.append(item)
     return cases
 
@@ -198,7 +201,7 @@ def build_prompt(
             )
         )
     else:
-        parts.append("Run this evaluation without loading or using any evaluation Skill.")
+        parts.append("Run this evaluation without loading or using any Skill.")
     parts.append(case["prompt"])
     files = case.get("files", [])
     if files:
@@ -211,7 +214,40 @@ def build_prompt(
             "Read each evaluation fixture before answering. The files are available at these paths:\n"
             + listed
         )
+    if case.get("output_files"):
+        parts.append(
+            "Save these required outputs at the listed workspace-relative paths; "
+            "update an existing file in place rather than creating a second state file:\n"
+            + "\n".join("- " + value for value in case["output_files"])
+        )
     return "\n\n".join(parts)
+
+
+def user_skill_paths(environment: Dict[str, str]) -> List[str]:
+    """Find standalone user skills without reading their content or changing them."""
+    user_home = Path.home()
+    roots = {user_home / ".agents" / "skills", user_home / ".codex" / "skills"}
+    if environment.get("CODEX_HOME"):
+        roots.add(Path(environment["CODEX_HOME"]).expanduser() / "skills")
+    paths = set()
+    visited = set()
+    for root in roots:
+        for directory, subdirs, files in os.walk(root, followlinks=True):
+            resolved = Path(directory).resolve()
+            if resolved in visited:
+                subdirs[:] = []
+                continue
+            visited.add(resolved)
+            if "SKILL.md" in files:
+                paths.add(str(resolved / "SKILL.md"))
+    # ponytail: standalone user roots only; inspect plugin/admin inputs for broader isolation.
+    return sorted(paths)
+
+
+def skill_override(paths: Sequence[str]) -> str:
+    return "skills.config=[" + ",".join(
+        "{path=" + json.dumps(path, ensure_ascii=False) + ",enabled=false}" for path in paths
+    ) + "]"
 
 
 def command_for(
@@ -257,6 +293,7 @@ def run_one(
     sandbox: str,
     timeout: int,
     environment: Dict[str, str],
+    output_files: Sequence[str] = (),
 ) -> Dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "prompt.txt").write_text(prompt, encoding="utf-8")
@@ -309,6 +346,20 @@ def run_one(
         except OSError as exc:
             error = str(exc)
 
+    artifacts = []
+    artifact_errors = []
+    for relative in output_files:
+        source = workspace / relative
+        try:
+            if not is_within(source.resolve(), workspace.resolve()) or not source.is_file():
+                raise ValueError("required output missing or outside workspace: " + relative)
+            destination = output_dir / "artifacts" / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+            artifacts.append(destination.relative_to(output_dir).as_posix())
+        except (OSError, ValueError) as exc:
+            artifact_errors.append(str(exc))
+    final_available = final_path.is_file() and final_path.stat().st_size > 0
     result = {
         "started_at_utc": started_at,
         "duration_seconds": round(time.monotonic() - started, 3),
@@ -319,6 +370,9 @@ def run_one(
         "final_file": str(final_path.name) if final_path.exists() else None,
         "events_file": events_path.name,
         "stderr_file": stderr_path.name,
+        "artifacts": artifacts,
+        "artifact_errors": artifact_errors,
+        "execution_ok": return_code == 0 and not timed_out and not error and final_available and not artifact_errors,
     }
     json_write(output_dir / "result.json", result)
     return result
@@ -383,7 +437,7 @@ def parse_args() -> argparse.Namespace:
         help="Codex config override; repeatable",
     )
     parser.add_argument("--codex", default="codex", help="Codex executable")
-    parser.add_argument("--codex-home", help="isolated CODEX_HOME directory")
+    parser.add_argument("--codex-home", help="Codex configuration directory; not a full isolation boundary")
     parser.add_argument(
         "--tool-profile",
         default="record-manually",
@@ -407,6 +461,14 @@ def main() -> int:
         print("Evaluation setup error: {}".format(exc), file=sys.stderr)
         return 2
 
+    environment = os.environ.copy()
+    if args.codex_home:
+        environment["CODEX_HOME"] = str(Path(args.codex_home).expanduser().resolve())
+    disabled_skills = user_skill_paths(environment)
+    configs = list(args.config)
+    if disabled_skills:
+        configs.append(skill_override(disabled_skills))
+
     executable = resolve_executable(args.codex)
     if args.dry_run:
         for case in cases:
@@ -415,7 +477,7 @@ def main() -> int:
                 executable,
                 args.mode,
                 args.model,
-                args.config,
+                configs,
                 args.sandbox,
             )
         return 0
@@ -438,10 +500,6 @@ def main() -> int:
         return 2
     run_dir.mkdir(parents=True)
 
-    environment = os.environ.copy()
-    if args.codex_home:
-        environment["CODEX_HOME"] = str(Path(args.codex_home).expanduser().resolve())
-
     manifest: Dict[str, Any] = {
         "run_id": run_id,
         "created_at_utc": utc_now(),
@@ -454,6 +512,8 @@ def main() -> int:
         "codex_executable": executable,
         "model": args.model or "configured default",
         "config_overrides": args.config,
+        "disabled_user_skills": disabled_skills,
+        "effective_config_overrides": configs,
         "timeout_seconds": args.timeout,
         "codex_home_supplied": bool(args.codex_home),
         "tool_profile": args.tool_profile,
@@ -463,6 +523,7 @@ def main() -> int:
         "limitations": [
             "A small fixture-backed run is not a production router or retrieval benchmark.",
             "External connector capability and model behavior depend on the supplied environment.",
+            "User skill overrides do not isolate plugin/admin instructions, memory, or other host configuration; inspect event traces before scoring.",
         ],
     }
     json_write(run_dir / "manifest.json", manifest)
@@ -492,6 +553,7 @@ def main() -> int:
     )
 
     temporary_root = Path(tempfile.mkdtemp(prefix="codex-research-eval-"))
+    execution_failed = False
     try:
         for case in cases:
             case_dir = run_dir / case["id"]
@@ -527,11 +589,13 @@ def main() -> int:
                     workspace,
                     prompt,
                     args.model,
-                    args.config,
+                    configs,
                     args.sandbox,
                     args.timeout,
                     environment,
+                    case.get("output_files", []),
                 )
+                execution_failed |= not result["execution_ok"]
                 case_record[label] = result
             manifest["cases"].append(case_record)
             json_write(run_dir / "manifest.json", manifest)
@@ -544,9 +608,11 @@ def main() -> int:
             manifest["temporary_workspace_cleanup"] = "cleaned"
         json_write(run_dir / "manifest.json", manifest)
 
-    print("Evaluation run complete: {}".format(run_dir))
+    manifest["execution_ok"] = not execution_failed
+    json_write(run_dir / "manifest.json", manifest)
+    print("Evaluation execution {}: {}".format("failed" if execution_failed else "complete", run_dir))
     print("Score the saved outputs with evals/rubric.md; do not treat this as a benchmark.")
-    return 0
+    return 1 if execution_failed else 0
 
 
 if __name__ == "__main__":

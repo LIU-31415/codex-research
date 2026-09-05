@@ -25,6 +25,8 @@ Infer the least demanding search intent that satisfies the request:
 
 Do not force these labels into user-facing output. In `COVERAGE`, record the important query families and sources, use known-paper recall and citation or related-paper expansion when relevant, and state the remaining coverage limits. This is still not a formal systematic or scoping review unless the required protocol and review procedures were completed.
 
+For each substantial `COVERAGE` query, retain the exact query, source, search date, filters, sorting, requested result limit, pages or cursors covered, and any reported total or truncation. Record these in working notes or the existing research state; no separate logging system is required. Distinguish the publication-date filter from the date the search was run. Mark unknown totals or pagination support as unknown.
+
 ## Capability negotiation
 
 Before relying on an academic connector, inspect the tools actually available in the current Codex environment.
@@ -203,6 +205,8 @@ Stop or pause when:
 - the user chooses to narrow, pause, or conclude.
 
 For `COVERAGE`, decision sufficiency alone is not a stopping condition. First complete the declared query families and sources, address material expansion gaps, confirm that successive batches add little or no new independent high-relevance evidence, and document the remaining coverage limits.
+
+Repeated top-ranked results are not evidence of saturation while a result cap or unvisited pages may hide further matches. Where supported, paginate, increase depth, or use complementary queries to address the truncation within the agreed scope. If that is unavailable or exceeds the agreed budget, stop with the truncation recorded as a coverage limit, without claiming saturation.
 
 Phrase absence cautiously:
 

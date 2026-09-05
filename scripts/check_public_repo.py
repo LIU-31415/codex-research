@@ -17,6 +17,8 @@ from pathlib import Path
 TEXT_SUFFIXES = {
     ".md",
     ".json",
+    ".jsonl",
+    ".log",
     ".py",
     ".toml",
     ".txt",
@@ -39,7 +41,8 @@ LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 
 
 def iter_files(root: Path):
-    """Return tracked and non-ignored candidate files, excluding local scratch state."""
+    """Honor Git ignores for scratch files, but scan tracked output directories."""
+    git_listing = True
     try:
         result = subprocess.run(
             ["git", "-C", str(root), "ls-files", "-co", "--exclude-standard", "-z"],
@@ -49,11 +52,12 @@ def iter_files(root: Path):
         )
         paths = [root / item for item in result.stdout.decode("utf-8").split("\0") if item]
     except (OSError, subprocess.SubprocessError):
+        git_listing = False
         paths = list(root.rglob("*"))
     for path in paths:
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
-        if any(part in SKIP_DIRS for part in path.relative_to(root).parts):
+        if not git_listing and any(part in SKIP_DIRS for part in path.relative_to(root).parts):
             continue
         if path.name == "check_public_repo.py":
             continue

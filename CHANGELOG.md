@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Fixed
+
+- Added publication-status checks for consequential evidence and result-truncation rules for coverage-oriented searches.
+- Included tracked evaluation logs and records in public-content scanning, even under normally ignored runtime directories.
+- Disabled discovered standalone user Skills in evaluation subprocesses and documented the remaining host-isolation boundary.
+- Preserved declared state-file outputs before temporary-workspace cleanup and returned a failing exit status for unsuccessful evaluation execution.
+- Added local regression checks using synthetic data and simulated Codex processes; these do not call a model or connector.
+
 ## v0.2.2 — 2026-09-01
 
 ### Changed
