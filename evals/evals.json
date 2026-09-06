@@ -51,15 +51,15 @@
   {
     "id": "conflicting_evidence",
     "prompt": "请读取评测夹具，综合关于‘某项环境干预是否降低结果不平等’的模拟研究。初步结果包含方向相反的空间观测、问卷研究和自然实验。不要用‘更多论文支持的一方’解决冲突；请判断冲突来自测量、研究对象、时间尺度、设计、分析还是确实的效应差异，并给出保留冲突后的结论。",
-    "expected_output": "逐项核对研究的暴露、结局、人群、尺度、设计和分析方法；识别同一数据集或重复发表，避免把论文数当独立证据。分类解释冲突，无法解释时保留竞争结论并降低确定性，不强行平均或抹平矛盾。",
-    "checks": ["STUDY_INDEPENDENCE", "CONFLICT_HANDLING"],
+    "expected_output": "逐项核对研究的暴露、结局、人群、尺度、设计和分析方法；识别同一数据集或重复发表，避免把论文数当独立证据。在用户已明确要求的夹具综合范围内完成分析，不应仅因结果冲突就暂停或要求用户选择哪项发现为真。无法解释时保留竞争结论并降低确定性，不强行平均或抹平矛盾。",
+    "checks": ["STUDY_INDEPENDENCE", "CONFLICT_HANDLING", "INTERACTION_GATE"],
     "files": ["fixtures/conflicting-studies.md"]
   },
   {
     "id": "long_task_state_persistence",
     "prompt": "继续一项跨学科文献调研。上次已完成问题界定、检索式草案和 14 个候选来源，但尚未核验全文；其中 4 个来源可能使用同一数据库，2 个结论相互冲突。请先读取并恢复研究状态，不要从头开始，也不要直接写最终综述。整理当前已知、未决问题、证据 Gate、来源依赖、下一步最有价值的动作，并在结束前更新 research_state.md。",
-    "expected_output": "优先读取并使用 research_state.md 恢复上下文，保留已有证据边界和未决事项；区分候选来源、摘要证据和全文证据，标记可能重复的数据来源与冲突。提出有限且有优先级的下一步动作，避免重复检索；完成后保存可恢复的状态记录。",
-    "checks": ["STATE_RECOVERY", "EVIDENCE_BOUNDARY"],
+    "expected_output": "优先读取并使用 research_state.md 恢复上下文，保留已有证据边界和未决事项；区分候选来源、摘要证据和全文证据，标记可能重复的数据来源与冲突。将最有价值的可行下一步动作关联到具体未决主张或问题，说明它能改变什么判断或补足什么证据，避免重新开始广泛检索；将这一关联与继续、暂停或停止的理由写入状态文件。",
+    "checks": ["STATE_RECOVERY", "EVIDENCE_BOUNDARY", "GAP_FOLLOWUP"],
     "output_files": ["fixtures/research_state.md"],
     "files": ["fixtures/research_state.md", "fixtures/candidate-sources.md"]
   },

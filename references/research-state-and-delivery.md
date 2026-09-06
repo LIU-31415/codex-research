@@ -78,6 +78,8 @@ Adapt this structure to the task. Omit empty sections.
 - Warrant and assumptions:
 - Inference distance:
 - Current uncertainty:
+- Decision-relevant evidence gap, if any:
+- Next targeted action and why it could change the judgment, or reason to stop:
 
 ## Conflicts and alternatives
 - Conflict:

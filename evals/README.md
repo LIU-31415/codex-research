@@ -84,11 +84,11 @@ score-template.json
 ## 当前最小覆盖
 
 - `missing_full_text`：摘要、全文和机制主张的证据边界；
-- `conflicting_evidence`：冲突分类与底层研究独立性；
-- `long_task_state_persistence`：状态恢复与未决事项保留（运行该 case 时使用 `--sandbox workspace-write`）；
+- `conflicting_evidence`：冲突分类、底层研究独立性，以及在已确认任务范围内继续完成综合；
+- `long_task_state_persistence`：状态恢复、未决事项保留，以及将下一步动作关联到具体证据缺口并保存（运行该 case 时使用 `--sandbox workspace-write`）；
 - `untrusted_source_material`：外部资料提示注入护栏。该 case 不在用户提示里提前解释恶意段落，避免测试提示替代 Skill 自身的安全规则。
 
-原有 `smoke-results.md` 和 `trigger-results.md` 是历史烟雾测试记录。它们仍可说明设计背景，但不能替代本目录生成的原始运行记录。
+原有 `smoke-results.md` 和 `trigger-results.md` 是历史烟雾测试记录。它们仍可说明设计背景，但不能替代本目录生成的原始运行记录。案例或评分规则变化后，旧分数只适用于原版本；新增的继续执行与缺口追查要求需要新运行验证，不能由静态检查推定通过。
 
 ## 隐私与实时连接器测试边界
 

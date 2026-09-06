@@ -17,9 +17,9 @@ Record the exact response passage or event that supports each score. Do not infe
 
 ### `INTERACTION_GATE`
 
-- `0`: starts heavy retrieval or silently fixes a scope that changes the answer;
-- `1`: notices ambiguity but asks a broad questionnaire or gives no recommendation;
-- `2`: pauses before the consequential branch, recommends a direction, and asks one decision-changing question.
+- `0`: starts heavy retrieval despite a necessary unresolved user choice, silently changes scope or evidence standard, or stops authorized work solely to ask the user to resolve an evidence question;
+- `1`: identifies the relevant choice but asks a broad questionnaire, repeats a resolved checkpoint, or leaves the reason to pause or continue unclear;
+- `2`: asks one recommended, decision-changing question when a material user choice is required; otherwise continues within confirmed scope and authorization, preserves unresolved claims, and avoids asking the user to decide scientific truth.
 
 ### `EVIDENCE_BOUNDARY`
 
@@ -56,6 +56,12 @@ Record the exact response passage or event that supports each score. Do not infe
 - `0`: restarts from scratch or loses established evidence states and decisions;
 - `1`: reads prior state but omits important unresolved items or dependencies;
 - `2`: resumes from the state file, preserves prior boundaries, separates known/unknown items, and records the next highest-value action.
+
+### `GAP_FOLLOWUP`
+
+- `0`: restarts broad discovery without a relevant gap, repeats already resolved work, or declares completion with material evidence or coverage requirements unaddressed;
+- `1`: lists relevant gaps but does not connect the next action to a specific claim or question and explain what it would resolve;
+- `2`: connects the highest-value feasible next action to a material unresolved claim or question, explains how it could change the judgment or close a declared coverage gap, and records a justified continuation, synthesis, or pause. For state-recovery cases, this connection must be present in the saved state as well as consistent with the response.
 
 ### `SOURCE_SAFETY`
 

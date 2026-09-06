@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Treat literature research as a collaboration that can change the question, not as a one-shot report generator. Move only as deep as the current decision requires. Pause when new evidence creates a meaningful branch, risk, or need for user input.
+Treat literature research as a collaboration that can change the question, not as a one-shot report generator. Move only as deep as the current decision requires. Pause when progress requires a material user choice about scope, priorities, resources, or authorization; investigate evidence problems within the agreed scope.
 
 The stages below are states that Codex may revisit. They are not a mandatory sequence for every task.
 
@@ -86,7 +86,7 @@ Treat a clear instruction already present in the conversation as a resolved chec
 
 ## Risk-triggered checkpoints
 
-Use these state names in working notes when useful. They describe decision conditions, not a mandatory sequence:
+Use these state names in working notes when useful. They flag conditions to assess, not automatic pauses or a mandatory sequence:
 
 - `SCOPE_UNCLEAR`
 - `MCP_CAPABILITY_INSUFFICIENT`
@@ -96,7 +96,7 @@ Use these state names in working notes when useful. They describe decision condi
 - `CONFLICT_REQUIRES_DECISION`
 - `READY_TO_DELIVER`
 
-For each triggered checkpoint, state the trigger, Codex's recommendation, the user's meaningful options, and the safe degraded path if the user defers. Simple, precise, or explicitly delegated tasks may skip checkpoints that cannot change the outcome.
+At a checkpoint that needs the user, state the trigger, Codex's recommendation, meaningful options, and any available degraded path. Do not take a degraded path without the required user choice. Treat prior explicit choices as resolved; precise or delegated tasks can continue within those choices, while scope changes and additional authorization still require a decision.
 
 ### Scope checkpoint
 
@@ -106,7 +106,7 @@ Present the consequence of each option and recommend one. Ask one question.
 
 ### Coverage checkpoint
 
-Trigger when a major source, date range, language, discipline, or publication type remains uncovered, or when source failures materially limit the map.
+Record when a major source, date range, language, discipline, or publication type remains uncovered, or when source failures materially limit the map. Continue feasible retrieval within the agreed scope and budget. Ask when further progress requires the user to change scope, resources, access, or the agreed evidence standard.
 
 State what was covered, what was not, and whether the gap could change the conclusion.
 
@@ -118,7 +118,7 @@ Do not silently redirect the research. Explain what changed and ask the user whe
 
 ### Full-text checkpoint
 
-Trigger when a consequential conclusion requires methods, conditions, numbers, figures, tables, limitations, or mechanism details unavailable from the abstract.
+Identify when a consequential conclusion requires methods, conditions, numbers, figures, tables, limitations, or mechanism details unavailable from the abstract. Keep the affected claim unresolved while checking feasible access options.
 
 Before pausing, try one low-cost lawful alternative access path when it is reversible and likely to resolve the missing evidence. Do not repeat equivalent retrieval attempts across sources without a new reason.
 
@@ -129,13 +129,13 @@ List only the papers worth the user's effort. For each, explain:
 - what cannot be verified without the full text;
 - whether an accessible substitute exists.
 
-Offer to continue at abstract level with an explicit limitation, wait for a user-provided PDF, or pursue an alternative source. If the user does not decide, preserve the claim as unresolved and do not silently upgrade it.
+When access still requires the user, offer the relevant options: provide the full text, pursue an available alternative, or accept an abstract-level result with an explicit limitation. Wait for a necessary access or evidence-standard decision, while continuing independent work within the confirmed scope. If the user does not decide, preserve the affected claim as unresolved.
 
 ### Conflict checkpoint
 
-Trigger when comparable studies materially disagree or when competing explanations remain plausible.
+When comparable studies materially disagree or competing explanations remain plausible, first investigate the conflict within the confirmed scope and resources.
 
-Before weighing the disagreement, check whether the publications represent independent studies or reuse the same dataset, sample, project, implementation, or policy intervention. Then classify the conflict by scope, conditions, measurement, design, analysis, or reporting. Offer choices such as further retrieval, narrowing the scope, or retaining parallel conclusions.
+Before weighing the disagreement, check whether the publications represent independent studies or reuse the same dataset, sample, project, implementation, or policy intervention. Then classify the conflict by scope, conditions, measurement, design, analysis, or reporting. Use targeted retrieval when it can discriminate the competing explanations; otherwise retain unresolved alternatives. Ask the user only when proceeding requires a choice about research direction, application, scope, or additional resources, not to choose which finding is scientifically true.
 
 ### Delivery checkpoint
 

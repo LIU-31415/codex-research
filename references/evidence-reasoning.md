@@ -246,6 +246,8 @@ A defensible research-gap claim should state:
 
 ## Publication audit
 
+For claims that determine the research direction, recommendation, key quantitative comparison, mechanism, or research-gap judgment, verify the wording against the actual source evidence at its recorded access level. Use the relevant passage, table, figure, equation, or available excerpt rather than relying only on a prior summary or state entry. For synthesis or inference, check the supporting observations and warrant without treating the inferred claim as a source finding. Reuse checks already completed for unchanged claims and sources; revisit those not yet verified or affected by new wording, evidence, or publication status. If verification remains unavailable, narrow or withhold the affected claim and retain the specific limitation.
+
 Before presenting a formal synthesis, verify:
 
 - every consequential scientific claim has a traceable source or is labeled as inference;

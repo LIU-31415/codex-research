@@ -130,7 +130,7 @@ Every query should have a purpose. Avoid exhaustive keyword permutations.
 - Normalize paper identities, version relationships, and duplicates before opening or downloading full text.
 - Retrieve or parse full text only for papers with high decision value or claims that require it.
 - Retry a failed source at most once without a changed reason, then switch to a lawful alternative or record the coverage gap.
-- After each substantial batch, assess newly added independent, high-relevance evidence before deciding to continue, refine, or stop.
+- After each substantial batch, reconcile newly added independent, high-relevance evidence with the current claims and remaining gaps before deciding to continue, refine, or stop.
 
 ## Source selection
 
@@ -180,7 +180,7 @@ Journal prestige, citation count, author institution, and publication novelty ca
 
 ## Gap-driven retrieval
 
-After preliminary synthesis, search only for gaps capable of changing the answer, such as:
+After each substantial retrieval batch, revise the affected claims before choosing another retrieval action. Record what the new evidence supports, weakens, contradicts, or leaves unresolved. Target gaps capable of changing the answer or meeting the declared coverage requirements, such as:
 
 - a missing research design;
 - an untested condition or population;
@@ -191,7 +191,9 @@ After preliminary synthesis, search only for gaps capable of changing the answer
 - a key inaccessible full text;
 - outdated coverage.
 
-Explain why another round is worth its cost.
+For each material unresolved claim or question, connect the missing evidence to the next targeted action and explain how its result could change the judgment or close a coverage gap. Choose the most informative feasible action; this may be a source read, an identity or independence check, or a focused query rather than another broad search.
+
+Keep this connection in existing working notes or `research_state.md`; no separate ledger or fixed round sequence is required. Reuse claim identifiers when present. After the batch, either continue on a material gap, synthesize at the agreed evidence level, or pause for a necessary user decision. Record the reason when stopping. Apply the search-intent-specific conditions below: a sufficient answer alone does not complete a `COVERAGE` task.
 
 ## Stopping
 

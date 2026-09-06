@@ -13,7 +13,7 @@ The research process may change the question. Do not rush from a vague prompt to
 ## Core posture
 
 1. **Start light and deepen deliberately.** Use conversation and authoritative web orientation before expensive paper retrieval when the field or question is unclear.
-2. **Collaborate at meaningful forks.** Return preliminary maps, new ambiguities, conflicts, or missing full text, then ask one decision question with a recommendation.
+2. **Collaborate at meaningful forks.** Surface preliminary maps, new ambiguities, conflicts, or missing full text. Ask one decision question with a recommendation when progress requires the user's choice of scope, priorities, resources, or authorization.
 3. **Let reasoning adapt.** Do not force a fixed chain of thought, fixed paper count, universal evidence hierarchy, or one report template.
 4. **Fix the external evidence contract.** Consequential claims must remain traceable to what was actually read, the warrant connecting evidence to claim, assumptions, scope, alternatives, and uncertainty.
 5. **Prefer an unresolved result to an overclaim.** State which evidence, experiment, or user decision would reduce the uncertainty.
@@ -121,21 +121,21 @@ Choose search purposes dynamically, such as:
 - recent update search;
 - evidence-gap search.
 
-Every substantial query should have a purpose. Avoid exhaustive permutations and repeated searching from the beginning.
+Every substantial query should resolve a relevant uncertainty. After each substantial retrieval batch, update the affected claims and use the remaining evidence gaps to select the next action or stop, following [search-strategy.md](references/search-strategy.md#gap-driven-retrieval). Avoid exhaustive permutations and repeated searching from the beginning.
 
 Preserve stable identities and version relationships. Multiple database records, publication versions, reviews, or derivative papers do not automatically represent independent evidence.
 
 ## Use interaction as a research control
 
-Pause when user input can materially improve the research:
+Pause when progress depends on a material choice the user must make:
 
-- the scope has multiple defensible interpretations;
-- initial evidence reveals distinct directions or a mistaken term;
-- source coverage is materially incomplete;
-- a consequential claim needs inaccessible full text;
-- comparable evidence conflicts;
-- the next step depends on user priorities, resources, or intended application;
-- exploratory work is about to become a formal deliverable.
+- choosing among unresolved scopes or research directions;
+- revising the agreed scope or intended application because of new evidence;
+- providing otherwise unavailable access or authorizing additional resources or external actions;
+- choosing a lower evidence standard when the agreed one cannot be met;
+- setting the purpose or evidence standard of a formal deliverable when not already established.
+
+Within the confirmed scope and authorization, investigate evidence gaps and comparable conflicting results before asking the user to choose a route. A blocked claim need not stop independent research that can still proceed. Preserve unresolved claims; do not silently change scope, lower the agreed evidence standard, or ask the user to decide which scientific finding is true.
 
 At a checkpoint:
 
@@ -266,6 +266,7 @@ Before formal delivery, verify:
 
 - consequential scientific claims are cited or explicitly labeled as inference;
 - citations support the adjacent wording, numbers, objects, direction, and conditions;
+- decisive claims satisfy the source verification guidance in [evidence-reasoning.md](references/evidence-reasoning.md#publication-audit), reusing checks already completed for unchanged claims;
 - metadata, abstract, and full-text evidence are not mixed;
 - causal wording matches the design;
 - versions and shared evidence are not double-counted;

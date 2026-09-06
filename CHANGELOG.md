@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Changed
+
+- Connected substantial retrieval batches to claim updates, decision-relevant evidence gaps, and targeted next actions while preserving coverage-oriented stopping requirements.
+- Limited interaction pauses to material user choices; evidence conflicts and independent work continue within the confirmed scope and authorization.
+- Integrated decisive-claim source verification into the existing publication audit, with reuse of completed checks for unchanged evidence and wording.
+- Extended the existing conflict and state-recovery evaluation cases to cover justified continuation and gap-directed next actions. These behavioral expectations require fresh runs; historical scores do not validate them.
+
 ### Fixed
 
 - Added publication-status checks for consequential evidence and result-truncation rules for coverage-oriented searches.

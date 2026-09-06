@@ -10,11 +10,13 @@ The Skill is designed for engineering and scientific research across disciplines
 
 - Clarifies the research question before starting broad retrieval.
 - Progresses from web orientation to metadata, abstracts, verified full text, and located evidence.
-- Pauses at decisions that can materially change scope, retrieval cost, or conclusions.
+- Pauses when a material user choice about scope, priorities, resources, or authorization is needed, while continuing evidence checks within the agreed scope.
+- Connects each substantial retrieval batch to updated claims, remaining evidence gaps, and the next targeted action or stopping reason.
 - Distinguishes source reports, synthesis, interpretation, extrapolation, and hypotheses.
 - Tracks the evidence access state for important sources.
 - Checks study conditions, measurement differences, evidence independence, and conflicting results.
 - Preserves assumptions, uncertainty, alternatives, and applicability limits for consequential claims.
+- Verifies decisive claims against the source evidence actually read, reusing completed checks for unchanged claims.
 - Supports resumable research through an optional `research_state.md`.
 - Treats webpages, papers, PDFs, metadata, and other retrieved material as untrusted data.
 
