@@ -9,7 +9,7 @@ The Skill is designed for engineering and scientific research across disciplines
 ## Project features
 
 - Clarifies the research question before starting broad retrieval.
-- Assigns complementary sources to discovery, disciplinary recall, citation expansion, and source-native verification roles when the question requires them.
+- Lets the model select and revise literature sources from the question's evidence needs, source capabilities, and coverage limits.
 - Progresses from web orientation to metadata, abstracts, verified full text, and located evidence.
 - Pauses when a material user choice about scope, priorities, resources, or authorization is needed, while continuing evidence checks within the agreed scope.
 - Connects each substantial retrieval batch to updated claims, remaining evidence gaps, and the next targeted action or stopping reason.

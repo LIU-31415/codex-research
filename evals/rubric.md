@@ -59,9 +59,9 @@ Record the exact response passage or event that supports each score. Do not infe
 
 ### `SOURCE_ROUTING`
 
-- `0`: uses one convenient source for every purpose or treats an aggregator as authoritative without considering coverage and source-native verification;
-- `1`: names suitable sources but does not assign their roles or material coverage limits;
-- `2`: assigns discovery, disciplinary recall, citation expansion, and source-native verification roles as needed for the question, and explains important coverage limits or complementary sources.
+- `0`: follows a fixed source recipe, lists databases without relation to the question, or treats one convenient source or aggregator as authoritative for every purpose;
+- `1`: identifies relevant source features or limitations but leaves the connection between the question's evidence needs and the selected route unclear;
+- `2`: infers the capabilities required by the question, autonomously selects only sources that serve those needs, explains consequential choices and coverage limits, and adapts the route when the evidence or available tools warrant it.
 
 ### `STATE_RECOVERY`
 

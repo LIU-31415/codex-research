@@ -138,15 +138,9 @@ Choose sources according to the question and available evidence, not a universal
 
 Preserve the source and query path for important papers. A source failure is a coverage limitation, not evidence of absence.
 
-Assign sources by role before a focused or coverage-oriented search:
+Characterize available sources by their coverage, indexed content, evidence depth, retrieval features, freshness, provenance, and access limits. Infer which capabilities the current question requires, then select and combine only the sources that materially help resolve it. Broad discovery, disciplinary search, citation expansion, and source-native verification are possible roles, not a required sequence or fixed bundle.
 
-- use a broad index to discover vocabulary and adjacent disciplines;
-- use relevant disciplinary databases for field-specific recall and filters;
-- use citation relationships or known-paper expansion to find connected work;
-- use publisher, repository, standards-body, patent-office, or other source-native records to verify identity, version, status, and accessible content;
-- use more than one discovery source when a material conclusion depends on coverage that no single source can reasonably provide.
-
-Choose only the roles needed for the question. Record which source serves each role, its important coverage limits, and whether another source compensates for them. Do not treat a broad index, repository, or connector aggregator as authoritative for facts that should be verified at the responsible primary source.
+Let the question, emerging evidence, and actual tool capabilities determine the route. Revise the selection when a source proves redundant, insufficient, or unable to address a material gap. For consequential source choices, preserve a concise reason and the important coverage limits; do not require a fixed database map or treat an aggregator as authoritative for facts that should be verified at the responsible primary source.
 
 ## Candidate identity and deduplication
 
