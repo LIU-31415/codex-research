@@ -165,6 +165,14 @@ Do not repeat the entire history at every checkpoint. Show the delta.
 - When the user is uncertain, offer concrete alternatives grounded in preliminary findings.
 - When the user delegates, make the decision and report it at the next meaningful checkpoint.
 
+## Evidence-led follow-up questions
+
+Decision questions control the workflow. Evidence-led questions help the user see useful next questions without requiring an immediate answer.
+
+When new evidence exposes an important boundary, conflict, mechanism alternative, transfer problem, or missing comparison, offer a short prioritized set of questions the user is likely to find useful. Derive each question from an observed result or unresolved claim, and state briefly what answering it could change. Do not generate generic topic-expansion questions, repeat questions already answered, or turn every update into a questionnaire.
+
+Ask only one question when a user decision is required. Otherwise present the evidence-led questions as optional next directions and continue or stop according to the current research scope.
+
 ## When not to interrupt
 
 Do not pause for routine searches, metadata normalization, deduplication, citation formatting, or minor query refinements. Continue when the next action is reversible and unlikely to change the research direction.

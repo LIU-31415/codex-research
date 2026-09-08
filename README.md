@@ -12,6 +12,7 @@ The Skill is designed for engineering and scientific research across disciplines
 - Progresses from web orientation to metadata, abstracts, verified full text, and located evidence.
 - Pauses when a material user choice about scope, priorities, resources, or authorization is needed, while continuing evidence checks within the agreed scope.
 - Connects each substantial retrieval batch to updated claims, remaining evidence gaps, and the next targeted action or stopping reason.
+- Suggests optional follow-up questions when observed evidence exposes a consequential boundary, conflict, or missing comparison.
 - Distinguishes source reports, synthesis, interpretation, extrapolation, and hypotheses.
 - Tracks the evidence access state for important sources.
 - Checks study conditions, measurement differences, evidence independence, and conflicting results.
