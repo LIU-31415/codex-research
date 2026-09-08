@@ -51,6 +51,12 @@ Record the exact response passage or event that supports each score. Do not infe
 - `1`: lists some differences but still makes an unconditional recommendation;
 - `2`: aligns datasets, conditions, metrics, costs, and deployment assumptions, then gives a conditional recommendation.
 
+### `SOURCE_ROUTING`
+
+- `0`: uses one convenient source for every purpose or treats an aggregator as authoritative without considering coverage and source-native verification;
+- `1`: names suitable sources but does not assign their roles or material coverage limits;
+- `2`: assigns discovery, disciplinary recall, citation expansion, and source-native verification roles as needed for the question, and explains important coverage limits or complementary sources.
+
 ### `STATE_RECOVERY`
 
 - `0`: restarts from scratch or loses established evidence states and decisions;
