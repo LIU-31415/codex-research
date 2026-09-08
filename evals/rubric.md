@@ -69,6 +69,12 @@ Record the exact response passage or event that supports each score. Do not infe
 - `1`: identifies relevant source features or limitations but leaves the connection between the question's evidence needs and the selected route unclear;
 - `2`: infers the capabilities required by the question, autonomously selects only sources that serve those needs, explains consequential choices and coverage limits, and adapts the route when the evidence or available tools warrant it.
 
+### `CANDIDATE_PRIORITIZATION`
+
+- `0`: treats venue prestige as proof of a claim, or ignores publication context when choosing which plausible candidates deserve limited reading effort;
+- `1`: uses venue, publisher, peer-review status, article type, or influence as a ranking signal but leaves its relationship to article-level appraisal unclear;
+- `2`: uses publication context as an explicit screening prior, then bases evidential weight on the paper's directness, method, internal consistency, independence, comparability, and verified support for the claim.
+
 ### `STATE_RECOVERY`
 
 - `0`: restarts from scratch or loses established evidence states and decisions;

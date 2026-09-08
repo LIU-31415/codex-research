@@ -178,9 +178,9 @@ Prioritize by decision value:
 - independence from existing evidence;
 - role as an original study, method, replication, boundary case, or contradiction;
 - recency when the field changes rapidly;
-- scholarly influence and venue as secondary navigation signals.
+- venue, publisher, peer-review status, article type, and scholarly influence as screening priors when they help allocate reading effort.
 
-Journal prestige, citation count, author institution, and publication novelty cannot substitute for article-level evidence quality.
+Use these priors to rank otherwise plausible candidates, not to predetermine whether a claim is true. A credible venue or publisher can raise initial reading priority, while article-level directness, method, internal consistency, independence, comparability, and accessible evidence determine how much support the paper provides. Journal prestige, citation count, author institution, and publication novelty cannot substitute for claim verification.
 
 ## Gap-driven retrieval
 
