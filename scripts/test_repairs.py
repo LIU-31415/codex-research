@@ -78,6 +78,17 @@ def check_evaluation_outputs(root, disabled_skills):
     }
     cases_path = evals / "evals.json"
     cases_path.write_text(json.dumps([case]), encoding="utf-8")
+    with patch.object(runner, "EVALS_DIR", evals), patch.object(runner, "CASES_PATH", cases_path):
+        assert runner.load_cases() == [case]
+        for field, value in (("id", "../escape"), ("files", [str(fixture)]), ("files", ["../evals/fixtures/research_state.md"]), ("output_files", ["C:escape"])):
+            cases_path.write_text(json.dumps([{**case, field: value}]), encoding="utf-8")
+            try:
+                runner.load_cases()
+            except ValueError:
+                pass
+            else:
+                raise AssertionError((field, value))
+        cases_path.write_text(json.dumps([case]), encoding="utf-8")
     original_mkdtemp = tempfile.mkdtemp
     for scenario in ("success", "nonzero", "timeout", "launch_error", "missing_final", "missing_output"):
         commands = []
@@ -152,12 +163,24 @@ def check_evaluation_outputs(root, disabled_skills):
 
 
 def main():
+    for value in ("../escape", "/absolute", "C:escape", "CON", "", "a/b", "a\\b"):
+        try:
+            runner.validate_component(value, "run id")
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(value)
+    runner.validate_component("release-0_2_3", "run id")
+    output = io.StringIO()
+    with redirect_stdout(output):
+        runner.print_dry_run({"id": "safe", "prompt": "Synthetic", "baseline_allowed": False}, "codex", "both", None, [], "read-only")
+    assert " / baseline]" not in output.getvalue() and " / skill]" in output.getvalue()
     with tempfile.TemporaryDirectory(prefix="codex-research-regression-") as temporary:
         root = Path(temporary).resolve()
         check_tracked_outputs(root)
         disabled_skills = check_user_skills(root)
         check_evaluation_outputs(root, disabled_skills)
-    print("REPAIR_CHECKS_OK: tracked privacy, user-skill overrides, state artifacts, execution failures")
+    print("REPAIR_CHECKS_OK: safe paths, skipped baseline, tracked privacy, user-skill overrides, state artifacts, execution failures")
 
 
 if __name__ == "__main__":

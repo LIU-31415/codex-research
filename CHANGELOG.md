@@ -1,9 +1,12 @@
 # Changelog
 
-## Unreleased
+## v0.2.3 — 2026-09-08
 
 ### Changed
 
+- Made source selection question-led, including the choice between unified and source-specific tools; no default source bundle is required.
+- Added publication context as an optional candidate-screening prior, without allowing prestige to replace article-level evidence appraisal.
+- Added evidence-led follow-up questions and separated experimental source reports, unavailable details, calculations, transfer proposals, and diagnostic hypotheses.
 - Connected substantial retrieval batches to claim updates, decision-relevant evidence gaps, and targeted next actions while preserving coverage-oriented stopping requirements.
 - Limited interaction pauses to material user choices; evidence conflicts and independent work continue within the confirmed scope and authorization.
 - Integrated decisive-claim source verification into the existing publication audit, with reuse of completed checks for unchanged evidence and wording.
@@ -11,11 +14,22 @@
 
 ### Fixed
 
+- Preserved unresolved discrepancies within a paper, including abstract/table/figure conflicts; prohibited hiding them in averages, rounded values, or ranges.
+- Distinguished extraction errors, snippets in abstract fields, connector defaults, and unavailable methods from verified source facts.
+- Aligned source-safety instructions, reference entry points, and evaluation scoring with the runtime evidence rules.
+- Supplied neutral synthetic records for fact-checking and transfer cases; separated initial MCP consent from refusal and removed impossible source-verification requirements from strategy-only cases.
+- Restricted evaluation case/run identifiers and fixture/output paths, aligned dry runs with baseline exclusions, and marked unselected scoring modes as not applicable.
+- Added release-version and fixture-reference consistency checks.
 - Added publication-status checks for consequential evidence and result-truncation rules for coverage-oriented searches.
 - Included tracked evaluation logs and records in public-content scanning, even under normally ignored runtime directories.
 - Disabled discovered standalone user Skills in evaluation subprocesses and documented the remaining host-isolation boundary.
 - Preserved declared state-file outputs before temporary-workspace cleanup and returned a failing exit status for unsuccessful evaluation execution.
 - Added local regression checks using synthetic data and simulated Codex processes; these do not call a model or connector.
+
+### Validation scope
+
+- This release is reviewed across the tracked project files and checked with deterministic repository and runner checks.
+- Revised behavioral cases have not been rerun for this release. Historical smoke scores do not establish v0.2.3 model behavior, literature recall, or live connector compatibility.
 
 ## v0.2.2 — 2026-09-01
 

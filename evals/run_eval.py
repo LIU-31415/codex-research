@@ -12,12 +12,13 @@ import datetime as datetime_module
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any, Dict, List, Optional, Sequence
 
 
@@ -63,20 +64,35 @@ def load_cases() -> List[Dict[str, Any]]:
         if not isinstance(item, dict) or not isinstance(item.get("id"), str):
             raise ValueError("each evaluation case needs a string id")
         case_id = item["id"]
+        validate_component(case_id, "case id")
         if case_id in seen:
             raise ValueError("duplicate evaluation case: " + case_id)
         seen.add(case_id)
         for relative in item.get("files", []):
-            if not isinstance(relative, str):
+            if not safe_relative_path(relative):
                 raise ValueError("fixture paths must be strings: " + case_id)
             source = (EVALS_DIR / relative).resolve()
             if not is_within(source, EVALS_DIR) or not source.is_file():
                 raise ValueError("missing or unsafe fixture for " + case_id + ": " + relative)
         for relative in item.get("output_files", []):
-            if not isinstance(relative, str) or not relative or Path(relative).is_absolute() or ".." in Path(relative).parts:
+            if not safe_relative_path(relative):
                 raise ValueError("unsafe output path for " + case_id)
         cases.append(item)
     return cases
+
+
+def safe_relative_path(value: Any) -> bool:
+    return isinstance(value, str) and bool(value) and not (
+        Path(value).is_absolute() or PureWindowsPath(value).drive
+        or PureWindowsPath(value).root or ".." in PureWindowsPath(value).parts
+    )
+
+
+def validate_component(value: str, label: str) -> None:
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", value) or value.upper() in {
+        "CON", "PRN", "AUX", "NUL", *[f"COM{i}" for i in range(1, 10)], *[f"LPT{i}" for i in range(1, 10)]
+    }:
+        raise ValueError(label + " must be a portable directory name using letters, digits, underscores or hyphens")
 
 
 def git_commit() -> Optional[str]:
@@ -389,6 +405,8 @@ def print_dry_run(
     for with_skill, label in ((False, "baseline"), (True, "skill")):
         if mode not in ("both", label):
             continue
+        if not with_skill and not case.get("baseline_allowed", True):
+            continue
         prompt = build_prompt(case, with_skill)
         print("[{} / {}]".format(case["id"], label))
         print("  codex executable: {}".format(executable))
@@ -456,7 +474,11 @@ def main() -> int:
         return 2
 
     try:
+        run_id = args.run_id or datetime_module.datetime.now(datetime_module.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        validate_component(run_id, "run id")
         cases = selected_cases(load_cases(), args.case)
+        if not cases or (args.mode == "baseline" and not any(case.get("baseline_allowed", True) for case in cases)):
+            raise ValueError("no runnable cases for the selected mode")
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print("Evaluation setup error: {}".format(exc), file=sys.stderr)
         return 2
@@ -491,9 +513,6 @@ def main() -> int:
         )
         return 2
 
-    run_id = args.run_id or datetime_module.datetime.now(datetime_module.timezone.utc).strftime(
-        "%Y%m%dT%H%M%SZ"
-    )
     run_dir = RUNS_DIR / run_id
     if run_dir.exists():
         print("Run directory already exists: {}".format(run_dir), file=sys.stderr)
@@ -539,12 +558,12 @@ def main() -> int:
                     "baseline": {
                         check: (
                             None
-                            if case.get("baseline_allowed", True)
+                            if args.mode in ("both", "baseline") and case.get("baseline_allowed", True)
                             else "N/A"
                         )
                         for check in case.get("checks", [])
                     },
-                    "skill": {check: None for check in case.get("checks", [])},
+                    "skill": {check: None if args.mode in ("both", "skill") else "N/A" for check in case.get("checks", [])},
                     "notes": "",
                 }
                 for case in cases

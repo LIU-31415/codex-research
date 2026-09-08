@@ -146,7 +146,7 @@ At a checkpoint:
 
 Do not interrupt for routine search calls, metadata cleanup, deduplication, citation formatting, or minor query refinement.
 
-Read [interactive-workflow.md](references/interactive-workflow.md) for entry modes, checkpoint behavior, full-text requests, conflict handling, and pause/resume guidance.
+Read [interactive-workflow.md](references/interactive-workflow.md) for entry modes, checkpoint behavior, evidence-led follow-up questions, full-text requests, conflict handling, and pause/resume guidance.
 
 ## Preserve evidence access states
 
@@ -195,7 +195,7 @@ For each consequential claim, be able to state:
 
 If the warrant cannot be stated clearly, weaken or withhold the claim.
 
-Read [evidence-reasoning.md](references/evidence-reasoning.md) before checking consequential facts, deep synthesis, causal or mechanism reasoning, performance comparison, gap claims, evidence conflict resolution, or formal delivery.
+Read [evidence-reasoning.md](references/evidence-reasoning.md) before checking consequential facts, experimental transfer, deep synthesis, causal or mechanism reasoning, performance comparison, gap claims, evidence conflict resolution, or formal delivery.
 
 ## Match appraisal to the question
 

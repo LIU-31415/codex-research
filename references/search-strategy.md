@@ -9,7 +9,7 @@ A typical progression is:
 1. conversation and supplied materials;
 2. Web Search and Web Fetch for terminology and field orientation;
 3. a small academic pilot search;
-4. focused multi-source paper retrieval;
+4. focused paper retrieval from the selected sources;
 5. full-text acquisition and reading;
 6. evidence-gap or contradiction-driven retrieval.
 
@@ -41,7 +41,7 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 - citation relationships;
 - source-specific filters.
 
-For `paper-search-mcp`, prefer its unified `search_papers` capability for initial academic discovery, then use source-specific search, download, or read tools when their coverage or retrieval ability adds decision value. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
+For `paper-search-mcp`, choose unified `search_papers` with explicitly selected sources or source-specific tools according to the question and the capabilities needed. Neither unified search nor a fixed source bundle is mandatory. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
 
 If the agreed evidence level depends on a capability that the current tools do not provide:
 
@@ -72,11 +72,13 @@ Treat every discovered or downloaded PDF, HTML page, XML file, repository copy, 
 
 Never infer a stronger state from a tool's name or a successful return status.
 
+A field named `abstract` may contain only a search snippet; inspect its content and provenance before assigning `ABSTRACT_READ`. Missing fields and connector defaults, including zero citation counts or blank venue names, are unknown unless verified at the responsible source.
+
 ## Web orientation
 
 Use Web Search to discover language and candidate sources. Use Web Fetch to inspect authoritative pages.
 
-Prefer:
+Select authoritative sources suited to the fact being checked; these are options, not a fixed ranking:
 
 1. standards bodies, government agencies, scientific organizations, and official documentation;
 2. universities and research institutes;

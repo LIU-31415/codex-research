@@ -131,6 +131,8 @@ def check_metadata(root: Path, errors: list[str]) -> None:
             continue
         if not isinstance(data, list):
             errors.append(f"{relative}: top-level value must be an array")
+        elif any(not isinstance(item, dict) for item in data):
+            errors.append(f"{relative}: each record must be an object")
 
     rubric = root / "evals/rubric.md"
     if rubric.exists():
@@ -140,14 +142,30 @@ def check_metadata(root: Path, errors: list[str]) -> None:
                 cases = json.loads(read_text(root / relative))
             except (OSError, json.JSONDecodeError):
                 continue
-            for case in cases:
+            for case in cases if isinstance(cases, list) else []:
+                if not isinstance(case, dict):
+                    continue
                 for check in case.get("checks", []):
                     if f"### `{check}`" not in rubric_text:
                         errors.append(f"evals/rubric.md: missing definition for check {check}")
+                for fixture in case.get("files", []):
+                    if not isinstance(fixture, str):
+                        errors.append("evals/evals.json: fixture path must be a string")
+                        continue
+                    target = (root / "evals" / fixture).resolve()
+                    if not target.is_relative_to((root / "evals").resolve()) or not target.is_file():
+                        errors.append(f"evals/evals.json: missing or unsafe fixture: {fixture}")
 
-    expected_fixture = root / "evals/fixtures/intervention-abstract-records.md"
-    if not expected_fixture.exists():
-        errors.append("intervention fixture is missing")
+    try:
+        version = read_text(root / "VERSION").strip()
+        if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+            errors.append("VERSION must contain a semantic release version")
+        if f"**Current version: `v{version}`**" not in read_text(root / "README.md"):
+            errors.append("README.md version disagrees with VERSION")
+        if not re.search(rf"(?m)^## v{re.escape(version)} — \d{{4}}-\d{{2}}-\d{{2}}$", read_text(root / "CHANGELOG.md")):
+            errors.append("CHANGELOG.md is missing the dated current release")
+    except OSError as exc:
+        errors.append(f"release metadata missing: {exc.filename}")
 
 
 def check_consent_contract(root: Path, errors: list[str]) -> None:

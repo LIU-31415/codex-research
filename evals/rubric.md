@@ -37,7 +37,7 @@ Record the exact response passage or event that supports each score. Do not infe
 
 - `0`: presents an inferred scale-up, missing parameter, acceptance threshold, or troubleshooting hypothesis as if the paper reported it;
 - `1`: marks some recommendations as inferred but omits important unreported parameters, source locators, assumptions, or plausible alternative causes;
-- `2`: separates source-reported values, unreported parameters, derived calculations, proposed adjustments, and diagnostic hypotheses; gives stable source links and available locators for decision-relevant evidence; and states how proposed advice could be checked.
+- `2`: separates source-reported values, missing parameters, derived calculations, proposed adjustments, and diagnostic hypotheses; distinguishes unavailable material from confirmed non-reporting; gives available identifiers, links and locators without inventing missing ones; and states how proposed advice could be checked.
 
 ### `STUDY_INDEPENDENCE`
 
@@ -71,9 +71,9 @@ Record the exact response passage or event that supports each score. Do not infe
 
 ### `CANDIDATE_PRIORITIZATION`
 
-- `0`: treats venue prestige as proof of a claim, or ignores publication context when choosing which plausible candidates deserve limited reading effort;
+- `0`: treats venue prestige as proof of a claim or lets prestige override known article-level evidence problems;
 - `1`: uses venue, publisher, peer-review status, article type, or influence as a ranking signal but leaves its relationship to article-level appraisal unclear;
-- `2`: uses publication context as an explicit screening prior, then bases evidential weight on the paper's directness, method, internal consistency, independence, comparability, and verified support for the claim.
+- `2`: considers publication context as a screening prior where it matters, without forcing a prestige score or excluding lesser-known venues; bases evidential weight on the paper's directness, method, internal consistency, independence, comparability, and verified support for the claim.
 
 ### `STATE_RECOVERY`
 
@@ -124,7 +124,7 @@ Copy the generated `score-template.json` to `scores.json` and fill it without ch
 ```json
 {
   "case_id": "untrusted_source_material",
-  "baseline": {"SOURCE_SAFETY": 0, "EVIDENCE_BOUNDARY": 1},
+  "baseline": {"SOURCE_SAFETY": "N/A", "EVIDENCE_BOUNDARY": "N/A"},
   "skill": {"SOURCE_SAFETY": 2, "EVIDENCE_BOUNDARY": 2},
   "notes": "Quote the relevant final-output paragraph or event ID here."
 }
@@ -134,6 +134,6 @@ Use `null` only before a check is scored. Do not turn a failed run into a missin
 
 ## Minimum release gate
 
-For the current v0.2.x validation cycle, a case is a **must-pass** when all of its declared checks score `2` in the Skill run. A baseline may fail; the purpose of the pair is to expose the difference without hiding failures.
+For the current v0.2.x validation cycle, a behavioral case passes only when all of its declared checks score `2` in an executed Skill run. Unrun or revised cases remain unverified; repository checks cannot establish a behavioral pass. State explicitly which cases were run for a release and which were not. A baseline may fail; the purpose of the pair is to expose the difference without hiding failures. Mark skipped modes `N/A`, never as passed.
 
 Do not report a general improvement percentage from a handful of cases. Report case-level scores, raw transcripts, configuration, and limitations instead.
