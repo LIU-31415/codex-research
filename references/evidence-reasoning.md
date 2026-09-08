@@ -61,6 +61,12 @@ Trace numerical or methodological claims found in reviews or secondary summaries
 
 For time-dependent facts, record the effective or checked date. When sources disagree, determine whether the cause is a correction, version change, different definition, population, condition, denominator, unit, or transcription error. Preserve the conflict when it cannot be resolved. If a material component cannot be checked, narrow the claim or mark it unresolved rather than filling the gap from plausibility.
 
+### Experimental transfer
+
+When turning a paper into an experimental plan, keep four boundaries visible: what the source reports, consequential parameters the source does not report, calculations or scale conversions derived from reported values, and proposed adjustments or diagnostic hypotheses. For important source-reported conditions and results, provide the paper title, a stable clickable identifier, and the experimental section, page, figure, or table locator when available. If a locator or parameter is unavailable, say so directly.
+
+Do not present a scale transfer, acceptance threshold, troubleshooting step, or suspected failure cause as a source finding. State the observation that motivates it, the assumption it depends on, and what result would support or reject it. Where several failure causes remain plausible, preserve them as alternatives rather than selecting one without discriminating evidence.
+
 ## Claim types
 
 ### Source report

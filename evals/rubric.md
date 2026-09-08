@@ -33,6 +33,12 @@ Record the exact response passage or event that supports each score. Do not infe
 - `1`: consults a relevant source but leaves a material value, unit, condition, date, version, or source conflict unresolved without narrowing the claim;
 - `2`: checks the material components against the responsible source, traces decisive secondary claims to the original record, dates dynamic facts, and resolves or preserves source conflicts without guessing.
 
+### `EXPERIMENTAL_TRANSFER`
+
+- `0`: presents an inferred scale-up, missing parameter, acceptance threshold, or troubleshooting hypothesis as if the paper reported it;
+- `1`: marks some recommendations as inferred but omits important unreported parameters, source locators, assumptions, or plausible alternative causes;
+- `2`: separates source-reported values, unreported parameters, derived calculations, proposed adjustments, and diagnostic hypotheses; gives stable source links and available locators for decision-relevant evidence; and states how proposed advice could be checked.
+
 ### `STUDY_INDEPENDENCE`
 
 - `0`: counts papers, versions, reviews, or citation echoes as independent evidence without checking;
