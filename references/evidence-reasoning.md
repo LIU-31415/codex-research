@@ -61,6 +61,8 @@ Trace numerical or methodological claims found in reviews or secondary summaries
 
 For time-dependent facts, record the effective or checked date. When sources disagree, determine whether the cause is a correction, version change, different definition, population, condition, denominator, unit, or transcription error. Preserve the conflict when it cannot be resolved. If a material component cannot be checked, narrow the claim or mark it unresolved rather than filling the gap from plausibility.
 
+Treat disagreement within one paper—such as between the abstract, main text, table, figure, caption, or supplement—as an unresolved source conflict until the object, condition, time point, statistic, normalization, unit, rounding, and publication version are reconciled. Record each conflicting value with its locator. Values estimated from a plot must be labeled as estimates. Do not silently choose, average, or correct conflicting values; if the discrepancy remains material, report it and avoid relying on the precise value for a consequential claim.
+
 ### Experimental transfer
 
 When turning a paper into an experimental plan, keep four boundaries visible: what the source reports, consequential parameters the source does not report, calculations or scale conversions derived from reported values, and proposed adjustments or diagnostic hypotheses. For important source-reported conditions and results, provide the paper title, a stable clickable identifier, and the experimental section, page, figure, or table locator when available. If a locator or parameter is unavailable, say so directly.

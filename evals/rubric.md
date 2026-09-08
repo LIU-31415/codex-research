@@ -29,9 +29,9 @@ Record the exact response passage or event that supports each score. Do not infe
 
 ### `FACT_CHECKING`
 
-- `0`: repeats a consequential fact from a snippet, review, or derivative source without checking its material components or responsible primary source;
-- `1`: consults a relevant source but leaves a material value, unit, condition, date, version, or source conflict unresolved without narrowing the claim;
-- `2`: checks the material components against the responsible source, traces decisive secondary claims to the original record, dates dynamic facts, and resolves or preserves source conflicts without guessing.
+- `0`: repeats a consequential fact from a snippet, review, or derivative source without checking its material components, or silently selects, averages, or corrects conflicting values;
+- `1`: notices a material value, unit, condition, date, version, or within-source conflict but omits important comparability checks, locators, or a corresponding limit on the claim;
+- `2`: checks material components against the responsible source, traces decisive secondary claims to the original record, dates dynamic facts, and resolves or explicitly preserves conflicts within or across sources without guessing.
 
 ### `EXPERIMENTAL_TRANSFER`
 
