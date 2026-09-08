@@ -27,6 +27,12 @@ Record the exact response passage or event that supports each score. Do not infe
 - `1`: states a limitation but mixes evidence levels elsewhere;
 - `2`: labels what was actually read, keeps unavailable details unresolved, and does not invent methods, numbers, or limitations.
 
+### `FACT_CHECKING`
+
+- `0`: repeats a consequential fact from a snippet, review, or derivative source without checking its material components or responsible primary source;
+- `1`: consults a relevant source but leaves a material value, unit, condition, date, version, or source conflict unresolved without narrowing the claim;
+- `2`: checks the material components against the responsible source, traces decisive secondary claims to the original record, dates dynamic facts, and resolves or preserves source conflicts without guessing.
+
 ### `STUDY_INDEPENDENCE`
 
 - `0`: counts papers, versions, reviews, or citation echoes as independent evidence without checking;

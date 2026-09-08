@@ -53,6 +53,14 @@ Before relying on a paper for a consequential conclusion, inspect the publisher'
 
 Use corrected findings where a correction affects the claim. Do not use a retracted or withdrawn finding as affirmative support; retain it only when needed to explain the research history or the notice itself. An expression of concern requires stating the affected uncertainty and seeking independent support. If status cannot be checked, record it as unknown rather than assuming the paper is unaffected.
 
+## Fact checking
+
+For a consequential factual claim, separate the checkable components before verifying it: object, relation, value, unit, condition, date, and version or status. Verify each material component against the source responsible for that fact when available, such as the article body for a reported result, the publisher for publication status, a standards body for a standard, or an official registry for a current identifier or regulatory state.
+
+Trace numerical or methodological claims found in reviews or secondary summaries back to the original study when they affect the conclusion. Compare the original wording, table, figure, or record with the proposed claim; do not treat agreement between derivative sources as independent confirmation.
+
+For time-dependent facts, record the effective or checked date. When sources disagree, determine whether the cause is a correction, version change, different definition, population, condition, denominator, unit, or transcription error. Preserve the conflict when it cannot be resolved. If a material component cannot be checked, narrow the claim or mark it unresolved rather than filling the gap from plausibility.
+
 ## Claim types
 
 ### Source report

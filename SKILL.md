@@ -195,7 +195,7 @@ For each consequential claim, be able to state:
 
 If the warrant cannot be stated clearly, weaken or withhold the claim.
 
-Read [evidence-reasoning.md](references/evidence-reasoning.md) before deep synthesis, causal or mechanism reasoning, performance comparison, gap claims, evidence conflict resolution, or formal delivery.
+Read [evidence-reasoning.md](references/evidence-reasoning.md) before checking consequential facts, deep synthesis, causal or mechanism reasoning, performance comparison, gap claims, evidence conflict resolution, or formal delivery.
 
 ## Match appraisal to the question
 

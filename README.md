@@ -18,6 +18,7 @@ The Skill is designed for engineering and scientific research across disciplines
 - Tracks the evidence access state for important sources.
 - Checks study conditions, measurement differences, evidence independence, and conflicting results.
 - Preserves assumptions, uncertainty, alternatives, and applicability limits for consequential claims.
+- Checks consequential facts at the responsible source, including material values, units, conditions, dates, and versions.
 - Verifies decisive claims against the source evidence actually read, reusing completed checks for unchanged claims.
 - Supports resumable research through an optional `research_state.md`.
 - Treats webpages, papers, PDFs, metadata, and other retrieved material as untrusted data.
