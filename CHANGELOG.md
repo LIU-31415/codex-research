@@ -14,6 +14,7 @@
 - Added offline regression coverage for these failures and validation of the repository's current evaluation cases.
 - Consolidated README features, added usage and maintenance instructions, and documented evaluation input and output behavior.
 - Expanded environment-file ignore rules to cover `.env.*` and `*.env` files.
+- Updated checkout and Python setup actions to v7 in both workflows, replacing their deprecated Node.js 20 runtime with Node.js 24.
 
 ### Validation scope
 
