@@ -34,6 +34,9 @@ py -3 .\evals\run_eval.py --case untrusted_source_material --dry-run
 - `--sandbox <模式>`：默认 `read-only`；需要检验 `research_state.md` 写回时使用 `workspace-write`，写入范围仍仅为临时评测工作区；
 - `--codex-home <目录>`：为 baseline 和 Skill 指定专用 Codex 配置目录；仅更改它不等于隔离用户 Skill、插件、记忆或其他宿主配置；
 - `--timeout <秒>`：单个 case/模式的最长运行时间。
+- `--run-id <名称>`：指定输出目录名称；已有目录会被拒绝，避免覆盖历史结果。
+
+重复传入同一个 `--case` 只运行一次，并保留首次出现的顺序。案例 ID 不得仅以大小写区分。每个案例必须有非空字符串 `prompt`；`checks`、`files` 和 `output_files` 如有提供，必须为非空字符串组成的数组（数组本身可为空）；`baseline_allowed` 必须使用 JSON 布尔值 `false` 或 `true`，不能使用字符串。输入错误会在创建运行目录和启动模型前被拒绝。
 
 脚本通常为每个 case 运行两次：
 

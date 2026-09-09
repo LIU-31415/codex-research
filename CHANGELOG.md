@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Deduplicated repeated case selections and rejected case identifiers that collide on case-insensitive filesystems, preventing evaluation output replacement.
+- Validated prompts, list fields, and the baseline permission flag before starting evaluations; rejected failed Codex version probes.
+- Limited the privacy scanner's self-exclusion to its own repository path and included tracked environment files in scanning.
+- Accepted local Markdown links with spaces or URL encoding, handled empty destinations, and reported unreadable files and missing scoring rubrics as check failures.
+
+### Maintenance
+
+- Added offline regression coverage for these failures and validation of the repository's current evaluation cases.
+- Consolidated README features, added usage and maintenance instructions, and documented evaluation input and output behavior.
+- Expanded environment-file ignore rules to cover `.env.*` and `*.env` files.
+
+### Validation scope
+
+- Maintenance checks use local repository content, synthetic fixtures, and simulated processes. They do not establish model behavior or live MCP compatibility.
+
 ## v0.2.3 — 2026-09-08
 
 ### Changed

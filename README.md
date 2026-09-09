@@ -8,22 +8,19 @@ The Skill is designed for engineering and scientific research across disciplines
 
 ## Project features
 
-- Clarifies the research question before starting broad retrieval.
-- Lets the model select and revise literature sources from the question's evidence needs, source capabilities, and coverage limits.
-- Uses publication context to prioritize candidates without substituting venue reputation for article-level verification.
-- Progresses from web orientation to metadata, abstracts, verified full text, and located evidence.
-- Pauses when a material user choice about scope, priorities, resources, or authorization is needed, while continuing evidence checks within the agreed scope.
-- Connects each substantial retrieval batch to updated claims, remaining evidence gaps, and the next targeted action or stopping reason.
-- Suggests optional follow-up questions when observed evidence exposes a consequential boundary, conflict, or missing comparison.
-- Distinguishes source reports, synthesis, interpretation, extrapolation, and hypotheses.
-- Tracks the evidence access state for important sources.
-- Checks study conditions, measurement differences, evidence independence, and conflicting results.
-- Preserves assumptions, uncertainty, alternatives, and applicability limits for consequential claims.
-- Checks consequential facts at the responsible source, including material values, units, conditions, dates, and versions.
-- Separates reported experimental parameters from missing details, derived calculations, transfer proposals, and diagnostic hypotheses.
-- Verifies decisive claims against the source evidence actually read, reusing completed checks for unchanged claims.
-- Supports resumable research through an optional `research_state.md`.
-- Treats webpages, papers, PDFs, metadata, and other retrieved material as untrusted data.
+- **Question-led retrieval:** clarify the scope, choose sources by evidence needs, and connect each retrieval batch to the next evidence gap or stopping reason.
+- **Visible evidence access:** distinguish discovery records, abstracts, verified full text, and located passages; publication reputation helps prioritize reading but does not establish correctness.
+- **Claim verification:** check values, units, conditions, dates, and versions at the responsible source; separate source reports, synthesis, interpretation, extrapolation, and hypotheses.
+- **Comparable evidence:** examine study conditions, measurements, independence, conflicts, uncertainty, and applicability before combining findings.
+- **Experimental provenance:** distinguish reported parameters, missing details, derived calculations, transfer proposals, and diagnostic hypotheses.
+- **Research continuity:** offer evidence-led follow-up questions and optional `research_state.md`; pause for material user decisions while continuing authorized evidence checks.
+- **Privacy and source safety:** treat retrieved material as untrusted data and keep private user context out of public artifacts.
+
+## Use
+
+After installation, ask Codex to use `codex-research` and describe the research question, intended decision, and any scope or access constraints you already know. Supply known papers or an existing research state when available. A vague direction is enough to start; the Skill helps refine it before broad retrieval.
+
+See [SKILL.md](SKILL.md) for the full workflow, [evaluation guidance](evals/README.md) for reproducible checks, and [CHANGELOG.md](CHANGELOG.md) for release history and unreleased maintenance changes.
 
 ## Install
 
@@ -108,9 +105,22 @@ The fixed evaluation cases and their limits are documented in [`evals/`](evals/)
 ## Maintenance checks
 
 - Every push and pull request runs deterministic checks for public-content privacy patterns, Skill metadata, release-version consistency, JSON fixtures, internal Markdown links, and evaluation-runner regressions.
-- Tracked evaluation outputs are scanned even under normally ignored runtime directories. Ignored, untracked local runs remain excluded; pattern checks do not replace manual review before publication.
+- Tracked evaluation outputs and environment files are scanned even when normally ignored. Ignored, untracked local files remain excluded; pattern checks do not replace manual review before publication.
 - A weekly compatibility check compares the tracked `paper-search-mcp` revision with its public upstream revision. A change stops the check for manual review; it never installs or runs the connector automatically.
 - The live MCP smoke record is manual-only. Update it only after a user-authorized end-to-end run, using the actual installation, authentication, restart, and handshake result. CI does not spend tokens on model or live-MCP tests.
+
+Run the same offline checks from the repository root with Python 3 and Git available:
+
+```sh
+python -B scripts/check_public_repo.py
+python -B scripts/check_mcp_compatibility.py
+python -B scripts/test_repairs.py
+git diff --check
+```
+
+Use `python3` on systems where that is the Python 3 command, or `py -3` on Windows. These checks need no additional Python packages. The regression checks create and clean up synthetic temporary workspaces; they do not launch Codex or contact a connector. The compatibility check above validates the local lock only; `--online` additionally queries GitHub for upstream changes.
+
+Keep maintenance changes under `Unreleased` in the changelog until a release is prepared. When releasing, update `VERSION`, the README version, and the dated changelog entry together. Keep historical evaluation results tied to the version actually tested.
 
 ## License
 
