@@ -68,6 +68,14 @@ def load_cases() -> List[Dict[str, Any]]:
         if case_id.casefold() in seen:
             raise ValueError("duplicate evaluation case: " + case_id)
         seen.add(case_id.casefold())
+        if not isinstance(item.get("prompt"), str) or not item["prompt"].strip():
+            raise ValueError("case needs a non-empty prompt: " + case_id)
+        if not isinstance(item.get("baseline_allowed", True), bool):
+            raise ValueError("baseline_allowed must be a boolean: " + case_id)
+        for field in ("checks", "files", "output_files"):
+            values = item.get(field, [])
+            if not isinstance(values, list) or any(not isinstance(value, str) or not value.strip() for value in values):
+                raise ValueError(field + " must be an array of non-empty strings: " + case_id)
         for relative in item.get("files", []):
             if not safe_relative_path(relative):
                 raise ValueError("fixture paths must be strings: " + case_id)

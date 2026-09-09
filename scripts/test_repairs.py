@@ -87,7 +87,13 @@ def check_evaluation_outputs(root, disabled_skills):
             pass
         else:
             raise AssertionError("case ids must not collide on case-insensitive filesystems")
-        for field, value in (("id", "../escape"), ("files", [str(fixture)]), ("files", ["../evals/fixtures/research_state.md"]), ("output_files", ["C:escape"])):
+        for field, value in (
+            ("id", "../escape"), ("files", [str(fixture)]),
+            ("files", ["../evals/fixtures/research_state.md"]), ("output_files", ["C:escape"]),
+            ("prompt", None), ("prompt", " "), ("baseline_allowed", "false"),
+            ("baseline_allowed", 0), ("files", None), ("files", "fixtures/research_state.md"),
+            ("output_files", {}), ("checks", "STATE_RECOVERY"), ("checks", [None]),
+        ):
             cases_path.write_text(json.dumps([{**case, field: value}]), encoding="utf-8")
             try:
                 runner.load_cases()
