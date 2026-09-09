@@ -64,6 +64,29 @@ def check_user_skills(root):
     return actual
 
 
+def check_repository_diagnostics(root):
+    repo = root / "diagnostics"
+    repo.mkdir()
+    (repo / "with space.md").write_text("Synthetic", encoding="utf-8")
+    document = repo / "README.md"
+    document.write_text(
+        '[space](<with space.md>) [encoded](with%20space.md#section) '
+        '[title](with%20space.md "Title") [empty]( ) [self]()', encoding="utf-8",
+    )
+    errors = []
+    privacy.check_markdown_links(repo, errors)
+    assert not errors, errors
+    document.write_text('[escape](%2e%2e/outside.md) [missing](missing.md)', encoding="utf-8")
+    privacy.check_markdown_links(repo, errors)
+    assert len(errors) == 2 and "escapes repository" in errors[0] and "missing link target" in errors[1], errors
+    document.write_bytes(b"\xff")
+    output = io.StringIO()
+    with patch.object(privacy.sys, "argv", ["check_public_repo.py", "--root", str(repo)]), redirect_stdout(output):
+        assert privacy.main() == 1
+    assert "PUBLIC_REPO_CHECK_FAILED" in output.getvalue() and "not valid UTF-8" in output.getvalue()
+    assert "evals/rubric.md is missing" in output.getvalue()
+
+
 def check_evaluation_outputs(root, disabled_skills):
     evals = root / "evals"
     fixture = evals / "fixtures" / "research_state.md"
@@ -201,6 +224,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="codex-research-regression-") as temporary:
         root = Path(temporary).resolve()
         check_tracked_outputs(root)
+        check_repository_diagnostics(root)
         disabled_skills = check_user_skills(root)
         check_evaluation_outputs(root, disabled_skills)
     print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, skipped baseline, tracked privacy, user-skill overrides, state artifacts, execution failures")

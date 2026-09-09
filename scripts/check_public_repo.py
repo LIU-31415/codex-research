@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 
 TEXT_SUFFIXES = {
@@ -37,7 +38,7 @@ SENSITIVE_PATTERNS = [
     ("OpenAI-style token", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")),
     ("private key", re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----")),
 ]
-LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+LINK_RE = re.compile(r"\[[^\]]+\]\((<[^>]*>|[^\s)]*)(?:\s+[^)]*)?\)")
 
 
 def iter_files(root: Path):
@@ -88,13 +89,13 @@ def check_markdown_links(root: Path, errors: list[str]) -> None:
             continue
         content = read_text(path)
         for raw_target in LINK_RE.findall(content):
-            target = raw_target.strip().split()[0].strip("<>")
+            target = raw_target.strip("<>")
             if (
                 not target
                 or target.startswith(("http://", "https://", "mailto:", "#", "data:"))
             ):
                 continue
-            target = target.split("#", 1)[0]
+            target = unquote(target.split("#", 1)[0].split("?", 1)[0])
             if not target:
                 continue
             resolved = (path.parent / target).resolve()
@@ -135,7 +136,9 @@ def check_metadata(root: Path, errors: list[str]) -> None:
             errors.append(f"{relative}: each record must be an object")
 
     rubric = root / "evals/rubric.md"
-    if rubric.exists():
+    if not rubric.is_file():
+        errors.append("evals/rubric.md is missing")
+    else:
         rubric_text = read_text(rubric)
         for relative in ("evals/evals.json",):
             try:
@@ -210,10 +213,11 @@ def main() -> int:
     args = parser.parse_args()
     root = args.root.resolve()
     errors: list[str] = []
-    check_privacy(root, errors)
-    check_markdown_links(root, errors)
-    check_metadata(root, errors)
-    check_consent_contract(root, errors)
+    for check in (check_privacy, check_markdown_links, check_metadata, check_consent_contract):
+        try:
+            check(root, errors)
+        except (OSError, UnicodeError) as exc:
+            errors.append(f"{check.__name__}: unable to read repository content ({exc})")
     if errors:
         print("PUBLIC_REPO_CHECK_FAILED")
         print("\n".join(f"- {item}" for item in errors))
