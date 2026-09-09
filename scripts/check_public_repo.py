@@ -16,6 +16,7 @@ from urllib.parse import unquote
 
 
 TEXT_SUFFIXES = {
+    ".env",
     ".md",
     ".json",
     ".jsonl",
@@ -56,7 +57,10 @@ def iter_files(root: Path):
         git_listing = False
         paths = list(root.rglob("*"))
     for path in paths:
-        if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
+        if not path.is_file() or not (
+            path.suffix.lower() in TEXT_SUFFIXES
+            or path.name == ".env" or path.name.startswith(".env.")
+        ):
             continue
         if not git_listing and any(part in SKIP_DIRS for part in path.relative_to(root).parts):
             continue

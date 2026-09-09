@@ -29,9 +29,9 @@ def check_tracked_outputs(root):
     repo = root / "repo"
     repo.mkdir()
     subprocess.run(["git", "init", "--quiet", str(repo)], check=True, capture_output=True)
-    (repo / ".gitignore").write_text("runs/\n.runtime/\n", encoding="utf-8")
-    tracked = ["runs/events.jsonl", "runs/answer.md", ".runtime/stderr.log", "nested/check_public_repo.py"]
-    for relative in [*tracked, "runs/private-untracked.md"]:
+    (repo / ".gitignore").write_text("runs/\n.runtime/\n.env*\n", encoding="utf-8")
+    tracked = ["runs/events.jsonl", "runs/answer.md", ".runtime/stderr.log", "nested/check_public_repo.py", ".env", ".env.local", "production.env"]
+    for relative in [*tracked, "runs/private-untracked.md", ".env.private"]:
         target = repo / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text("sk-" + "x" * 24, encoding="utf-8")
@@ -39,6 +39,7 @@ def check_tracked_outputs(root):
     files = {p.relative_to(repo).as_posix() for p in privacy.iter_files(repo)}
     assert set(tracked) <= files, "tracked ignored outputs must still be scanned"
     assert "runs/private-untracked.md" not in files, "ignored local data must remain excluded"
+    assert ".env.private" not in files, "ignored local environment files must remain excluded"
     errors = []
     privacy.check_privacy(repo, errors)
     assert len(errors) == len(tracked), errors
@@ -199,6 +200,7 @@ def check_evaluation_outputs(root, disabled_skills):
 
 
 def main():
+    assert runner.load_cases(), "the repository's actual evaluation cases must be valid"
     cases = [{"id": "first"}, {"id": "second"}]
     assert runner.selected_cases(cases, ["second", "first", "second"]) == [cases[1], cases[0]]
     for returncode, stdout, stderr, expected in (
