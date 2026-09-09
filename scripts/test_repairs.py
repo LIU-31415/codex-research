@@ -30,7 +30,7 @@ def check_tracked_outputs(root):
     repo.mkdir()
     subprocess.run(["git", "init", "--quiet", str(repo)], check=True, capture_output=True)
     (repo / ".gitignore").write_text("runs/\n.runtime/\n", encoding="utf-8")
-    tracked = ["runs/events.jsonl", "runs/answer.md", ".runtime/stderr.log"]
+    tracked = ["runs/events.jsonl", "runs/answer.md", ".runtime/stderr.log", "nested/check_public_repo.py"]
     for relative in [*tracked, "runs/private-untracked.md"]:
         target = repo / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -80,6 +80,13 @@ def check_evaluation_outputs(root, disabled_skills):
     cases_path.write_text(json.dumps([case]), encoding="utf-8")
     with patch.object(runner, "EVALS_DIR", evals), patch.object(runner, "CASES_PATH", cases_path):
         assert runner.load_cases() == [case]
+        cases_path.write_text(json.dumps([case, {**case, "id": "STATE"}]), encoding="utf-8")
+        try:
+            runner.load_cases()
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("case ids must not collide on case-insensitive filesystems")
         for field, value in (("id", "../escape"), ("files", [str(fixture)]), ("files", ["../evals/fixtures/research_state.md"]), ("output_files", ["C:escape"])):
             cases_path.write_text(json.dumps([{**case, field: value}]), encoding="utf-8")
             try:
@@ -163,6 +170,16 @@ def check_evaluation_outputs(root, disabled_skills):
 
 
 def main():
+    cases = [{"id": "first"}, {"id": "second"}]
+    assert runner.selected_cases(cases, ["second", "first", "second"]) == [cases[1], cases[0]]
+    for returncode, stdout, stderr, expected in (
+        (0, "synthetic-version\n", "", "synthetic-version"),
+        (0, "", "synthetic-version\n", "synthetic-version"),
+        (1, "", "synthetic launch error", None),
+    ):
+        completed = subprocess.CompletedProcess([], returncode, stdout, stderr)
+        with patch.object(runner.subprocess, "run", return_value=completed):
+            assert runner.codex_version("synthetic-codex") == expected
     for value in ("../escape", "/absolute", "C:escape", "CON", "", "a/b", "a\\b"):
         try:
             runner.validate_component(value, "run id")
@@ -180,7 +197,7 @@ def main():
         check_tracked_outputs(root)
         disabled_skills = check_user_skills(root)
         check_evaluation_outputs(root, disabled_skills)
-    print("REPAIR_CHECKS_OK: safe paths, skipped baseline, tracked privacy, user-skill overrides, state artifacts, execution failures")
+    print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, skipped baseline, tracked privacy, user-skill overrides, state artifacts, execution failures")
 
 
 if __name__ == "__main__":

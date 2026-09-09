@@ -65,9 +65,9 @@ def load_cases() -> List[Dict[str, Any]]:
             raise ValueError("each evaluation case needs a string id")
         case_id = item["id"]
         validate_component(case_id, "case id")
-        if case_id in seen:
+        if case_id.casefold() in seen:
             raise ValueError("duplicate evaluation case: " + case_id)
-        seen.add(case_id)
+        seen.add(case_id.casefold())
         for relative in item.get("files", []):
             if not safe_relative_path(relative):
                 raise ValueError("fixture paths must be strings: " + case_id)
@@ -154,6 +154,8 @@ def codex_version(executable: str) -> Optional[str]:
         )
     except (OSError, subprocess.TimeoutExpired):
         return None
+    if completed.returncode != 0:
+        return None
     value = (completed.stdout or completed.stderr).strip()
     return value or None
 
@@ -165,7 +167,7 @@ def selected_cases(all_cases: Sequence[Dict[str, Any]], requested: Sequence[str]
     unknown = [case_id for case_id in requested if case_id not in by_id]
     if unknown:
         raise ValueError("unknown case(s): " + ", ".join(unknown))
-    return [by_id[case_id] for case_id in requested]
+    return [by_id[case_id] for case_id in dict.fromkeys(requested)]
 
 
 def stage_workspace(

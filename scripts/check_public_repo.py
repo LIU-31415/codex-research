@@ -59,7 +59,7 @@ def iter_files(root: Path):
             continue
         if not git_listing and any(part in SKIP_DIRS for part in path.relative_to(root).parts):
             continue
-        if path.name == "check_public_repo.py":
+        if path == root / "scripts" / "check_public_repo.py":
             continue
         yield path
 
