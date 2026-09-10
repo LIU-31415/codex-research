@@ -242,7 +242,37 @@ def check_metadata_and_fingerprint(root):
     errors = []
     privacy.check_metadata(repo, errors)
     assert any("closing ---" in error for error in errors), errors
+    for description, expected in (
+        ("Research with evidence: never overclaim", "invalid description"),
+        ('""', "invalid description"),
+        ("|", "invalid description"),
+        ("x" * 1025, "got 1025"),
+        (json.dumps("x" * 1025), "got 1025"),
+    ):
+        skill.write_text("---\n" + valid.replace("Synthetic description", description) + "---\n", encoding="utf-8")
+        errors = []
+        privacy.check_metadata(repo, errors)
+        skill_errors = [error for error in errors if error.startswith("SKILL.md")]
+        assert len(skill_errors) == 1 and expected in skill_errors[0], skill_errors
     skill.write_text("---\n" + valid + "---\n", encoding="utf-8")
+    evals = repo / "evals"
+    evals.mkdir()
+    trigger_path = evals / "trigger-evals.json"
+    for record, accepted in (
+        ({"query": "Synthetic", "should_trigger": True}, True),
+        ({"query": "Synthetic", "should_trigger": False}, True),
+        ({"query": "Synthetic"}, False),
+        ({"query": "Synthetic", "should_trigger": "false"}, False),
+        ({"query": "Synthetic", "should_trigger": 0}, False),
+        ({"should_trigger": False}, False),
+        ({"query": " ", "should_trigger": False}, False),
+        ({"query": None, "should_trigger": False}, False),
+    ):
+        trigger_path.write_text(json.dumps([record]), encoding="utf-8")
+        errors = []
+        privacy.check_metadata(repo, errors)
+        trigger_errors = [error for error in errors if error.startswith("evals/trigger-evals.json")]
+        assert bool(trigger_errors) != accepted, (record, trigger_errors)
     references = repo / "references"
     references.mkdir()
     with patch.object(runner, "ROOT", repo):

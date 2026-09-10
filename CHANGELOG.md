@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed
+
+- Reported malformed metadata values without a misleading secondary length or name error; length errors now include the parsed character count.
+- Validated trigger-evaluation queries and boolean expectations, including missing fields.
+- Clarified release ZIP placement and the distinction between workflow files and bundled license/version metadata.
+
 ## v0.2.4 — 2026-09-10
 
 ### Changed

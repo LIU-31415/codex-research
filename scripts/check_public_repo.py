@@ -160,11 +160,13 @@ def check_metadata(root: Path, errors: list[str]) -> None:
                     fields[key] = value
                 except ValueError as exc:
                     errors.append(f"SKILL.md: invalid {key}: {exc}")
-            if fields.get("name") != "codex-research":
+            if "name" not in fields or (fields["name"] is not None and fields["name"] != "codex-research"):
                 errors.append("SKILL.md frontmatter must declare name: codex-research")
             description = fields.get("description")
-            if not isinstance(description, str) or not 1 <= len(description.strip()) <= 1024:
-                errors.append("SKILL.md description must contain 1-1024 characters")
+            if "description" not in fields:
+                errors.append("SKILL.md frontmatter needs a description")
+            elif isinstance(description, str) and not 1 <= len(description.strip()) <= 1024:
+                errors.append(f"SKILL.md description must contain 1-1024 characters (got {len(description.strip())})")
 
     for relative in ("evals/evals.json", "evals/trigger-evals.json"):
         path = root / relative
@@ -177,6 +179,12 @@ def check_metadata(root: Path, errors: list[str]) -> None:
             errors.append(f"{relative}: top-level value must be an array")
         elif any(not isinstance(item, dict) for item in data):
             errors.append(f"{relative}: each record must be an object")
+        elif relative == "evals/trigger-evals.json":
+            for index, item in enumerate(data, 1):
+                if not isinstance(item.get("query"), str) or not item["query"].strip():
+                    errors.append(f"{relative}: record {index} needs a non-empty string query")
+                if not isinstance(item.get("should_trigger"), bool):
+                    errors.append(f"{relative}: record {index} needs a boolean should_trigger")
 
     rubric = root / "evals/rubric.md"
     if not rubric.is_file():

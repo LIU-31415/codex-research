@@ -35,7 +35,7 @@ Give the repository URL to Codex and ask it to install the `codex-research` Skil
 When handling that request, Codex should:
 
 1. Confirm that the repository contains a root `SKILL.md` whose declared name is `codex-research`.
-2. Use the built-in Skill Installer, or the current supported Skill installation workflow, to download the repository.
+2. Download the runtime ZIP from the release above, or use the built-in Skill Installer or current supported installation workflow to obtain the repository source.
 3. Install the runtime files to the user-level Skill directory by default:
 
    ```text
@@ -43,6 +43,8 @@ When handling that request, Codex should:
    ├─ SKILL.md
    └─ references/
    ```
+
+   When using the ZIP, place its extracted `codex-research/` folder at the destination above, without nesting another `codex-research/` folder inside it. Keep the bundled `LICENSE` and `VERSION` with the runtime files.
 
 4. If the user requested installation for only one repository, use:
 
@@ -97,7 +99,7 @@ codex-research/
 └─ LICENSE
 ```
 
-Only `SKILL.md` and `references/` are required at runtime. The evaluation materials remain in the source repository.
+The research workflow reads `SKILL.md` and `references/`. The release ZIP also includes `LICENSE` and `VERSION` for distribution and version identification. Evaluation and maintenance materials remain in the source repository.
 
 ## Scope limits
 
