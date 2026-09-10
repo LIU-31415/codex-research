@@ -10,12 +10,21 @@
 
 ### Fixed
 
+- Validated the project's frontmatter format, duplicate fields, description length, and supported metadata values without adding a dependency.
+- Moved the connector revision lock to `evals/` and included all recursive runtime reference files in the source fingerprint.
+- Rejected undefined rubric checks before evaluation and handled concurrent run-directory creation without overwriting outputs.
+- Used workspace-relative fixture paths in actual and saved prompts, preserving their agreement without claiming that other raw logs are sanitized.
+- Made unauthorized fallback download restrictions explicit in the Skill entrypoint and kept evaluation aliasing compatible with quoted names.
+- Reported temporary-workspace initialization failures as incomplete regression checks with a distinct exit status.
+
 - Deduplicated repeated case selections and rejected case identifiers that collide on case-insensitive filesystems, preventing evaluation output replacement.
 - Validated prompts, list fields, and the baseline permission flag before starting evaluations; rejected failed Codex version probes.
 - Limited the privacy scanner's self-exclusion to its own repository path and included tracked environment files in scanning.
 - Accepted local Markdown links with spaces or URL encoding, handled empty destinations, and reported unreadable files and missing scoring rubrics as check failures.
 
 ### Maintenance
+
+- Unified the evaluation and run-output guides in English and clarified fingerprint, raw-log privacy, and temporary-directory boundaries.
 
 - Added offline regression coverage for these failures and validation of the repository's current evaluation cases.
 - Consolidated README features, added usage and maintenance instructions, and documented evaluation input and output behavior.

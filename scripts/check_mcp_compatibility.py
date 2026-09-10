@@ -11,7 +11,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 
-LOCK_PATH = Path("references/mcp-compatibility.json")
+LOCK_PATH = Path("evals/mcp-compatibility.json")
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
 

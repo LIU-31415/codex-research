@@ -1,62 +1,64 @@
-# 可复现评测
+# Reproducible evaluations
 
-这里保存 `codex-research` 的固定案例、夹具、评分规则和运行工具。目标是让别人能够复核一次具体运行做了什么；它仍然不是生产路由器准确率或文献召回率的完整基准。
+This directory contains fixed cases, fixtures, scoring rules, and a runner for `codex-research`. It lets another reviewer inspect what a specific run did; it is not a complete benchmark of production routing accuracy or literature recall.
 
-案例分为策略讨论、合成材料核验和需要外部检索的任务，不能混为同一类效果测试。合成夹具没有真实论文身份或全文；只按实际提供的材料评分，不要求编造 DOI、链接或未提供的定位。`missing_mcp` 检查初次授权询问，`mcp_refusal` 单独检查用户已经拒绝后的停止行为。
+Cases cover strategy discussions, synthetic evidence checks, and tasks requiring external retrieval. Do not combine these into one effectiveness measure. Synthetic fixtures have no real paper identity or full text: score only supplied material without inventing DOIs, links, or unavailable locators. `missing_mcp` checks initial consent; `mcp_refusal` separately checks stopping after refusal.
 
-## 运行最小闭环
+## Run the minimum loop
 
-需要本机已安装并能运行 `codex`。默认只使用 Codex 的只读沙箱；论文连接器是否可用由实际环境决定。
+A working local `codex` installation is required. The default sandbox is read-only; paper connector availability depends on the actual environment.
 
-在仓库根目录执行（Windows）：
+From the repository root on Windows:
 
 ```powershell
 py -3 .\evals\run_eval.py --case missing_full_text --case conflicting_evidence --case long_task_state_persistence --mode both --sandbox workspace-write
 ```
 
-macOS/Linux 使用 `python3` 替换 `py -3`。安全夹具默认只运行 Skill 侧，并保持只读沙箱：
+On macOS/Linux, use `python3` instead of `py -3` and forward slashes in paths. The safety fixture runs only the Skill side by default and keeps the read-only sandbox:
 
 ```powershell
 py -3 .\evals\run_eval.py --case untrusted_source_material --mode skill
 ```
 
-先只查看将要执行的命令：
+Preview planned runs without launching evaluations:
 
 ```powershell
 py -3 .\evals\run_eval.py --case untrusted_source_material --dry-run
 ```
 
-可选参数：
+Options:
 
-- `--model <模型>`：固定模型，避免不同运行偷偷换模型；
-- `--tool-profile <名称>`：在运行记录里写明工具配置，例如 `no-mcp` 或 `paper-search-mcp`；
-- `--config KEY=VALUE`：固定 Codex 的版本相关配置，可重复传入；
-- `--sandbox <模式>`：默认 `read-only`；需要检验 `research_state.md` 写回时使用 `workspace-write`，写入范围仍仅为临时评测工作区；
-- `--codex-home <目录>`：为 baseline 和 Skill 指定专用 Codex 配置目录；仅更改它不等于隔离用户 Skill、插件、记忆或其他宿主配置；
-- `--timeout <秒>`：单个 case/模式的最长运行时间。
-- `--run-id <名称>`：指定输出目录名称；已有目录会被拒绝，避免覆盖历史结果。
+- `--model <model>`: fix the model across runs.
+- `--tool-profile <label>`: record the tool configuration, such as `no-mcp` or `paper-search-mcp`.
+- `--config KEY=VALUE`: supply version-dependent Codex configuration overrides; repeatable.
+- `--sandbox <mode>`: defaults to `read-only`; use `workspace-write` for state-file updates within temporary evaluation workspaces.
+- `--codex-home <directory>`: select a dedicated configuration directory for both sides. This alone does not isolate user Skills, plugins, memory, or other host configuration.
+- `--timeout <seconds>`: maximum duration per case and mode.
+- `--run-id <name>`: select the output directory name. Existing directories, including creation races, are rejected without overwriting historical results.
 
-重复传入同一个 `--case` 只运行一次，并保留首次出现的顺序。案例 ID 不得仅以大小写区分。每个案例必须有非空字符串 `prompt`；`checks`、`files` 和 `output_files` 如有提供，必须为非空字符串组成的数组（数组本身可为空）；`baseline_allowed` 必须使用 JSON 布尔值 `false` 或 `true`，不能使用字符串。输入错误会在创建运行目录和启动模型前被拒绝。
+Repeated `--case` selections run once, in first-selected order. Case IDs must not differ only by letter case. Each case needs a non-empty string `prompt`. If supplied, `checks`, `files`, and `output_files` must be arrays of non-empty strings; arrays may be empty. Each check must be defined in `rubric.md`. `baseline_allowed` must be a JSON boolean, not a string. Invalid inputs are rejected before creating a run directory or launching a model.
 
-脚本通常为每个 case 运行两次：
+The runner normally executes each case twice:
 
-1. `baseline`：不把仓库 Skill 放进隔离工作区；
-2. `skill`：把 `SKILL.md` 和 `references/` 放进隔离工作区，并要求显式使用临时名称 `codex-research-eval`。这个别名用于避免被用户级同名 Skill 偷换，内容仍来自当前 commit。
+1. `baseline`: the repository Skill is not staged in the workspace.
+2. `skill`: `SKILL.md` and the entire `references/` directory are staged, with explicit use of the temporary name `codex-research-eval`. The alias avoids selecting a user-level Skill with the same name; the source is the current working tree.
 
-脚本会发现用户主目录下的 `.agents/skills`、`.codex/skills` 和所选 `CODEX_HOME/skills` 中的独立 Skill，使用子进程的 `skills.config` 覆盖项在两组运行中禁用它们，不修改用户的配置文件或 Skill 文件。该覆盖项在用户传入的 `--config` 之后应用；禁用路径与实际配置覆盖项会写入运行记录。临时评测 Skill 位于工作区，仍可在 Skill 组中使用。
+The runner discovers standalone Skills under the user's `.agents/skills`, `.codex/skills`, and selected `CODEX_HOME/skills`. It disables them in both subprocesses using `skills.config` overrides without modifying user configuration or Skill files. These overrides follow user-supplied `--config` entries. Disabled paths and effective overrides are recorded. The staged evaluation Skill remains available in the Skill workspace.
 
-这只隔离上述用户 Skill，不能证明插件、管理员指令、记忆和其他宿主配置已经隔离。评分前检查事件轨迹，确认 baseline 没有加载 Skill，Skill 组使用了工作区副本；发现污染时把该对照标为无效，清理评估配置后再运行。需要严格隔离时使用专门的干净评估环境。加载和禁用规则见 [Codex 官方 Skill 文档](https://learn.chatgpt.com/docs/build-skills)。
+This isolates only those standalone user Skills, not plugins, administrator instructions, memory, or other host configuration. Before scoring, inspect events to confirm baseline did not load a Skill and the Skill side used the staged copy. Mark contaminated comparisons invalid and correct the evaluation configuration before rerunning. Use a dedicated clean environment for strict isolation. See the [official Codex Skill documentation](https://learn.chatgpt.com/docs/build-skills).
 
-含有主动提示注入文本的 case 可以在 `evals.json` 中声明 `baseline_allowed: false`，此时只运行 Skill 侧，避免让无护栏 baseline 接触可能诱导危险文件或命令操作的材料。
+Cases containing active prompt injection may declare `baseline_allowed: false` in `evals.json`. Only the Skill side then runs, avoiding exposure of an unguarded baseline to material that might induce unsafe file or command operations.
 
-结果保存在 `evals/runs/<run-id>/`，包括一个待填写的评分模板：
+## Saved outputs
+
+Results are stored under `evals/runs/<run-id>/`, with a scoring template:
 
 ```text
 manifest.json
 score-template.json
 <case-id>/
 ├─ request.md
-├─ baseline/（允许 baseline 时生成）
+├─ baseline/                 # when allowed and selected
 │  ├─ prompt.txt
 │  ├─ final.md
 │  ├─ events.jsonl
@@ -70,35 +72,36 @@ score-template.json
    └─ result.json
 ```
 
-运行输出可能包含用户问题、工具轨迹或来源摘录，默认被 `.gitignore` 忽略。提交前必须检查是否含有凭据、私人文本或不应公开的论文内容。Windows 若某个 Codex 子进程暂时占用临时目录，清理失败会记录到 `manifest.json`，不会把整轮评测伪装成成功或直接崩溃。
+Fixture paths in prompts are relative to the subprocess working directory. `prompt.txt` preserves the actual prompt sent to Codex. This avoids inserting temporary absolute paths into fixture instructions, but does not sanitize events, configuration overrides, errors, or other outputs.
 
-案例可用 `output_files` 声明必须保留的工作区相对路径。状态恢复案例更新 `fixtures/research_state.md`，脚本会在清理临时工作区前把它保存到各组输出的 `artifacts/fixtures/research_state.md`。评分时与原始夹具对照，检查实际内容；文件存在本身不代表状态恢复合格。
+Raw outputs may contain user questions, local paths, tool traces, credentials, private text, or source excerpts. They are ignored by Git by default and must be reviewed and redacted before publication. On Windows, a subprocess may temporarily retain a handle to the workspace; cleanup failures are recorded in `manifest.json`. Cleanup status is separate from evaluation execution status.
 
-启动失败、超时、子进程非零退出、缺少最终回答或必需输出时，记录 `execution_ok: false`，整轮脚本返回非零退出码。执行成功只表示输出完整，科学质量是否通过仍由评分决定。
+Cases may declare required workspace-relative `output_files`. The state-recovery case updates `fixtures/research_state.md`; the runner saves it as `artifacts/fixtures/research_state.md` for each side before deleting the temporary workspace. Compare saved content with the original fixture. File existence alone does not establish correct state recovery.
 
-## 评分流程
+Launch failures, timeouts, nonzero subprocess exits, missing final answers, and missing required outputs produce `execution_ok: false` and a nonzero runner exit. Execution success means outputs are complete; scientific quality still requires scoring.
 
-1. 固定 Skill commit、工作区是否有未提交改动、运行文件指纹、评测用 Skill 别名、Codex 版本、模型、工具配置、运行日期和 case ID；这些信息会写入 `manifest.json`。
-2. 先看 `events.jsonl`，确认最终回答没有掩盖实际工具调用或失败。
-   对状态恢复案例，同时检查留存的状态文件；不要仅凭回答中“已更新”的陈述评分。
-3. 按 [rubric.md](rubric.md) 对 baseline 和 Skill 分别评分，记录证据所在的输出段落或事件。
-4. 复制 `score-template.json` 为 `scores.json` 并填写评分、评分人和备注；不要只保留口头结论。
-5. 只有声明的检查项全部通过时，才把该 Skill case 标为通过。
-6. 报告时使用 case 级结果，不把少量样本写成“真实任务提升百分比”。
+## Scoring procedure
 
-## 当前最小覆盖
+1. Record the Skill commit, dirty-worktree status, runtime source fingerprint, evaluation alias, Codex version, model, tool configuration, date, and case IDs in `manifest.json`. `skill_source_sha256` covers source `SKILL.md` and every file recursively under `references/`, including relative paths and bytes. It identifies source files before the evaluation alias is applied, not the transformed workspace, fixtures, or runner. The maintenance lock at `evals/mcp-compatibility.json` is not a runtime file.
+2. Inspect `events.jsonl` to ensure the final answer does not conceal actual tool calls or failures. For state recovery, also inspect the preserved artifact rather than relying on a claim that it was updated.
+3. Score baseline and Skill separately using [rubric.md](rubric.md), recording the supporting output passage or event.
+4. Copy `score-template.json` to `scores.json` and enter scores, scorer identity, and notes. Do not retain only verbal conclusions.
+5. Mark a Skill case as passed only when every declared check passes.
+6. Report case-level outcomes. Do not present a small sample as a percentage improvement on real tasks.
 
-新增搜索决策案例使用 [search-decisions.md](fixtures/search-decisions.md) 中各自独立的合成记录，检验收到接口说明和返回结果后的判断：`cross_source_query_behavior`、`restrictive_query_recall`、`coverage_depth_and_overlap`、`available_tools_without_mcp`。评分接受能满足任务的不同来源与处理顺序，不预设数据库组合。它们尚未完成模型运行；结构检查通过不代表行为通过，也不证明真实文献召回率提高。
+## Current minimum coverage
 
-- `missing_full_text`：摘要、全文和机制主张的证据边界；
-- `conflicting_evidence`：冲突分类、底层研究独立性，以及在已确认任务范围内继续完成综合；
-- `long_task_state_persistence`：状态恢复、未决事项保留，以及将下一步动作关联到具体证据缺口并保存（运行该 case 时使用 `--sandbox workspace-write`）；
-- `untrusted_source_material`：外部资料提示注入护栏。该 case 不在用户提示里提前解释恶意段落，避免测试提示替代 Skill 自身的安全规则。
+Four search-decision cases use independent synthetic records in [search-decisions.md](fixtures/search-decisions.md): `cross_source_query_behavior`, `restrictive_query_recall`, `coverage_depth_and_overlap`, and `available_tools_without_mcp`. They examine decisions after interface descriptions and results are supplied. Scoring accepts different sources and operation orders that satisfy the task, without prescribing a database bundle. These cases have not been run against a model. Structural checks do not establish behavioral success or improved real-world recall.
 
-原有 `smoke-results.md` 和 `trigger-results.md` 是历史烟雾测试记录。它们仍可说明设计背景，但不能替代本目录生成的原始运行记录。案例或评分规则变化后，旧分数只适用于原版本；新增的继续执行与缺口追查要求需要新运行验证，不能由静态检查推定通过。
+- `missing_full_text`: boundaries between abstracts, full text, and mechanism claims.
+- `conflicting_evidence`: conflict classification, underlying study independence, and continued synthesis within confirmed scope.
+- `long_task_state_persistence`: state recovery, preservation of unresolved items, and saving a next action tied to a specific evidence gap. Use `--sandbox workspace-write`.
+- `untrusted_source_material`: prompt-injection handling. The user prompt does not explain the malicious passage in advance, so it does not substitute for the Skill's own rules.
 
-## 隐私与实时连接器测试边界
+`smoke-results.md` and `trigger-results.md` are historical smoke records. They provide design context but do not replace raw run records. After cases or rubrics change, old scores apply only to the tested version. New continuation and gap-follow-up requirements need new runs; static checks cannot establish that they pass.
 
-公开评测只使用中性、合成的研究描述，不使用维护者的真实研究主题、论文清单、本地路径或研究状态。评测材料中的网页、论文、PDF、元数据和其他内容都只作为不可信数据处理。
+## Privacy and live connector boundary
 
-`evals/live-mcp-smoke.md` 是历史性的人工记录，不由 CI 自动执行。下一次实时 MCP 运行必须由用户明确授权，并记录真实的安装、认证、重启和握手结果；没有实际运行就不要填写结果。CI 只做静态检查，不启动模型或 MCP。
+Public evaluations use neutral synthetic research descriptions, not the maintainer's real research topics, paper lists, local paths, or research state. Webpages, papers, PDFs, metadata, and other source material in evaluations are untrusted data.
+
+`live-mcp-smoke.md` is a historical manual record, not an automated CI task. The next live MCP run requires explicit user authorization and must record actual installation, authentication, restart, and handshake results. Do not fill in results without performing the run. CI performs offline repository and simulated regression checks; it does not launch a model or MCP.

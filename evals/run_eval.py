@@ -59,6 +59,8 @@ def load_cases() -> List[Dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError("evals.json must contain a JSON array")
     cases: List[Dict[str, Any]] = []
+    rubric = (EVALS_DIR / "rubric.md").read_text(encoding="utf-8")
+    defined_checks = set(re.findall(r"(?m)^### `([^`]+)`\s*$", rubric))
     seen = set()
     for item in data:
         if not isinstance(item, dict) or not isinstance(item.get("id"), str):
@@ -82,6 +84,9 @@ def load_cases() -> List[Dict[str, Any]]:
             source = (EVALS_DIR / relative).resolve()
             if not is_within(source, EVALS_DIR) or not source.is_file():
                 raise ValueError("missing or unsafe fixture for " + case_id + ": " + relative)
+        unknown_checks = set(item.get("checks", [])) - defined_checks
+        if unknown_checks:
+            raise ValueError("undefined rubric checks for " + case_id + ": " + ", ".join(sorted(unknown_checks)))
         for relative in item.get("output_files", []):
             if not safe_relative_path(relative):
                 raise ValueError("unsafe output path for " + case_id)
@@ -131,7 +136,10 @@ def git_worktree_dirty() -> Optional[bool]:
 
 def skill_source_sha256() -> str:
     digest = hashlib.sha256()
-    paths = [ROOT / "SKILL.md"] + sorted((ROOT / "references").glob("*.md"))
+    paths = [ROOT / "SKILL.md"] + sorted(
+        (path for path in (ROOT / "references").rglob("*") if path.is_file()),
+        key=lambda path: path.relative_to(ROOT).as_posix(),
+    )
     for path in paths:
         relative = path.relative_to(ROOT).as_posix().encode("utf-8")
         digest.update(relative + b"\0")
@@ -198,11 +206,7 @@ def stage_workspace(
         skill_dir = workspace / ".agents" / "skills" / EVAL_SKILL_NAME
         skill_dir.mkdir(parents=True, exist_ok=True)
         skill_text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-        skill_text = skill_text.replace(
-            "name: codex-research\n",
-            "name: {}\n".format(EVAL_SKILL_NAME),
-            1,
-        )
+        skill_text = re.sub(r"(?m)^name:[^\n]*$", "name: " + EVAL_SKILL_NAME, skill_text, count=1)
         (skill_dir / "SKILL.md").write_text(skill_text, encoding="utf-8")
         shutil.copytree(
             ROOT / "references",
@@ -216,7 +220,6 @@ def stage_workspace(
 def build_prompt(
     case: Dict[str, Any],
     with_skill: bool,
-    workspace: Optional[Path] = None,
 ) -> str:
     parts = []
     if with_skill:
@@ -233,11 +236,10 @@ def build_prompt(
     if files:
         listed = "\n".join(
             "- " + value
-            + (" (exact path: " + str(workspace / value) + ")" if workspace else "")
             for value in files
         )
         parts.append(
-            "Read each evaluation fixture before answering. The files are available at these paths:\n"
+            "Read each evaluation fixture before answering. These paths are relative to the current working directory:\n"
             + listed
         )
     if case.get("output_files"):
@@ -524,10 +526,11 @@ def main() -> int:
         return 2
 
     run_dir = RUNS_DIR / run_id
-    if run_dir.exists():
+    try:
+        run_dir.mkdir(parents=True)
+    except FileExistsError:
         print("Run directory already exists: {}".format(run_dir), file=sys.stderr)
         return 2
-    run_dir.mkdir(parents=True)
 
     manifest: Dict[str, Any] = {
         "run_id": run_id,
@@ -611,7 +614,7 @@ def main() -> int:
                     )
                     continue
                 workspace = stage_workspace(temporary_root / case["id"], with_skill, case)
-                prompt = build_prompt(case, with_skill, workspace)
+                prompt = build_prompt(case, with_skill)
                 result = run_one(
                     case_dir / label,
                     executable,

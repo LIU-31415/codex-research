@@ -7,6 +7,7 @@ import io
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 from unittest.mock import patch
 
@@ -101,6 +102,7 @@ def check_evaluation_outputs(root, disabled_skills):
         "output_files": ["fixtures/research_state.md"],
     }
     cases_path = evals / "evals.json"
+    (evals / "rubric.md").write_text("### `STATE_RECOVERY`\n", encoding="utf-8")
     cases_path.write_text(json.dumps([case]), encoding="utf-8")
     with patch.object(runner, "EVALS_DIR", evals), patch.object(runner, "CASES_PATH", cases_path):
         assert runner.load_cases() == [case]
@@ -117,6 +119,7 @@ def check_evaluation_outputs(root, disabled_skills):
             ("prompt", None), ("prompt", " "), ("baseline_allowed", "false"),
             ("baseline_allowed", 0), ("files", None), ("files", "fixtures/research_state.md"),
             ("output_files", {}), ("checks", "STATE_RECOVERY"), ("checks", [None]),
+            ("checks", ["UNDEFINED"]),
         ):
             cases_path.write_text(json.dumps([{**case, field: value}]), encoding="utf-8")
             try:
@@ -151,6 +154,12 @@ def check_evaluation_outputs(root, disabled_skills):
 
             def communicate(self, input=None, timeout=None):
                 self.calls += 1
+                if input is not None:
+                    prompt = input.decode("utf-8")
+                    final = Path(self.command[self.command.index("-o") + 1])
+                    assert (final.parent / "prompt.txt").read_text(encoding="utf-8") == prompt
+                    assert str(self.workspace) not in prompt
+                    assert "fixtures/research_state.md" in prompt
                 if scenario == "timeout" and self.calls == 1:
                     raise subprocess.TimeoutExpired(self.command, timeout)
                 if scenario == "timeout":
@@ -186,6 +195,9 @@ def check_evaluation_outputs(root, disabled_skills):
             ))
             stack.enter_context(redirect_stdout(io.StringIO()))
             exit_code = runner.main()
+            if scenario == "success":
+                with patch.object(Path, "mkdir", side_effect=FileExistsError), redirect_stdout(io.StringIO()):
+                    assert runner.main() == 2, "a creation race must return a setup error"
         assert (exit_code == 0) == (scenario == "success"), scenario
         run_dir = root / "runs" / scenario
         manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
@@ -197,6 +209,65 @@ def check_evaluation_outputs(root, disabled_skills):
             for label in ("baseline", "skill"):
                 saved = run_dir / "state" / label / "artifacts" / "fixtures" / "research_state.md"
                 assert saved.read_text(encoding="utf-8") == "updated state", "save actual output before cleanup"
+
+
+def check_metadata_and_fingerprint(root):
+    repo = root / "metadata"
+    repo.mkdir()
+    skill = repo / "SKILL.md"
+    valid = 'name: codex-research\ndescription: Synthetic description\nlicense: MIT\n'
+    for content, accepted in (
+        (valid, True),
+        (valid.replace("Synthetic description", "x" * 1024), True),
+        (valid.replace("Synthetic description", "x" * 1025), False),
+        (valid.replace("Synthetic description", '""'), False),
+        (valid.replace("Synthetic description", "null"), False),
+        (valid.replace("Synthetic description", "|"), False),
+        (valid.replace("Synthetic description", '"quoted description"'), True),
+        (valid.replace("Synthetic description", "'single ''quoted'' description'"), True),
+        (valid + "description: duplicate\n", False),
+        (valid + "compatibility: unsupported locally\n", False),
+        (valid + 'metadata: {"audience": "researchers"}\n', True),
+        (valid + 'metadata: {"audience": 1}\n', False),
+        (valid.replace("codex-research", "other-name"), False),
+        (valid.replace("codex-research", '"codex-research"'), True),
+        (valid + "  nested: invalid\n", False),
+    ):
+        skill.write_text("---\n" + content + "---\n", encoding="utf-8")
+        errors = []
+        privacy.check_metadata(repo, errors)
+        skill_errors = [error for error in errors if error.startswith("SKILL.md")]
+        assert bool(skill_errors) != accepted, (content, skill_errors)
+    skill.write_text("---\n" + valid, encoding="utf-8")
+    errors = []
+    privacy.check_metadata(repo, errors)
+    assert any("closing ---" in error for error in errors), errors
+    skill.write_text("---\n" + valid + "---\n", encoding="utf-8")
+    references = repo / "references"
+    references.mkdir()
+    with patch.object(runner, "ROOT", repo):
+        previous = runner.skill_source_sha256()
+        for relative in ("data.json", "nested/details.md"):
+            source = references / relative
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_text("first", encoding="utf-8")
+            added = runner.skill_source_sha256()
+            assert added != previous
+            source.write_text("second", encoding="utf-8")
+            previous = runner.skill_source_sha256()
+            assert previous != added
+        skill.write_text("---\n" + valid.replace("codex-research", '"codex-research"') + "---\n", encoding="utf-8")
+        previous = runner.skill_source_sha256()
+        workspace = runner.stage_workspace(root / "staging", True, {})
+        staged_skill = workspace / ".agents" / "skills" / runner.EVAL_SKILL_NAME / "SKILL.md"
+        assert "name: " + runner.EVAL_SKILL_NAME + "\n" in staged_skill.read_text(encoding="utf-8")
+        staged = workspace / ".agents" / "skills" / runner.EVAL_SKILL_NAME / "references"
+        assert {p.relative_to(staged) for p in staged.rglob("*") if p.is_file()} == {
+            p.relative_to(references) for p in references.rglob("*") if p.is_file()
+        }
+        assert runner.skill_source_sha256() == previous
+    assert not (ROOT / "references/mcp-compatibility.json").exists()
+    assert (ROOT / "evals/mcp-compatibility.json").is_file()
 
 
 def main():
@@ -223,14 +294,30 @@ def main():
     with redirect_stdout(output):
         runner.print_dry_run({"id": "safe", "prompt": "Synthetic", "baseline_allowed": False}, "codex", "both", None, [], "read-only")
     assert " / baseline]" not in output.getvalue() and " / skill]" in output.getvalue()
-    with tempfile.TemporaryDirectory(prefix="codex-research-regression-") as temporary:
-        root = Path(temporary).resolve()
+    with ExitStack() as stack:
+        try:
+            temporary = stack.enter_context(tempfile.TemporaryDirectory(prefix="codex-research-regression-"))
+            root = Path(temporary).resolve()
+            probe = root / "probe"
+            probe.mkdir()
+            (probe / "sample").write_text("probe", encoding="utf-8")
+            list(probe.iterdir())
+            (probe / "sample").read_text(encoding="utf-8")
+        except OSError as exc:
+            print(f"REPAIR_CHECKS_ENVIRONMENT_ERROR: temporary workspace unavailable; checks incomplete ({type(exc).__name__}). Set TMPDIR, TEMP or TMP to a writable directory.", file=sys.stderr)
+            try:
+                stack.close()
+            except OSError:
+                print("Temporary workspace cleanup also failed.", file=sys.stderr)
+            return 3
         check_tracked_outputs(root)
         check_repository_diagnostics(root)
+        check_metadata_and_fingerprint(root)
         disabled_skills = check_user_skills(root)
         check_evaluation_outputs(root, disabled_skills)
     print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, skipped baseline, tracked privacy, user-skill overrides, state artifacts, execution failures")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

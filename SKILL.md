@@ -167,6 +167,8 @@ For papers supporting consequential conclusions, check current publication statu
 
 Use only openly licensed or publicly available text, access provided through the user's lawful institutional rights, or files the user legally supplies. Do not bypass access controls or recommend unauthorized acquisition, even if an external connector exposes such an option.
 
+Do not call Sci-Hub tools. Explicitly set `use_scihub=false` when offered by a fallback downloader; otherwise use it only when unauthorized fallback sources are confirmed disabled or excluded.
+
 Source failures, rate limits, paywalls, and missing connector capabilities are coverage gaps. They are not negative scientific evidence.
 
 ## Reason from evidence without scripting thought

@@ -88,6 +88,7 @@ codex-research/
 ├─ references/
 ├─ scripts/                  # deterministic public-content and compatibility checks
 ├─ evals/
+│  └─ mcp-compatibility.json # maintenance-only connector revision lock
 ├─ .github/workflows/        # push/PR quality check and weekly compatibility check
 ├─ CHANGELOG.md
 ├─ VERSION
@@ -119,6 +120,10 @@ git diff --check
 ```
 
 Use `python3` on systems where that is the Python 3 command, or `py -3` on Windows. These checks need no additional Python packages. The regression checks create and clean up synthetic temporary workspaces; they do not launch Codex or contact a connector. The compatibility check above validates the local lock only; `--online` additionally queries GitHub for upstream changes.
+
+The repository metadata check uses a small YAML subset: one top-level field per line, with single-line plain or quoted strings. Plain strings must start with an ASCII letter and cannot use YAML null/boolean values, inline comments, or colon-space delimiters; quote these values instead. Double-quoted strings use JSON escapes. `metadata`, if present, uses a single-line JSON object of string values. Supported keys are `name`, `description`, `license`, `allowed-tools`, and `metadata`; duplicate keys are rejected. The name must remain `codex-research` and the trimmed description must contain 1-1024 characters. This is a repository convention aligned with the local structural validator, not a complete implementation of the Agent Skills YAML specification.
+
+The regression checks need a temporary directory that supports child-directory creation, file reads/writes, enumeration, and cleanup. Set `TMPDIR`, `TEMP`, or `TMP` to an existing writable directory before running Python if the default location is restricted. A temporary-workspace initialization failure reports `REPAIR_CHECKS_ENVIRONMENT_ERROR` and exits with code 3: the checks are incomplete, not passed. Test assertion failures remain failures.
 
 Keep maintenance changes under `Unreleased` in the changelog until a release is prepared. When releasing, update `VERSION`, the README version, and the dated changelog entry together. Keep historical evaluation results tied to the version actually tested.
 

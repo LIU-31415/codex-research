@@ -120,12 +120,51 @@ def check_metadata(root: Path, errors: list[str]) -> None:
         lines = read_text(skill).splitlines()
         if not lines or lines[0].strip() != "---":
             errors.append("SKILL.md must start with YAML frontmatter")
+        elif "---" not in lines[1:]:
+            errors.append("SKILL.md frontmatter needs a closing ---")
         else:
-            frontmatter = "\n".join(lines[1 : lines[1:].index("---") + 1]) if "---" in lines[1:] else ""
-            if not re.search(r"(?m)^name:\s*codex-research\s*$", frontmatter):
+            # Project format: one field per line; metadata uses a JSON object.
+            # This is a YAML subset, not a general YAML parser.
+            fields = {}
+            allowed = {"name", "description", "license", "allowed-tools", "metadata"}
+            for line in lines[1 : lines[1:].index("---") + 1]:
+                if not line.strip() or line.startswith("#"):
+                    continue
+                match = re.fullmatch(r"([a-z-]+):[ \t]*(.*)", line)
+                if not match:
+                    errors.append("SKILL.md: use one top-level field per line")
+                    continue
+                key, value = match.groups()
+                if key not in allowed or key in fields:
+                    errors.append(f"SKILL.md: unsupported or duplicate field: {key}")
+                fields[key] = None
+                value = value.strip()
+                try:
+                    if key == "metadata" or value.startswith('"'):
+                        value = json.loads(value)
+                    elif value.startswith("'"):
+                        if not re.fullmatch(r"'(?:[^']|'')*'", value):
+                            raise ValueError("invalid single-quoted string")
+                        value = value[1:-1].replace("''", "'")
+                    elif (
+                        not value or not re.match(r"[A-Za-z]", value)
+                        or re.search(r":\s|\s#", value)
+                        or value.lower() in {"null", "true", "false", "yes", "no", "on", "off"}
+                    ):
+                        raise ValueError("use a single-line plain or quoted string")
+                    if key == "metadata":
+                        if not isinstance(value, dict) or any(not isinstance(v, str) for v in value.values()):
+                            raise ValueError("metadata must be a JSON object of strings")
+                    elif not isinstance(value, str) or not value.strip():
+                        raise ValueError("value must be a non-empty string")
+                    fields[key] = value
+                except ValueError as exc:
+                    errors.append(f"SKILL.md: invalid {key}: {exc}")
+            if fields.get("name") != "codex-research":
                 errors.append("SKILL.md frontmatter must declare name: codex-research")
-            if not re.search(r"(?m)^description:\s*\S", frontmatter):
-                errors.append("SKILL.md frontmatter needs a non-empty description")
+            description = fields.get("description")
+            if not isinstance(description, str) or not 1 <= len(description.strip()) <= 1024:
+                errors.append("SKILL.md description must contain 1-1024 characters")
 
     for relative in ("evals/evals.json", "evals/trigger-evals.json"):
         path = root / relative
