@@ -108,7 +108,7 @@ Skip or abbreviate this stage for a precise question, known-paper task, uploaded
 
 ## Search progressively
 
-Build concept groups rather than a flat keyword list. Allow the vocabulary pool to expand while making individual queries more discriminating.
+Build concept groups rather than a flat keyword list. Adapt queries to each source's supported syntax and fields. Refine or broaden them as needed; do not turn every screening condition into a mandatory search term or sacrifice relevant coverage merely to reduce result counts.
 
 Choose search purposes dynamically, such as:
 

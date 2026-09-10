@@ -69,6 +69,20 @@ Record the exact response passage or event that supports each score. Do not infe
 - `1`: identifies relevant source features or limitations but leaves the connection between the question's evidence needs and the selected route unclear;
 - `2`: infers the capabilities required by the question, autonomously selects only sources that serve those needs, explains consequential choices and coverage limits, and adapts the route when the evidence or available tools warrant it.
 
+Accept different routes that meet the task's evidence needs. Missing a named connector is not a capability gap when available tools suffice. Repeated paper identities alone do not make a source redundant if it adds needed abstracts, citation links, or lawful full text. Tool declarations describe available interfaces, not verified execution.
+
+### `QUERY_ADAPTATION`
+
+- `0`: assumes unsupported cross-source query/filter equivalence, interprets a restrictive search as absence of evidence without addressing a demonstrated miss, or claims post-filtering recovers omitted records;
+- `1`: notices a syntax, filter, or recall concern but leaves the next action or its effect on the conclusion unclear;
+- `2`: uses the supplied interface and result evidence to distinguish query restrictions, field/filter behavior, and source coverage; selects a proportionate correction or diagnostic, preserves unresolved limits, and does not infer completeness from recovering a known paper. Do not require a fixed query, source order, or extra search when it cannot change the judgment.
+
+### `COVERAGE_STOP`
+
+- `0`: treats repeated top-ranked results as saturation despite unvisited results, or declares coverage complete with a material unaddressed retrieval limit;
+- `1`: notices truncation or missing coverage but gives neither a feasible next action nor an explicit justified limit on completion;
+- `2`: distinguishes observed overlap from retrieval depth and evidence capability; uses available pagination or another justified way to address the gap, or stops under a real access/budget constraint with the remaining coverage limit explicit. Do not infer source redundancy from overlap alone or prescribe a fixed number of searches.
+
 ### `CANDIDATE_PRIORITIZATION`
 
 - `0`: treats venue prestige as proof of a claim or lets prestige override known article-level evidence problems;

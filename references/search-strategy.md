@@ -101,15 +101,19 @@ Maintain a concept model rather than a flat keyword list. Concepts may represent
 
 Within a concept, expand synonyms, abbreviations, spelling variants, controlled vocabulary, formulas, legacy terms, and field-specific phrases. Across concepts, combine only meaningful intersections.
 
+Translate the concept model into the selected interface's declared syntax, searchable fields, and filter scope, using observed behavior where available. Do not assume identical Boolean, phrase, field, or date-filter behavior across sources, including sources behind one unified tool. A capability declaration is not proof that it executed correctly. When an unknown or unexpected behavior could affect the conclusion, consult the relevant tool/source documentation or use a small diagnostic query; retain unresolved behavior as unknown. Filtering returned records cannot recover records omitted during retrieval or establish equivalent coverage.
+
 As research proceeds:
 
 - the vocabulary pool may expand;
-- individual queries should become more discriminating;
-- exclusions should remove known ambiguities;
+- individual queries should become more discriminating or broader as needed to preserve relevant coverage;
+- exclusions should remove known ambiguities only after considering relevant records that also mention the excluded concept;
 - evidence gaps should generate targeted queries;
 - ineffective terms should be retired or marked uncertain.
 
 Record where an important term came from and what ambiguity or retrieval gap it resolves.
+
+Distinguish retrieval concepts from screening criteria. Outcomes, mechanisms, and context may be absent from searchable fields even when a study is eligible; do not automatically require all of them in a query. Before relying on a restrictive query to declare coverage complete or a research gap, assess whether optional concepts, field limits, or exclusions could hide relevant work. Choose a proportionate diagnostic, such as relaxing a restriction or checking a known in-scope paper, when it can change the judgment. Sparse results alone do not require another search. First establish that a diagnostic paper fits the scope; a miss may reflect source coverage or indexing rather than query construction, and recovering it does not prove completeness.
 
 ## Search rounds as purposes
 

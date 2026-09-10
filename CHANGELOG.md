@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed
+
+- Adapted queries to each interface's declared syntax, fields, and filter scope while distinguishing declarations from observed execution.
+- Replaced one-way query narrowing with coverage-aware refinement, separating retrieval concepts from screening criteria and adding proportionate recall diagnostics before consequential gap or completion claims.
+- Added four synthetic decision cases for cross-source filters, restrictive queries, truncated results with source overlap, and sufficient capabilities without a named MCP. These cases have not yet been run against a model.
+
 ### Fixed
 
 - Deduplicated repeated case selections and rejected case identifiers that collide on case-insensitive filesystems, preventing evaluation output replacement.

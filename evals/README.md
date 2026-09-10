@@ -88,6 +88,8 @@ score-template.json
 
 ## 当前最小覆盖
 
+新增搜索决策案例使用 [search-decisions.md](fixtures/search-decisions.md) 中各自独立的合成记录，检验收到接口说明和返回结果后的判断：`cross_source_query_behavior`、`restrictive_query_recall`、`coverage_depth_and_overlap`、`available_tools_without_mcp`。评分接受能满足任务的不同来源与处理顺序，不预设数据库组合。它们尚未完成模型运行；结构检查通过不代表行为通过，也不证明真实文献召回率提高。
+
 - `missing_full_text`：摘要、全文和机制主张的证据边界；
 - `conflicting_evidence`：冲突分类、底层研究独立性，以及在已确认任务范围内继续完成综合；
 - `long_task_state_persistence`：状态恢复、未决事项保留，以及将下一步动作关联到具体证据缺口并保存（运行该 case 时使用 `--sandbox workspace-write`）；
