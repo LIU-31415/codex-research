@@ -1,6 +1,6 @@
 # codex-research
 
-**Current version: `v0.2.3`**
+**Current version: `v0.2.4`**
 
 `codex-research` is an interactive literature-research Skill for Codex. It helps users refine research questions, retrieve evidence at an appropriate depth, compare studies, and produce conclusions with visible evidence boundaries.
 
@@ -25,6 +25,8 @@ See [SKILL.md](SKILL.md) for the full workflow, [evaluation guidance](evals/READ
 ## Install
 
 This repository contains a standalone Codex Skill. It is not an MCP server.
+
+The [v0.2.4 release](https://github.com/LIU-31415/codex-research/releases/tag/v0.2.4) includes `codex-research-v0.2.4.zip`, a runtime package containing `SKILL.md`, `references/`, `LICENSE`, and `VERSION` inside a `codex-research/` folder. Use that asset for installation. GitHub's separate source archives contain the full repository, including evaluation and maintenance files.
 
 ### Install with Codex
 
@@ -126,6 +128,14 @@ The repository metadata check uses a small YAML subset: one top-level field per 
 The regression checks need a temporary directory that supports child-directory creation, file reads/writes, enumeration, and cleanup. Set `TMPDIR`, `TEMP`, or `TMP` to an existing writable directory before running Python if the default location is restricted. A temporary-workspace initialization failure reports `REPAIR_CHECKS_ENVIRONMENT_ERROR` and exits with code 3: the checks are incomplete, not passed. Test assertion failures remain failures.
 
 Keep maintenance changes under `Unreleased` in the changelog until a release is prepared. When releasing, update `VERSION`, the README version, and the dated changelog entry together. Keep historical evaluation results tied to the version actually tested.
+
+Build the runtime ZIP from the release tag with Git's explicit file selection, replacing the version below for later releases:
+
+```sh
+git archive --format=zip --prefix=codex-research/ --output=codex-research-v0.2.4.zip v0.2.4 SKILL.md references LICENSE VERSION
+```
+
+Verify the archive contents and attach it to the matching GitHub release. Do not commit generated ZIP files or include `evals/`, `scripts/`, local state, or environments in the runtime package.
 
 ## License
 

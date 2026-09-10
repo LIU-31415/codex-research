@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.4 — 2026-09-10
+
 ### Changed
 
 - Adapted queries to each interface's declared syntax, fields, and filter scope while distinguishing declarations from observed execution.
@@ -16,7 +18,6 @@
 - Used workspace-relative fixture paths in actual and saved prompts, preserving their agreement without claiming that other raw logs are sanitized.
 - Made unauthorized fallback download restrictions explicit in the Skill entrypoint and kept evaluation aliasing compatible with quoted names.
 - Reported temporary-workspace initialization failures as incomplete regression checks with a distinct exit status.
-
 - Deduplicated repeated case selections and rejected case identifiers that collide on case-insensitive filesystems, preventing evaluation output replacement.
 - Validated prompts, list fields, and the baseline permission flag before starting evaluations; rejected failed Codex version probes.
 - Limited the privacy scanner's self-exclusion to its own repository path and included tracked environment files in scanning.
@@ -25,7 +26,7 @@
 ### Maintenance
 
 - Unified the evaluation and run-output guides in English and clarified fingerprint, raw-log privacy, and temporary-directory boundaries.
-
+- Added a runtime-only release ZIP, with maintenance and evaluation files retained in source archives only.
 - Added offline regression coverage for these failures and validation of the repository's current evaluation cases.
 - Consolidated README features, added usage and maintenance instructions, and documented evaluation input and output behavior.
 - Expanded environment-file ignore rules to cover `.env.*` and `*.env` files.
