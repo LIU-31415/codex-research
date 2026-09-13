@@ -74,7 +74,7 @@ If a research task requires an academic MCP or connector and no suitable tool is
 4. If the user agrees, inspect the connector's current official instructions and the existing Codex configuration before making changes.
 5. Preserve existing configuration and user customizations. Never invent credentials or place secrets in the repository, logs, or public output.
 6. Complete installation and authentication within the approved scope, restart the MCP connection when required, and verify it with a real harmless tool call.
-7. If the user declines, stop the MCP-dependent path immediately. Remove only temporary files created by the attempted setup; preserve existing files and Codex configuration. Do not call the connector or pretend it is available. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait.
+7. If the user declines, stop the MCP-dependent path immediately. Cleanup is limited to temporary files created by the attempted setup and requires existing authorization; otherwise explain the targets and ask first. Preserve existing user files, credentials, and Codex configuration. Do not call the connector or pretend it is available. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait.
 
 [openags/paper-search-mcp](https://github.com/openags/paper-search-mcp) is one optional academic connector. It is maintained separately and is not bundled with this Skill.
 

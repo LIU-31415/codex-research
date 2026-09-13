@@ -16,7 +16,7 @@ Use the recommendation only when the work is already long or substantially revis
 - the session is likely to pause or move to another Codex conversation;
 - the user asks for a durable research record.
 
-Create it after the user agrees or when the user already requested a persistent research document. Do not recommend it for a short lookup merely because the answer contains an important claim, or when the user prefers conversation only. Before writing in an unrelated repository, tell the user where the file will be created.
+Create or update it only within existing write authorization, including when the user already requested a persistent research document. Otherwise explain the target and purpose and ask first, including when the target is an unrelated repository. Do not recommend it for a short lookup merely because the answer contains an important claim, or when the user prefers conversation only.
 
 ## Update behavior
 

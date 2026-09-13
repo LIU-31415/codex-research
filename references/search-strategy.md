@@ -48,8 +48,8 @@ If the agreed evidence level depends on a capability that the current tools do n
 1. Explain which capability is unavailable and how that limits the current task.
 2. Ask whether the user wants Codex to install or configure a suitable connector, or to continue with existing tools under an explicit coverage or evidence limitation. Present both routes in one checkpoint and recommend one.
 3. If the user has not already selected a route, wait for the answer. Before approval, do not install software, edit MCP configuration, start authentication, or request credentials.
-4. After approval, inspect the current official instructions and existing configuration, preserve user customizations, complete only the approved setup, restart when required, and verify with one harmless real tool call.
-5. If the user declines, stop this MCP-dependent path. Remove only temporary files created by the attempted setup, preserve existing files and configuration, and do not call the connector. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait.
+4. After approval, inspect the current official instructions and existing configuration, preserve user customizations, add only user-provided credentials through an appropriate secret mechanism, complete only the approved setup, restart when required, and verify with one harmless real tool call.
+5. If the user declines, stop this MCP-dependent path and do not call the connector. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait. If setup is unavailable for another reason, follow the same boundary. Cleanup is limited to temporary files created by the attempted setup and requires existing authorization; otherwise explain the targets and ask first. Preserve existing user files, credentials, and configuration.
 
 The official project reference is:
 
@@ -59,18 +59,7 @@ This Skill does not bundle, host, fork, or maintain the connector. Use only publ
 
 ## Evidence access states
 
-Record what was actually obtained:
-
-- `SEARCH_HIT`: discovery result or snippet only;
-- `METADATA_ONLY`: title, authors, year, venue, identifiers;
-- `ABSTRACT_READ`: an explicit abstract was opened and read;
-- `FULLTEXT_FILE_AVAILABLE`: an accessible asset passed the paper-identity gate;
-- `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
-- `FULLTEXT_LOCATED`: the passage, table, figure, or section supporting a claim was located in the verified full text.
-
-Treat every discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement as a candidate asset first. Verify the title, authors, stable identifier, document type, and publication-version relationship against the target paper. Until that identity check passes, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state.
-
-Never infer a stronger state from a tool's name or a successful return status.
+Before classifying retrieved material, read and apply [evidence boundaries](evidence-reasoning.md#preserve-evidence-boundaries) for the access-state definitions and paper-identity gate. Never infer a stronger state from a tool's name or a successful return status.
 
 A field named `abstract` may contain only a search snippet; inspect its content and provenance before assigning `ABSTRACT_READ`. Missing fields and connector defaults, including zero citation counts or blank venue names, are unknown unless verified at the responsible source.
 

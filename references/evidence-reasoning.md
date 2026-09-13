@@ -41,7 +41,7 @@ Use one ordered access-state vocabulary:
 - `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
 - `FULLTEXT_LOCATED`: a supporting passage, table, figure, equation, or section was located in the verified full text.
 
-A discovered or downloaded asset remains a candidate asset until its title, authors, stable identifier, and publication-version relationship are checked against the target paper. Do not promote it to any `FULLTEXT_*` state before that identity gate passes.
+A discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement remains a candidate asset until its title, authors, stable identifier, document type, and publication-version relationship are checked against the target paper. Until that identity gate passes, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state.
 
 Record `HUMAN_VERIFIED` as an orthogonal verification flag when the user or researcher explicitly checks a relevant source detail. It does not replace or automatically upgrade the access state.
 

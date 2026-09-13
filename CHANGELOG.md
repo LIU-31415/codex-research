@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Consolidated detailed capability negotiation, evidence-state definitions, claim appraisal, and publication audit guidance in the existing references, retaining entrypoint constraints and explicit read-before-use links.
+- Aligned research-state writes and setup cleanup with existing authorization; otherwise the target and purpose must be explained before asking for approval.
 - Made scoped autonomous investigation the central research loop: analyze questions, check evidence, pursue useful follow-ups, and revise the field map.
 - Distinguished in-scope follow-up work from user decisions and deferred extensions; scoped field overviews no longer require choosing a specialty first.
 - Added proportionate checks against apparent gaps, incremental explanations for newcomers, and question/gap status in the existing research state.
