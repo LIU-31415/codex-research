@@ -1,7 +1,7 @@
 """Local regression checks. Run with python -B scripts/test_repairs.py; no model calls."""
 
 import argparse
-from contextlib import ExitStack, redirect_stdout
+from contextlib import ExitStack, redirect_stderr, redirect_stdout
 import importlib.util
 import io
 import json
@@ -89,6 +89,81 @@ def check_repository_diagnostics(root):
     assert "evals/rubric.md is missing" in output.getvalue()
 
 
+def check_injection_boundary():
+    case = {"id": "injection", "prompt": "Synthetic", "checks": ["SOURCE_SAFETY"]}
+    for mode, dangerous in (
+        ("baseline", case), ("skill", case), ("both", case),
+        ("skill", {**case, "checks": [], "baseline_allowed": False}),
+    ):
+        args = argparse.Namespace(
+            timeout=1, run_id="blocked", case=[], mode=mode, dry_run=False,
+            codex_home=None, config=[], codex="synthetic-codex", model=None, sandbox="read-only",
+        )
+        output = io.StringIO()
+        with patch.object(runner, "parse_args", return_value=args), \
+             patch.object(runner, "load_cases", return_value=[dangerous]), \
+             patch.object(runner, "user_skill_paths", side_effect=AssertionError("must not inspect host")), \
+             patch.object(runner, "codex_version", side_effect=AssertionError("must not launch Codex")), \
+             redirect_stderr(output):
+            assert runner.main() == 2
+        assert "Active source-injection cases cannot run" in output.getvalue()
+    args.dry_run = True
+    output = io.StringIO()
+    with patch.object(runner, "parse_args", return_value=args), \
+         patch.object(runner, "load_cases", return_value=[dangerous]), \
+         patch.object(runner, "user_skill_paths", return_value=[]), \
+         patch.object(runner, "codex_version", side_effect=AssertionError("dry run must not launch Codex")), \
+         redirect_stdout(output):
+        assert runner.main() == 0
+    assert "injection / skill" in output.getvalue()
+
+
+def check_frozen_inputs(root):
+    source = root / "snapshot-source"
+    fixture = source / "evals" / "fixtures" / "record.md"
+    fixture.parent.mkdir(parents=True)
+    fixture.write_text("original evidence", encoding="utf-8")
+    (source / "SKILL.md").write_text("name: codex-research\nOriginal workflow", encoding="utf-8")
+    (source / "references").mkdir()
+    reference = source / "references" / "evidence.md"
+    reference.write_text("original reference", encoding="utf-8")
+    rubric = source / "evals" / "rubric.md"
+    rubric.write_text("original rubric", encoding="utf-8")
+    case = {"id": "frozen", "prompt": "Synthetic", "files": ["fixtures/record.md"]}
+    snapshot = root / "saved-inputs"
+    with patch.object(runner, "ROOT", source), patch.object(runner, "EVALS_DIR", source / "evals"):
+        runner.snapshot_inputs(snapshot, [case])
+    fingerprint = runner.skill_source_sha256(snapshot)
+    baseline = runner.stage_workspace(root / "frozen-pair", False, case, snapshot)
+    for path in (fixture, source / "SKILL.md", reference, rubric):
+        path.write_text("changed after baseline", encoding="utf-8")
+    skill = runner.stage_workspace(root / "frozen-pair", True, case, snapshot)
+    for workspace in (baseline, skill):
+        assert (workspace / "fixtures" / "record.md").read_text(encoding="utf-8") == "original evidence"
+    staged = skill / ".agents" / "skills" / runner.EVAL_SKILL_NAME
+    assert "Original workflow" in (staged / "SKILL.md").read_text(encoding="utf-8")
+    assert (staged / "references" / "evidence.md").read_text(encoding="utf-8") == "original reference"
+    assert (snapshot / "evals" / "rubric.md").read_text(encoding="utf-8") == "original rubric"
+    assert json.loads((snapshot / "evals" / "evals.json").read_text(encoding="utf-8")) == [case]
+    assert (snapshot / "evals" / "run_eval.py").is_file()
+    assert runner.skill_source_sha256(snapshot) == fingerprint
+
+
+def check_process_tree_termination():
+    process = type("SyntheticProcess", (), {"pid": 12345})()
+    with patch.object(runner.os, "name", "posix"), \
+         patch.object(runner.signal, "SIGKILL", 9, create=True), \
+         patch.object(runner.os, "killpg", create=True) as killpg:
+        runner.terminate_process_tree(process)
+        killpg.assert_called_once_with(process.pid, runner.signal.SIGKILL)
+        killpg.side_effect = ProcessLookupError
+        runner.terminate_process_tree(process)
+    with patch.object(runner.os, "name", "nt"), patch.object(runner.subprocess, "run") as stop:
+        runner.terminate_process_tree(process)
+        assert stop.call_args.args[0] == ["taskkill.exe", "/PID", "12345", "/T", "/F"]
+        assert stop.call_args.kwargs["timeout"] == 30
+
+
 def check_evaluation_outputs(root, disabled_skills):
     evals = root / "evals"
     fixture = evals / "fixtures" / "research_state.md"
@@ -136,7 +211,7 @@ def check_evaluation_outputs(root, disabled_skills):
     for with_skill in (False, True):
         prompt = runner.build_prompt(loop_case, with_skill)
         assert "fixtures/loop-entry.md" in prompt and "loop-records.md" not in prompt
-        workspace = runner.stage_workspace(root / "entry-staging", with_skill, loop_case)
+        workspace = runner.stage_workspace(root / "entry-staging", with_skill, loop_case, ROOT)
         assert all((workspace / relative).is_file() for relative in loop_case["files"])
         legacy_prompt = runner.build_prompt({**loop_case, "entry_files": loop_case["files"]}, with_skill)
         assert "fixtures/loop-records.md" in legacy_prompt
@@ -161,6 +236,7 @@ def check_evaluation_outputs(root, disabled_skills):
                 self.command = command
                 self.workspace = Path(kwargs["cwd"])
                 self.calls = 0
+                assert kwargs["start_new_session"] == (runner.os.name != "nt")
                 commands.append(command)
                 workspaces.append(self.workspace)
 
@@ -201,6 +277,7 @@ def check_evaluation_outputs(root, disabled_skills):
             stack.enter_context(patch.object(runner.subprocess, "Popen", Process))
             # The timeout case exercises bookkeeping without stopping a real process.
             stack.enter_context(patch.object(runner.subprocess, "run"))
+            tree_stop = stack.enter_context(patch.object(runner, "terminate_process_tree"))
             stack.enter_context(patch.object(
                 runner.tempfile, "mkdtemp",
                 lambda prefix: original_mkdtemp(prefix=prefix, dir=root),
@@ -211,10 +288,14 @@ def check_evaluation_outputs(root, disabled_skills):
                 with patch.object(Path, "mkdir", side_effect=FileExistsError), redirect_stdout(io.StringIO()):
                     assert runner.main() == 2, "a creation race must return a setup error"
         assert (exit_code == 0) == (scenario == "success"), scenario
+        assert tree_stop.call_count == (2 if scenario == "timeout" else 0), scenario
         run_dir = root / "runs" / scenario
         manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["execution_ok"] == (scenario == "success"), scenario
         assert manifest["disabled_user_skills"] == disabled_skills
+        inputs = run_dir / manifest["inputs_directory"]
+        assert (inputs / "evals" / "fixtures" / "research_state.md").read_text(encoding="utf-8") == "original state"
+        assert manifest["skill_source_sha256"] == runner.skill_source_sha256(inputs)
         assert all(runner.skill_override(disabled_skills) in command for command in commands)
         assert all(not workspace.exists() for workspace in workspaces), "temporary workspaces must be cleaned"
         if scenario == "success":
@@ -300,7 +381,7 @@ def check_metadata_and_fingerprint(root):
             assert previous != added
         skill.write_text("---\n" + valid.replace("codex-research", '"codex-research"') + "---\n", encoding="utf-8")
         previous = runner.skill_source_sha256()
-        workspace = runner.stage_workspace(root / "staging", True, {})
+        workspace = runner.stage_workspace(root / "staging", True, {}, repo)
         staged_skill = workspace / ".agents" / "skills" / runner.EVAL_SKILL_NAME / "SKILL.md"
         assert "name: " + runner.EVAL_SKILL_NAME + "\n" in staged_skill.read_text(encoding="utf-8")
         staged = workspace / ".agents" / "skills" / runner.EVAL_SKILL_NAME / "references"
@@ -313,6 +394,8 @@ def check_metadata_and_fingerprint(root):
 
 
 def main():
+    check_injection_boundary()
+    check_process_tree_termination()
     assert runner.load_cases(), "the repository's actual evaluation cases must be valid"
     cases = [{"id": "first"}, {"id": "second"}]
     assert runner.selected_cases(cases, ["second", "first", "second"]) == [cases[1], cases[0]]
@@ -355,9 +438,10 @@ def main():
         check_tracked_outputs(root)
         check_repository_diagnostics(root)
         check_metadata_and_fingerprint(root)
+        check_frozen_inputs(root)
         disabled_skills = check_user_skills(root)
         check_evaluation_outputs(root, disabled_skills)
-    print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, skipped baseline, tracked privacy, user-skill overrides, state artifacts, execution failures")
+    print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, injection boundary, frozen inputs, process-tree termination, tracked privacy, user-skill overrides, state artifacts, execution failures")
     return 0
 
 

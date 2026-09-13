@@ -11,6 +11,9 @@
 
 ### Fixed
 
+- Rejected active source-injection evaluations in the host runner before launch; kept dry-run previews and documented separate disposable-environment execution.
+- Saved Skill, fixture, case, rubric, and runner inputs once per run; both modes now stage from that snapshot and fingerprint the saved runtime.
+- Terminated the Linux/macOS process group on evaluation timeout and bounded post-termination waiting; retained Windows process-tree termination.
 - Reported malformed metadata values without a misleading secondary length or name error; length errors now include the parsed character count.
 - Validated trigger-evaluation queries and boolean expectations, including missing fields.
 - Clarified release ZIP placement and the distinction between workflow files and bundled license/version metadata.

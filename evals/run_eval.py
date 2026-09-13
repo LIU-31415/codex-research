@@ -14,6 +14,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -136,18 +137,36 @@ def git_worktree_dirty() -> Optional[bool]:
     return bool(completed.stdout.strip())
 
 
-def skill_source_sha256() -> str:
+def skill_source_sha256(source_root: Optional[Path] = None) -> str:
+    source_root = source_root if source_root is not None else ROOT
     digest = hashlib.sha256()
-    paths = [ROOT / "SKILL.md"] + sorted(
-        (path for path in (ROOT / "references").rglob("*") if path.is_file()),
-        key=lambda path: path.relative_to(ROOT).as_posix(),
+    paths = [source_root / "SKILL.md"] + sorted(
+        (path for path in (source_root / "references").rglob("*") if path.is_file()),
+        key=lambda path: path.relative_to(source_root).as_posix(),
     )
     for path in paths:
-        relative = path.relative_to(ROOT).as_posix().encode("utf-8")
+        relative = path.relative_to(source_root).as_posix().encode("utf-8")
         digest.update(relative + b"\0")
         digest.update(path.read_bytes())
         digest.update(b"\0")
     return digest.hexdigest()
+
+
+def snapshot_inputs(destination: Path, cases: Sequence[Dict[str, Any]]) -> None:
+    """Preserve the selected inputs once, before either side is launched."""
+    destination.mkdir(parents=True)
+    shutil.copy2(ROOT / "SKILL.md", destination / "SKILL.md")
+    shutil.copytree(ROOT / "references", destination / "references")
+    json_write(destination / "evals" / "evals.json", cases)
+    shutil.copy2(EVALS_DIR / "rubric.md", destination / "evals" / "rubric.md")
+    shutil.copy2(Path(__file__), destination / "evals" / "run_eval.py")
+    for relative in sorted({value for case in cases for value in case.get("files", [])}):
+        source = (EVALS_DIR / relative).resolve()
+        if not is_within(source, EVALS_DIR.resolve()) or not source.is_file():
+            raise ValueError("missing or unsafe fixture during snapshot: " + relative)
+        target = destination / "evals" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
 
 
 def resolve_executable(executable: str) -> str:
@@ -192,12 +211,13 @@ def stage_workspace(
     temporary_root: Path,
     with_skill: bool,
     case: Dict[str, Any],
+    source_root: Path,
 ) -> Path:
     workspace = temporary_root / ("skill" if with_skill else "baseline")
     workspace.mkdir(parents=True, exist_ok=True)
 
     for relative in case.get("files", []):
-        source = (EVALS_DIR / relative).resolve()
+        source = source_root / "evals" / relative
         destination = workspace / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, destination)
@@ -207,11 +227,11 @@ def stage_workspace(
         # silently replace the copy under evaluation.
         skill_dir = workspace / ".agents" / "skills" / EVAL_SKILL_NAME
         skill_dir.mkdir(parents=True, exist_ok=True)
-        skill_text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        skill_text = (source_root / "SKILL.md").read_text(encoding="utf-8")
         skill_text = re.sub(r"(?m)^name:[^\n]*$", "name: " + EVAL_SKILL_NAME, skill_text, count=1)
         (skill_dir / "SKILL.md").write_text(skill_text, encoding="utf-8")
         shutil.copytree(
-            ROOT / "references",
+            source_root / "references",
             skill_dir / "references",
             dirs_exist_ok=True,
         )
@@ -313,6 +333,22 @@ def command_for(
     return command
 
 
+def terminate_process_tree(process: subprocess.Popen) -> None:
+    if os.name == "nt":
+        subprocess.run(
+            ["taskkill.exe", "/PID", str(process.pid), "/T", "/F"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+            timeout=30,
+        )
+    else:
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass  # The group already exited.
+
+
 def run_one(
     output_dir: Path,
     executable: str,
@@ -351,6 +387,7 @@ def run_one(
                 stdin=subprocess.PIPE,
                 stdout=events_file,
                 stderr=stderr_file,
+                start_new_session=os.name != "nt",
             )
             process_id = process.pid
             try:
@@ -359,21 +396,12 @@ def run_one(
             except subprocess.TimeoutExpired:
                 timed_out = True
                 error = "timeout after {} seconds".format(timeout)
-                if os.name == "nt":
-                    subprocess.run(
-                        ["taskkill.exe", "/PID", str(process.pid), "/T", "/F"],
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL,
-                        check=False,
-                    )
-                else:
-                    process.kill()
+                terminate_process_tree(process)
                 try:
                     process.communicate(timeout=30)
                 except subprocess.TimeoutExpired:
-                    process.kill()
-                    process.communicate()
-        except OSError as exc:
+                    error += "; process did not exit after tree termination"
+        except (OSError, subprocess.TimeoutExpired) as exc:
             error = str(exc)
 
     artifacts = []
@@ -493,6 +521,17 @@ def main() -> int:
         cases = selected_cases(load_cases(), args.case)
         if not cases or (args.mode == "baseline" and not any(case.get("baseline_allowed", True) for case in cases)):
             raise ValueError("no runnable cases for the selected mode")
+        if not args.dry_run and any(
+            ("SOURCE_SAFETY" in case.get("checks", []) or not case.get("baseline_allowed", True))
+            and (args.mode != "baseline" or case.get("baseline_allowed", True))
+            for case in cases
+        ):
+            raise ValueError(
+                "Active source-injection cases cannot run in this host runner. "
+                "Use --dry-run to inspect them; execute and record them separately in a disposable "
+                "isolated environment without private files, host credentials, or real connectors. "
+                "Select non-injection cases explicitly for ordinary runs."
+            )
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print("Evaluation setup error: {}".format(exc), file=sys.stderr)
         return 2
@@ -534,13 +573,23 @@ def main() -> int:
         print("Run directory already exists: {}".format(run_dir), file=sys.stderr)
         return 2
 
+    inputs_dir = run_dir / "inputs"
+    try:
+        snapshot_inputs(inputs_dir, cases)
+        source_sha256 = skill_source_sha256(inputs_dir)
+    except (OSError, ValueError) as exc:
+        json_write(run_dir / "manifest.json", {"execution_ok": False, "error": "Input snapshot failed: " + str(exc)})
+        print("Cannot freeze evaluation inputs: {}".format(exc), file=sys.stderr)
+        return 2
+
     manifest: Dict[str, Any] = {
         "run_id": run_id,
         "created_at_utc": utc_now(),
         "repository": "codex-research",
         "skill_commit": git_commit(),
         "skill_worktree_dirty": git_worktree_dirty(),
-        "skill_source_sha256": skill_source_sha256(),
+        "skill_source_sha256": source_sha256,
+        "inputs_directory": "inputs",
         "evaluation_skill_name": EVAL_SKILL_NAME,
         "codex_version": version,
         "codex_executable": executable,
@@ -615,7 +664,7 @@ def main() -> int:
                         "that could prompt unsafe baseline actions."
                     )
                     continue
-                workspace = stage_workspace(temporary_root / case["id"], with_skill, case)
+                workspace = stage_workspace(temporary_root / case["id"], with_skill, case, inputs_dir)
                 prompt = build_prompt(case, with_skill)
                 result = run_one(
                     case_dir / label,
@@ -645,7 +694,7 @@ def main() -> int:
     manifest["execution_ok"] = not execution_failed
     json_write(run_dir / "manifest.json", manifest)
     print("Evaluation execution {}: {}".format("failed" if execution_failed else "complete", run_dir))
-    print("Score the saved outputs with evals/rubric.md; do not treat this as a benchmark.")
+    print("Score the saved outputs with {}; do not treat this as a benchmark.".format(inputs_dir / "evals" / "rubric.md"))
     return 1 if execution_failed else 0
 
 

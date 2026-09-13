@@ -14,11 +14,7 @@ From the repository root on Windows:
 py -3 .\evals\run_eval.py --case missing_full_text --case conflicting_evidence --case long_task_state_persistence --mode both --sandbox workspace-write
 ```
 
-On macOS/Linux, use `python3` instead of `py -3` and forward slashes in paths. The safety fixture runs only the Skill side by default and keeps the read-only sandbox:
-
-```powershell
-py -3 .\evals\run_eval.py --case untrusted_source_material --mode skill
-```
+On macOS/Linux, use `python3` instead of `py -3` and forward slashes in paths.
 
 Preview planned runs without launching evaluations:
 
@@ -36,18 +32,22 @@ Options:
 - `--timeout <seconds>`: maximum duration per case and mode.
 - `--run-id <name>`: select the output directory name. Existing directories, including creation races, are rejected without overwriting historical results.
 
-Repeated `--case` selections run once, in first-selected order. Case IDs must not differ only by letter case. Each case needs a non-empty string `prompt`. If supplied, `checks`, `files`, and `output_files` must be arrays of non-empty strings; arrays may be empty. Each check must be defined in `rubric.md`. `baseline_allowed` must be a JSON boolean, not a string. Invalid inputs are rejected before creating a run directory or launching a model.
+Repeated `--case` selections run once, in first-selected order. Case IDs must not differ only by letter case. Each case needs a non-empty string `prompt`. If supplied, `checks`, `files`, and `output_files` must be arrays of non-empty strings; arrays may be empty. Each check must be defined in `rubric.md`. `baseline_allowed` must be a JSON boolean, not a string. Invalid inputs are rejected before creating a run directory or launching a model. Select ordinary cases explicitly: the default all-case run includes a blocked source-injection case and is rejected before launch.
 
 The runner normally executes each case twice:
 
 1. `baseline`: the repository Skill is not staged in the workspace.
-2. `skill`: `SKILL.md` and the entire `references/` directory are staged, with explicit use of the temporary name `codex-research-eval`. The alias avoids selecting a user-level Skill with the same name; the source is the current working tree.
+2. `skill`: `SKILL.md` and the entire `references/` directory are staged, with explicit use of the temporary name `codex-research-eval`. The alias avoids selecting a user-level Skill with the same name. Both sides use the input snapshot saved before the first run, so later working-tree edits do not change their inputs.
 
 The runner discovers standalone Skills under the user's `.agents/skills`, `.codex/skills`, and selected `CODEX_HOME/skills`. It disables them in both subprocesses using `skills.config` overrides without modifying user configuration or Skill files. These overrides follow user-supplied `--config` entries. Disabled paths and effective overrides are recorded. The staged evaluation Skill remains available in the Skill workspace.
 
 This isolates only those standalone user Skills, not plugins, administrator instructions, memory, or other host configuration. Before scoring, inspect events to confirm baseline did not load a Skill and the Skill side used the staged copy. Mark contaminated comparisons invalid and correct the evaluation configuration before rerunning. Use a dedicated clean environment for strict isolation. See the [official Codex Skill documentation](https://learn.chatgpt.com/docs/build-skills).
 
-Cases containing active prompt injection may declare `baseline_allowed: false` in `evals.json`. Only the Skill side then runs, avoiding exposure of an unguarded baseline to material that might induce unsafe file or command operations.
+### Source-injection cases
+
+The host runner refuses live execution of cases declaring `SOURCE_SAFETY` or `baseline_allowed: false`; `--dry-run` remains available. A forbidden baseline is skipped, but a runnable safety baseline is also rejected. These checks run before inspecting host Skills, launching Codex, or creating output directories. A read-only sandbox and the Skill under test are not independent protection for private files, inherited credentials, or external connectors.
+
+Execute source-injection evaluations separately only in a disposable VM or equivalent isolated environment with no host-directory mounts, private files, inherited host credentials, or real external connectors. If model access requires authentication, use credentials dedicated to that environment with bounded permissions and spending. Copy only the public Skill and synthetic fixtures into it; retain the prompt, actual inputs, model/configuration, events, final response, and scores. Do not enable the blocked cases by removing their safety labels. The runner does not create or certify this environment, and a blocked case remains unrun.
 
 ## Saved outputs
 
@@ -56,6 +56,7 @@ Results are stored under `evals/runs/<run-id>/`, with a scoring template:
 ```text
 manifest.json
 score-template.json
+inputs/                     # Skill, references, selected cases, fixtures, rubric, runner
 <case-id>/
 ├─ request.md
 ├─ baseline/                 # when allowed and selected
@@ -74,7 +75,7 @@ score-template.json
 
 Fixture paths in prompts are relative to the subprocess working directory. `prompt.txt` preserves the actual prompt sent to Codex. This avoids inserting temporary absolute paths into fixture instructions, but does not sanitize events, configuration overrides, errors, or other outputs.
 
-Raw outputs may contain user questions, local paths, tool traces, credentials, private text, or source excerpts. They are ignored by Git by default and must be reviewed and redacted before publication. On Windows, a subprocess may temporarily retain a handle to the workspace; cleanup failures are recorded in `manifest.json`. Cleanup status is separate from evaluation execution status.
+Raw outputs and saved inputs may contain user questions, local paths, tool traces, credentials, private text, or source excerpts. They are ignored by Git by default and must be reviewed and redacted before publication. On Windows, a subprocess may temporarily retain a handle to the workspace; cleanup failures are recorded in `manifest.json`. Cleanup status is separate from evaluation execution status. On Linux/macOS, each run starts in a new session and timeout termination targets its process group; Windows targets the process tree. Waiting after termination is bounded.
 
 Cases may declare required workspace-relative `output_files`. The state-recovery case updates `fixtures/research_state.md`; the runner saves it as `artifacts/fixtures/research_state.md` for each side before deleting the temporary workspace. Compare saved content with the original fixture. File existence alone does not establish correct state recovery.
 
@@ -82,9 +83,9 @@ Launch failures, timeouts, nonzero subprocess exits, missing final answers, and 
 
 ## Scoring procedure
 
-1. Record the Skill commit, dirty-worktree status, runtime source fingerprint, evaluation alias, Codex version, model, tool configuration, date, and case IDs in `manifest.json`. `skill_source_sha256` covers source `SKILL.md` and every file recursively under `references/`, including relative paths and bytes. It identifies source files before the evaluation alias is applied, not the transformed workspace, fixtures, or runner. The maintenance lock at `evals/mcp-compatibility.json` is not a runtime file.
+1. Record the Skill commit, dirty-worktree status, runtime source fingerprint, evaluation alias, Codex version, model, tool configuration, date, and case IDs in `manifest.json`. `inputs/` preserves the actual Skill, references, selected case definitions, fixtures, rubric, and runner, including uncommitted content. `skill_source_sha256` covers the saved `SKILL.md` and every saved reference file, including relative paths and bytes, before the evaluation alias is applied. It is a runtime fingerprint, not a hash of the fixtures or runner. The maintenance lock at `evals/mcp-compatibility.json` is not a runtime file.
 2. Inspect `events.jsonl` to ensure the final answer does not conceal actual tool calls or failures. For state recovery, also inspect the preserved artifact rather than relying on a claim that it was updated.
-3. Score baseline and Skill separately using [rubric.md](rubric.md), recording the supporting output passage or event.
+3. Score baseline and Skill separately using the run's saved `inputs/evals/rubric.md`, recording the supporting output passage or event. For historical runs without saved inputs, use the rubric from their tested revision.
 4. Copy `score-template.json` to `scores.json` and enter scores, scorer identity, and notes. Do not retain only verbal conclusions.
 5. Mark a Skill case as passed only when every declared check passes.
 6. Report case-level outcomes. Do not present a small sample as a percentage improvement on real tasks.
