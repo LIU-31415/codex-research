@@ -78,9 +78,9 @@ Before broad academic retrieval, return a compact field map:
 - plausible research branches;
 - what paper search would resolve;
 - a recommended direction;
-- one decision question.
+- one decision question, only if needed to proceed.
 
-Wait for the user's answer unless the user explicitly delegated the choice or requested uninterrupted execution.
+Ask and wait only when a material scope or direction choice remains unresolved and has not been delegated. For a scoped request to understand the field, compare the relevant branches first; do not require a newcomer to choose a specialty before providing the requested overview. A proposed personal research direction or new application still requires the user's decision unless delegated.
 
 Treat a clear instruction already present in the conversation as a resolved checkpoint. Do not ask the user to confirm the same scope, route, or execution preference again.
 
@@ -100,7 +100,7 @@ At a checkpoint that needs the user, state the trigger, Codex's recommendation, 
 
 ### Scope checkpoint
 
-Trigger when the question has multiple reasonable populations, systems, settings, outcomes, comparisons, time ranges, or evidence standards.
+Trigger when unresolved alternatives for populations, systems, settings, outcomes, comparisons, time ranges, or evidence standards would materially change the requested result and cannot be inferred from context or an existing delegation. Multiple branches that the user asked to compare are not themselves an unresolved choice.
 
 Present the consequence of each option and recommend one. Ask one question.
 
@@ -114,7 +114,7 @@ State what was covered, what was not, and whether the gap could change the concl
 
 Trigger when initial results reveal distinct research branches, a mistaken term, an overlooked variable, or a more promising question.
 
-Do not silently redirect the research. Explain what changed and ask the user whether to revise the direction.
+Distinguish a refinement needed to answer the current question from a change to the user's objective. Investigate the former within scope, then report what changed. For a new objective, application, or research commitment, explain the evidence and ask whether to revise direction unless that choice was delegated. An unexpected paper or new term alone does not require a pause.
 
 ### Full-text checkpoint
 
@@ -151,7 +151,7 @@ A checkpoint update should be concise and decision-oriented. Do not narrate Skil
 - what changed in this round;
 - evidence level and important limitations;
 - Codex's recommended next step;
-- one question the user can actually decide.
+- one question the user can actually decide, only when progress depends on that decision.
 
 Do not repeat the entire history at every checkpoint. Show the delta.
 
@@ -171,7 +171,9 @@ Decision questions control the workflow. Evidence-led questions help the user se
 
 When new evidence exposes an important boundary, conflict, mechanism alternative, transfer problem, or missing comparison, offer a short prioritized set of questions the user is likely to find useful. Derive each question from an observed result or unresolved claim, and state briefly what answering it could change. Do not generate generic topic-expansion questions, repeat questions already answered, or turn every update into a questionnaire.
 
-Ask only one question when a user decision is required. Otherwise present the evidence-led questions as optional next directions and continue or stop according to the current research scope.
+Give each material follow-up a disposition: investigate now within scope and authorization, seek a necessary user decision, or defer with a brief reason. Ranking depends on relevance to the user's goal, the judgment it could change, and feasible evidence, not novelty alone. Investigate the highest-value feasible questions before closing the current task; an optional question list does not substitute for requested work. If the user asked only for questions or prohibited retrieval, provide the questions and rationale without executing them.
+
+When reporting to the user, select only questions that help them understand a finding or choose a meaningful next direction. Questions the agent can answer through routine research should drive its work without becoming a questionnaire. Do not invent new questions to keep the loop running after the requested result is sufficient.
 
 ## When not to interrupt
 

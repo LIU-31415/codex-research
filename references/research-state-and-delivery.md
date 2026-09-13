@@ -29,6 +29,8 @@ Record deltas such as:
 - a key paper was verified or reclassified;
 - evidence moved from abstract to located full text;
 - a claim was strengthened, weakened, split, or withdrawn;
+- a follow-up question was answered, selected for investigation, deferred, or blocked by a necessary user decision;
+- a candidate gap was narrowed or withdrawn after contrary or nearby evidence was checked;
 - a conflict was explained or left unresolved;
 - a user decision changed the next search;
 - a missing full text or capability became a blocker.
@@ -56,6 +58,8 @@ Adapt this structure to the task. Omit empty sections.
 ## Current field map
 - Main concepts and relationships:
 - Candidate directions:
+- Demonstrated progress, supporting sources, and conditions by direction:
+- Remaining limitations and supported candidate gaps:
 - Important ambiguities:
 
 ## Search evolution
@@ -95,6 +99,8 @@ Adapt this structure to the task. Omit empty sections.
 ## Open questions
 - Questions requiring user decision:
 - Questions requiring more evidence:
+- For each material question: evidence trigger, value to the current goal, investigate/ask/defer disposition, and resolution or next action:
+- For candidate gaps: nearby or contrary evidence checked, current status, and remaining search/access limits:
 
 ## Next step
 - Recommended action:
@@ -126,6 +132,8 @@ During research, present only what the user needs for the next decision:
 - the change since the last checkpoint.
 
 Do not force the user to inspect a full evidence ledger at every step. Make the deeper chain available when a consequential claim is challenged or finalized.
+
+For newcomers, show a compact direction-by-direction explanation of the problem addressed, what research has established, where its results apply, and what remains uncertain. Explain essential terms where they first matter. After a meaningful round, show what changed in this understanding and what the next evidence action will resolve; do not ask the user to choose routine searches. Use a table or other visual only when it clarifies these relationships.
 
 ## Adaptive final delivery
 

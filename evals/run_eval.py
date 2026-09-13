@@ -74,7 +74,7 @@ def load_cases() -> List[Dict[str, Any]]:
             raise ValueError("case needs a non-empty prompt: " + case_id)
         if not isinstance(item.get("baseline_allowed", True), bool):
             raise ValueError("baseline_allowed must be a boolean: " + case_id)
-        for field in ("checks", "files", "output_files"):
+        for field in ("checks", "files", "entry_files", "output_files"):
             values = item.get(field, [])
             if not isinstance(values, list) or any(not isinstance(value, str) or not value.strip() for value in values):
                 raise ValueError(field + " must be an array of non-empty strings: " + case_id)
@@ -84,6 +84,8 @@ def load_cases() -> List[Dict[str, Any]]:
             source = (EVALS_DIR / relative).resolve()
             if not is_within(source, EVALS_DIR) or not source.is_file():
                 raise ValueError("missing or unsafe fixture for " + case_id + ": " + relative)
+        if "entry_files" in item and (not item["entry_files"] or not set(item["entry_files"]) <= set(item.get("files", []))):
+            raise ValueError("entry_files must be a non-empty subset of files: " + case_id)
         unknown_checks = set(item.get("checks", [])) - defined_checks
         if unknown_checks:
             raise ValueError("undefined rubric checks for " + case_id + ": " + ", ".join(sorted(unknown_checks)))
@@ -232,7 +234,7 @@ def build_prompt(
     else:
         parts.append("Run this evaluation without loading or using any Skill.")
     parts.append(case["prompt"])
-    files = case.get("files", [])
+    files = case.get("entry_files", case.get("files", []))
     if files:
         listed = "\n".join(
             "- " + value

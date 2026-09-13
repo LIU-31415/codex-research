@@ -91,6 +91,8 @@ Launch failures, timeouts, nonzero subprocess exits, missing final answers, and 
 
 ## Current minimum coverage
 
+`autonomous_field_onboarding` uses a fictional local reading room to examine follow-up evidence use, revision of an apparent gap, accessible direction/progress synthesis, and scope-aware stopping. Its optional `entry_files` lists only the initial reading; all `files` are staged, but the archive must be discovered through the entry's link rather than a runner instruction to read it. Cases without `entry_files` retain the requirement to read every fixture. Inspect actual reading actions and resulting judgments. This does not test real retrieval recall or sustained multi-round autonomy. The question-only `evidence_led_followup_questions` case and existing consent/refusal cases remain separate boundary checks. Structural validation alone does not establish behavioral success.
+
 Four search-decision cases use independent synthetic records in [search-decisions.md](fixtures/search-decisions.md): `cross_source_query_behavior`, `restrictive_query_recall`, `coverage_depth_and_overlap`, and `available_tools_without_mcp`. They examine decisions after interface descriptions and results are supplied. Scoring accepts different sources and operation orders that satisfy the task, without prescribing a database bundle. These cases have not been run against a model. Structural checks do not establish behavioral success or improved real-world recall.
 
 - `missing_full_text`: boundaries between abstracts, full text, and mechanism claims.

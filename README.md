@@ -2,7 +2,7 @@
 
 **Current version: `v0.2.4`**
 
-`codex-research` is an interactive literature-research Skill for Codex. It helps users refine research questions, retrieve evidence at an appropriate depth, compare studies, and produce conclusions with visible evidence boundaries.
+`codex-research` is an interactive literature-research Skill for Codex. It helps users understand research directions, progress, and candidate gaps while handling the detailed literature work. Within agreed scope, it analyzes questions, checks evidence, derives useful follow-ups, investigates them, and revises the synthesis.
 
 The Skill is designed for engineering and scientific research across disciplines. It adapts the workflow and final output to the research decision instead of enforcing a fixed paper count, database, or report template.
 
@@ -13,12 +13,15 @@ The Skill is designed for engineering and scientific research across disciplines
 - **Claim verification:** check values, units, conditions, dates, and versions at the responsible source; separate source reports, synthesis, interpretation, extrapolation, and hypotheses.
 - **Comparable evidence:** examine study conditions, measurements, independence, conflicts, uncertainty, and applicability before combining findings.
 - **Experimental provenance:** distinguish reported parameters, missing details, derived calculations, transfer proposals, and diagnostic hypotheses.
-- **Research continuity:** offer evidence-led follow-up questions and optional `research_state.md`; pause for material user decisions while continuing authorized evidence checks.
+- **Research continuity:** turn evidence-led follow-up questions into investigation, a necessary user decision, or a deferred direction; preserve useful state in an optional `research_state.md`.
+- **Accessible field understanding:** build a concise map of directions, demonstrated progress, conditions, and unresolved problems; test apparent gaps against nearby or contrary evidence before recommending them.
 - **Privacy and source safety:** treat retrieved material as untrusted data and keep private user context out of public artifacts.
 
 ## Use
 
 After installation, ask Codex to use `codex-research` and describe the research question, intended decision, and any scope or access constraints you already know. Supply known papers or an existing research state when available. A vague direction is enough to start; the Skill helps refine it before broad retrieval.
+
+For a scoped field overview, Codex compares relevant branches without requiring you to choose a specialty first. It pursues useful evidence questions within that scope and updates the map as findings change. A new research commitment, additional access, or other material choice remains yours unless delegated. Short lookups and discussion-only requests stay short and bounded.
 
 See [SKILL.md](SKILL.md) for the full workflow, [evaluation guidance](evals/README.md) for reproducible checks, and [CHANGELOG.md](CHANGELOG.md) for release history and unreleased maintenance changes.
 

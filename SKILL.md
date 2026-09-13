@@ -1,6 +1,6 @@
 ---
 name: codex-research
-description: Conduct interactive, question-driven literature research with Codex. Use when a user wants to explore a vague research direction, refine a research question, find and assess academic papers, obtain key full text, compare methods or evidence, reason about mechanisms or causes, identify research gaps, or develop evidence-grounded hypotheses. Begin with lightweight web orientation when useful, confirm direction before heavy paper retrieval, and collaborate through decision checkpoints. Designed across engineering and scientific domains rather than for a fixed discipline. Do not use for paper translation, citation reformatting, isolated PDF extraction, data analysis, simple factual web lookup, MCP setup, or prose polishing unless embedded in an active literature research task.
+description: Conduct interactive, question-driven literature research with Codex. Use when a user wants to explore a vague research direction, refine a research question, find and assess academic papers, obtain key full text, compare methods or evidence, reason about mechanisms or causes, identify research gaps, or develop evidence-grounded hypotheses. Autonomously investigate evidence-led follow-up questions within agreed scope and explain research directions, progress, and candidate gaps. Begin with lightweight orientation when useful and involve the user in material decisions. Designed across engineering and scientific domains rather than for a fixed discipline. Do not use for paper translation, citation reformatting, isolated PDF extraction, data analysis, simple factual web lookup, MCP setup, or prose polishing unless embedded in an active literature research task.
 license: MIT
 ---
 
@@ -8,7 +8,7 @@ license: MIT
 
 Work as an interactive research partner. Help the user discover or refine a research question, retrieve evidence at the depth the question requires, and build conclusions whose evidence boundaries remain visible.
 
-The research process may change the question. Do not rush from a vague prompt to a polished report.
+Reduce the user's time spent learning terminology, finding and screening papers, checking evidence, and connecting findings. The research process may change the question. Do not rush from a vague prompt to a polished report.
 
 ## Core posture
 
@@ -39,6 +39,19 @@ Before searching, determine from the conversation and available files:
 - which next uncertainty is important enough to resolve.
 
 Do not ask for information already present. If an existing research state is available, continue from it rather than restarting orientation.
+
+## Run an evidence-led research loop
+
+Within the user's scope and authorization, take responsibility for the next research action as well as the current answer:
+
+1. Turn the user's objective into answerable questions and an initial map of relevant research directions. A newcomer need not know the field's terminology or select a specialty before receiving a useful overview.
+2. Retrieve and read evidence that can answer those questions. Handle search refinement, screening, identity checks, deduplication, and comparison without asking the user to manage routine steps.
+3. Check consequential statements and their attribution against the material read, then update what is supported, disputed, or unresolved. Keep source findings and source proposals separate from your own explanations and proposed studies. For an overview, explain each direction's demonstrated progress, conditions, and limits; make consequential changes to the map explicit when evidence overturns an earlier impression.
+4. Derive further questions from those findings and assess their relevance and decision value. Pursue material, feasible questions inside scope; ask only for a necessary user choice or added authorization; defer tangential or low-value questions. Do not merely list a necessary next step when authorized evidence work can still resolve it.
+5. Test candidate gaps against nearby and contrary evidence before presenting them as research opportunities. Revise or withdraw apparent gaps when the evidence closes them. Follow [gap-driven retrieval](references/search-strategy.md#gap-driven-retrieval) for this check.
+6. First assess whether the requested task is complete at the agreed evidence level, including the specific stopping requirements for coverage-oriented retrieval. If complete, deliver; further improvements are optional next steps. If incomplete, pursue feasible, authorized evidence work needed to complete it. When blocked or at an agreed limit, deliver the current synthesis and unresolved limits with a reason for stopping. Distinguish a proposed next question or experiment from an executed result.
+
+These are revisitable decisions, not mandatory rounds or a requirement to expand every short lookup. Honor requests for discussion only, no retrieval, or a particular stopping point. Autonomy does not authorize new spending, external transfers, file changes, or an unrequested research direction. Keep concise evidence-to-action justifications, not private reasoning transcripts.
 
 ## Negotiate tool capability
 
@@ -102,7 +115,7 @@ For a broad or uncertain topic, use Web Search and Web Fetch to learn:
 
 Prefer authoritative sources. Search snippets are discovery leads, not abstracts or scientific evidence. Web orientation may shape vocabulary and candidate directions; it must not pre-commit the later paper synthesis to a web-page conclusion.
 
-Before broad academic paper retrieval, give the user a compact field map, recommend a direction, and ask one decision question. The user confirms the research scope and retrieval direction, not the truth of preliminary web claims. Wait unless the user explicitly delegated the choice or requested uninterrupted execution.
+Before broad academic paper retrieval, give the user a compact initial field map. If a material scope or direction choice remains unresolved, recommend a route and ask one decision question; wait unless the user has already delegated or resolved that choice. A request for a scoped field overview authorizes comparing its relevant branches, without first forcing the user to select one. It does not authorize choosing a new application or research commitment for them.
 
 Skip or abbreviate this stage for a precise question, known-paper task, uploaded paper set, existing protocol, or continued research state.
 
@@ -137,7 +150,7 @@ Pause when progress depends on a material choice the user must make:
 
 Within the confirmed scope and authorization, investigate evidence gaps and comparable conflicting results before asking the user to choose a route. A blocked claim need not stop independent research that can still proceed. Preserve unresolved claims; do not silently change scope, lower the agreed evidence standard, or ask the user to decide which scientific finding is true.
 
-At a checkpoint:
+At a checkpoint that needs the user's decision:
 
 - summarize what changed, not the entire history;
 - show the evidence level and important limitation;
@@ -259,6 +272,8 @@ A mature delivery should make visible:
 - unresolved gaps and missing access;
 - implications for the next research decision;
 - traceable references with DOI or stable links when available.
+
+For field onboarding or direction finding, lead with the current map of directions, demonstrated progress, unresolved problems, and candidate opportunities. Explain essential terms in context and give a prioritized next step with its value and evidence basis. Make sources available alongside the synthesis; do not make the user read a paper catalog to reconstruct the answer. Show meaningful revisions as research proceeds rather than withholding all synthesis until the end.
 
 Generate the final synthesis from confirmed research state and source records. The organization layer must not strengthen cautious evidence merely to make prose smoother.
 

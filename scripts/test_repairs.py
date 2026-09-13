@@ -119,7 +119,8 @@ def check_evaluation_outputs(root, disabled_skills):
             ("prompt", None), ("prompt", " "), ("baseline_allowed", "false"),
             ("baseline_allowed", 0), ("files", None), ("files", "fixtures/research_state.md"),
             ("output_files", {}), ("checks", "STATE_RECOVERY"), ("checks", [None]),
-            ("checks", ["UNDEFINED"]),
+            ("checks", ["UNDEFINED"]), ("entry_files", []),
+            ("entry_files", "fixtures/research_state.md"), ("entry_files", ["fixtures/missing.md"]),
         ):
             cases_path.write_text(json.dumps([{**case, field: value}]), encoding="utf-8")
             try:
@@ -128,7 +129,18 @@ def check_evaluation_outputs(root, disabled_skills):
                 pass
             else:
                 raise AssertionError((field, value))
+        cases_path.write_text(json.dumps([{**case, "entry_files": case["files"]}]), encoding="utf-8")
+        assert runner.load_cases()[0]["entry_files"] == case["files"]
         cases_path.write_text(json.dumps([case]), encoding="utf-8")
+    loop_case = next(item for item in runner.load_cases() if item["id"] == "autonomous_field_onboarding")
+    for with_skill in (False, True):
+        prompt = runner.build_prompt(loop_case, with_skill)
+        assert "fixtures/loop-entry.md" in prompt and "loop-records.md" not in prompt
+        workspace = runner.stage_workspace(root / "entry-staging", with_skill, loop_case)
+        assert all((workspace / relative).is_file() for relative in loop_case["files"])
+        legacy_prompt = runner.build_prompt({**loop_case, "entry_files": loop_case["files"]}, with_skill)
+        assert "fixtures/loop-records.md" in legacy_prompt
+        assert "fixtures/research_state.md" in runner.build_prompt(case, with_skill)
     original_mkdtemp = tempfile.mkdtemp
     for scenario in ("success", "nonzero", "timeout", "launch_error", "missing_final", "missing_output"):
         commands = []

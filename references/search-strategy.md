@@ -2,7 +2,7 @@
 
 ## Search as progressive refinement
 
-Use the least expensive source capable of answering the current question. Increase search depth only when the user confirms the direction or when a consequential claim requires stronger evidence.
+Use the least expensive source capable of answering the current question. Increase search depth when it is needed to meet the agreed task or verify a consequential claim, within existing scope and authorization. Seek a user decision only when an unresolved material choice prevents that work.
 
 A typical progression is:
 
@@ -205,7 +205,13 @@ For each material unresolved claim or question, connect the missing evidence to 
 
 Keep this connection in existing working notes or `research_state.md`; no separate ledger or fixed round sequence is required. Reuse claim identifiers when present. After the batch, either continue on a material gap, synthesize at the agreed evidence level, or pause for a necessary user decision. Record the reason when stopping. Apply the search-intent-specific conditions below: a sufficient answer alone does not complete a `COVERAGE` task.
 
+Before promoting an apparent gap into an opportunity, try to disconfirm it using the most relevant feasible evidence: alternative terminology, adjacent disciplines, original studies behind reviews, later versions, counterexamples, or missing comparisons. Choose checks that address the actual uncertainty rather than running every route mechanically. An author's future-work statement is a lead, not proof that the question remains open. If evidence answers the question, retire that candidate and update the field map; do not preserve it merely to offer a novel direction.
+
+Separate a gap in the current search or access from a substantive uncertainty in the research. For a remaining candidate, state the specific unresolved relation or condition, nearby evidence, search/access boundary, why resolving it matters to the user's goal, and what evidence or study could discriminate alternatives. Do not manufacture a gap when none is supported. A lack of independent validation or transfer evidence may be useful without being a claim that nobody has studied the topic.
+
 ## Stopping
+
+For field onboarding, a sufficient result explains the relevant research directions and their relationships, demonstrated progress and conditions, important disputes or limitations, and supported candidate gaps with useful next steps. Deliver this incrementally. Do not chase every adjacent field or require a fixed number of papers or loops. For precise tasks, answer the specific question without forcing a field survey.
 
 Stop or pause when:
 

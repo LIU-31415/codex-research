@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Changed
+
+- Made scoped autonomous investigation the central research loop: analyze questions, check evidence, pursue useful follow-ups, and revise the field map.
+- Distinguished in-scope follow-up work from user decisions and deferred extensions; scoped field overviews no longer require choosing a specialty first.
+- Added proportionate checks against apparent gaps, incremental explanations for newcomers, and question/gap status in the existing research state.
+- Added a synthetic field-onboarding case and rubric for follow-up evidence use, gap revision, and bounded synthesis. This does not establish real-world retrieval performance.
+
 ### Fixed
 
 - Reported malformed metadata values without a misleading secondary length or name error; length errors now include the parsed character count.
