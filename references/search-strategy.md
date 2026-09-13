@@ -38,6 +38,7 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 - explicit abstracts;
 - PDF or XML download;
 - readable full text;
+- located passages, tables, figures, or equations;
 - citation relationships;
 - source-specific filters.
 

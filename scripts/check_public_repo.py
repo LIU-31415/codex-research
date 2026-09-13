@@ -199,6 +199,14 @@ def check_metadata(root: Path, errors: list[str]) -> None:
             for case in cases if isinstance(cases, list) else []:
                 if not isinstance(case, dict):
                     continue
+                invalid_fields = [
+                    field for field in ("checks", "files")
+                    if not isinstance(case.get(field, []), list)
+                    or any(not isinstance(value, str) or not value.strip() for value in case.get(field, []))
+                ]
+                if invalid_fields:
+                    errors.append(f"evals/evals.json: {', '.join(invalid_fields)} must be arrays of non-empty strings")
+                    continue
                 for check in case.get("checks", []):
                     if f"### `{check}`" not in rubric_text:
                         errors.append(f"evals/rubric.md: missing definition for check {check}")

@@ -24,6 +24,35 @@ def load_module(name, relative):
 
 privacy = load_module("privacy_check", "scripts/check_public_repo.py")
 runner = load_module("evaluation_runner", "evals/run_eval.py")
+compatibility = load_module("compatibility_check", "scripts/check_mcp_compatibility.py")
+
+
+def check_invalid_metadata():
+    original_read = privacy.read_text
+    for field in ("checks", "files"):
+        for value in (None, "fixture.md", {}, [None], [" "]):
+            with patch.object(privacy, "read_text", side_effect=lambda path: (
+                json.dumps([{field: value}]) if path.name == "evals.json" else original_read(path)
+            )):
+                errors = []
+                privacy.check_metadata(ROOT, errors)
+            assert any(field + " must be arrays of non-empty strings" in error for error in errors), errors
+    lock = compatibility.load_lock(ROOT)
+    invalid_locks = [[], None, {}]
+    for field in lock:
+        invalid_locks.extend([{**lock, field: None}, {**lock, field: ""}])
+    invalid_locks.extend([
+        {**lock, "repository": "invalid"},
+        {**lock, "expected_capabilities": [None]},
+        {**lock, "safety_constraints": [" "]},
+    ])
+    for invalid in invalid_locks:
+        with patch.object(compatibility.json, "load", return_value=invalid), \
+             patch.object(compatibility.sys, "argv", ["check_mcp_compatibility.py"]), \
+             patch.object(compatibility, "upstream_sha", side_effect=AssertionError("offline check must not query upstream")), \
+             redirect_stdout(io.StringIO()) as output:
+            assert compatibility.main() == 3, invalid
+        assert "MCP_COMPATIBILITY_CHECK_FAILED" in output.getvalue()
 
 
 def check_tracked_outputs(root):
@@ -394,6 +423,7 @@ def check_metadata_and_fingerprint(root):
 
 
 def main():
+    check_invalid_metadata()
     check_injection_boundary()
     check_process_tree_termination()
     assert runner.load_cases(), "the repository's actual evaluation cases must be valid"

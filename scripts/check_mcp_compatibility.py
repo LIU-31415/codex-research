@@ -13,12 +13,15 @@ from urllib.request import Request, urlopen
 
 LOCK_PATH = Path("evals/mcp-compatibility.json")
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+REPOSITORY_RE = re.compile(r"https://github\.com/([^/\s?#]+)/([^/\s?#]+?)(?:\.git)?/?")
 
 
 def load_lock(root: Path) -> dict:
     path = root / LOCK_PATH
     with path.open(encoding="utf-8") as handle:
         data = json.load(handle)
+    if not isinstance(data, dict):
+        raise ValueError("lock file must contain a JSON object")
     required = {
         "connector",
         "repository",
@@ -32,19 +35,25 @@ def load_lock(root: Path) -> dict:
     missing = required - data.keys()
     if missing:
         raise ValueError(f"lock file missing fields: {', '.join(sorted(missing))}")
+    for field in sorted(required - {"expected_capabilities", "safety_constraints"}):
+        if not isinstance(data[field], str) or not data[field].strip():
+            raise ValueError(f"{field} must be a non-empty string")
     if data["connector"] != "paper-search-mcp":
         raise ValueError("lock file connector must be paper-search-mcp")
+    if not REPOSITORY_RE.fullmatch(data["repository"]):
+        raise ValueError("repository must be an HTTPS GitHub repository URL")
     if not SHA_RE.fullmatch(data["tracked_commit"]):
         raise ValueError("tracked_commit must be a 40-character lowercase commit SHA")
-    if not isinstance(data["expected_capabilities"], list) or not data["expected_capabilities"]:
-        raise ValueError("expected_capabilities must be a non-empty list")
-    if not isinstance(data["safety_constraints"], list) or not data["safety_constraints"]:
-        raise ValueError("safety_constraints must be a non-empty list")
+    for field in ("expected_capabilities", "safety_constraints"):
+        if not isinstance(data[field], list) or not data[field] or any(
+            not isinstance(value, str) or not value.strip() for value in data[field]
+        ):
+            raise ValueError(f"{field} must be a non-empty list of non-empty strings")
     return data
 
 
 def upstream_sha(repository: str, tracked_ref: str) -> str:
-    match = re.fullmatch(r"https://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?", repository)
+    match = REPOSITORY_RE.fullmatch(repository)
     if not match:
         raise ValueError("repository must be an HTTPS GitHub repository URL")
     owner, name = match.groups()

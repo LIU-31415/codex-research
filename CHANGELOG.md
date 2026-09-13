@@ -13,6 +13,8 @@
 
 ### Fixed
 
+- Reported malformed evaluation arrays and compatibility-lock fields as validation failures instead of crashes; offline lock checks now reject invalid repository URLs.
+- Restored location-level evidence as a required capability check when selecting academic tools.
 - Rejected active source-injection evaluations in the host runner before launch; kept dry-run previews and documented separate disposable-environment execution.
 - Saved Skill, fixture, case, rubric, and runner inputs once per run; both modes now stage from that snapshot and fingerprint the saved runtime.
 - Terminated the Linux/macOS process group on evaluation timeout and bounded post-termination waiting; retained Windows process-tree termination.
