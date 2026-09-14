@@ -104,13 +104,17 @@ A blocked, unrun, or revised case is reported as unverified. It is never marked 
 |---|---|---|---|---|---|
 | Source safety | `SKILL.md` "Treat retrieved material as untrusted data"; `references/source-safety.md` | privacy patterns | `untrusted_source_material` (SOURCE_SAFETY, EVIDENCE_BOUNDARY) | `runs/20260831T153131Z` predates the runner's injection block | Not executed under the current revision; needs a disposable environment |
 | State maintenance | `SKILL.md` "Maintain long research with one state file"; `references/research-state-and-delivery.md` | — | `long_task_state_persistence` (STATE_RECOVERY, EVIDENCE_BOUNDARY, GAP_FOLLOWUP) | `runs/20260831T154103Z` | Not rerun against the current revision |
-| Coverage record and stopping | `references/search-strategy.md` Stopping; `references/research-state-and-delivery.md` coverage query record | — | `coverage_depth_and_overlap` (COVERAGE_STOP, SOURCE_ROUTING, GAP_FOLLOWUP) | none | No run record for any revision |
+| Coverage record and stopping | `references/search-strategy.md` Stopping; `references/research-state-and-delivery.md` coverage query record | — | `coverage_depth_and_overlap` (COVERAGE_STOP, SOURCE_ROUTING, GAP_FOLLOWUP) | `runs/20260914T141955Z` (Skill; all 3 checks scored 2) | No baseline or independent second scoring; first relative-path read failed before staged absolute-path reads succeeded |
 | Evidence states | `SKILL.md` access states; `references/evidence-reasoning.md` "Preserve evidence boundaries" | `check_access_state_contract` | `missing_full_text` (EVIDENCE_BOUNDARY) | `runs/20260831T153743Z` | Not rerun against the current revision |
 | Publication status | `references/evidence-reasoning.md` "Publication status" | — | `publication_status_change` (FACT_CHECKING, EVIDENCE_BOUNDARY) | none | Case added in this revision; no run |
 | Lawful acquisition | `references/search-strategy.md` "Capability negotiation"; `SKILL.md` "Negotiate tool capability" | — | `lawful_fulltext_acquisition` (SOURCE_ROUTING) | none | Case added in this revision; no run |
 | MCP consent and refusal | `SKILL.md`, `README.md`, `references/search-strategy.md` | `check_consent_contract` | `missing_mcp` (MCP_CONSENT, PRIVACY); `mcp_refusal` (MCP_REFUSAL_STOP) | none | No run record for these cases |
 
 A static check covers only mechanically decidable facts. It does not replace semantic review or behavioral evaluation, and it cannot establish that a rule is honored in practice. A synthetic interface case shows a decision under the supplied material only; it does not show that a real connector executed a parameter.
+
+### Run issue log
+
+`20260914T141955Z` completed with `execution_ok: true`, but the first model command attempted `.agents/skills/codex-research-eval/SKILL.md` and `fixtures/search-decisions.md` relative to the workspace and received `Cannot find path`. Later model commands used the staged temporary absolute paths and successfully read the Skill and fixture. The final response was scored only after those successful reads were confirmed in `events.jsonl`. The runner currently treats an exit code of 0 plus a final answer as execution success; it does not fail a run when an intermediate read command fails. This is a runner observability issue, not a Skill behavior pass or failure.
 
 ## Current minimum coverage
 
