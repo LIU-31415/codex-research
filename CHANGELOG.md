@@ -26,6 +26,8 @@
 
 ### Fixed
 
+- Preserved completed evaluation modes in the manifest before starting the next one; workspace-preparation and output errors now return an explicit failed run instead of losing earlier results from the manifest.
+- Corrected a platform-dependent regression assertion to require the absolute workspace path in the execution prompt using the same path format on Windows and Linux.
 - Corrected the new anchor checker to reject repository escapes before reading targets, skip non-Markdown fragments and fenced examples, decode local fragments, and preserve identifier underscores and distinct duplicate-heading anchors.
 - Made the access-state check inspect the actual ordered declarations, rejecting missing, extra, duplicate, or removed states rather than accepting incidental mentions or an empty entrypoint.
 - Reconciled state-file recommendations with conversation-only preferences, removed wording that could conceal unintended actions, and aligned the two definitions of `N/A`.

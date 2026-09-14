@@ -613,6 +613,7 @@ def main() -> int:
         "sandbox": args.sandbox,
         "mode": args.mode,
         "cases": [],
+        "execution_ok": False,
         "limitations": [
             "A small fixture-backed run is not a production router or retrieval benchmark.",
             "External connector capability and model behavior depend on the supplied environment.",
@@ -665,6 +666,7 @@ def main() -> int:
                 "declared_checks": case.get("checks", []),
                 "baseline_allowed": case.get("baseline_allowed", True),
             }
+            manifest["cases"].append(case_record)
             for with_skill, label in ((False, "baseline"), (True, "skill")):
                 if args.mode not in ("both", label):
                     continue
@@ -690,8 +692,11 @@ def main() -> int:
                 )
                 execution_failed |= not result["execution_ok"]
                 case_record[label] = result
-            manifest["cases"].append(case_record)
-            json_write(run_dir / "manifest.json", manifest)
+                json_write(run_dir / "manifest.json", manifest)
+    except (OSError, ValueError) as exc:
+        execution_failed = True
+        manifest["error"] = "Evaluation preparation or output failed: " + str(exc)
+        print(manifest["error"], file=sys.stderr)
     finally:
         cleanup_error = cleanup_temporary_workspace(temporary_root)
         if cleanup_error:

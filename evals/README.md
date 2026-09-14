@@ -79,7 +79,7 @@ Raw outputs and saved inputs may contain user questions, local paths, tool trace
 
 Cases may declare required workspace-relative `output_files`. The state-recovery case updates `fixtures/research_state.md`; the runner saves it as `artifacts/fixtures/research_state.md` for each side before deleting the temporary workspace. Compare saved content with the original fixture. File existence alone does not establish correct state recovery.
 
-Launch failures, timeouts, nonzero subprocess exits, missing final answers, and missing required outputs produce `execution_ok: false` and a nonzero runner exit. Execution success means outputs are complete; scientific quality still requires scoring.
+Launch failures, timeouts, nonzero subprocess exits, missing final answers, and missing required outputs produce `execution_ok: false` and a nonzero runner exit. Workspace-preparation or output errors also stop the run with an explicit error; each completed mode is saved immediately so a later failure preserves earlier results. Overall execution remains unconfirmed (`execution_ok: false`) until all selected runs finish successfully. Execution success means outputs are complete; scientific quality still requires scoring.
 
 ## Scoring procedure
 

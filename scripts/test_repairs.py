@@ -325,7 +325,8 @@ def check_evaluation_outputs(root, disabled_skills):
         assert "fixtures/loop-records.md" in legacy_prompt
         assert "fixtures/research_state.md" in runner.build_prompt(case, with_skill)
     original_mkdtemp = tempfile.mkdtemp
-    for scenario in ("success", "nonzero", "timeout", "launch_error", "missing_final", "missing_output"):
+    original_stage = runner.stage_workspace
+    for scenario in ("success", "nonzero", "timeout", "launch_error", "missing_final", "missing_output", "skill_staging_error"):
         commands = []
         workspaces = []
         args = argparse.Namespace(
@@ -354,7 +355,7 @@ def check_evaluation_outputs(root, disabled_skills):
                     prompt = input.decode("utf-8")
                     final = Path(self.command[self.command.index("-o") + 1])
                     assert (final.parent / "prompt.txt").read_text(encoding="utf-8") == prompt
-                    assert str(self.workspace) not in prompt
+                    assert self.workspace.resolve().as_posix() in prompt
                     assert "fixtures/research_state.md" in prompt
                 if scenario == "timeout" and self.calls == 1:
                     raise subprocess.TimeoutExpired(self.command, timeout)
@@ -373,6 +374,12 @@ def check_evaluation_outputs(root, disabled_skills):
                 pass
 
         with ExitStack() as stack:
+            def staged_workspace(temporary_root, with_skill, case, source_root):
+                if scenario == "skill_staging_error" and with_skill:
+                    raise OSError("synthetic Skill staging failure")
+                return original_stage(temporary_root, with_skill, case, source_root)
+
+            stack.enter_context(patch.object(runner, "stage_workspace", staged_workspace))
             for name, value in (
                 ("parse_args", lambda: args), ("codex_version", lambda _: "synthetic-version"),
                 ("git_commit", lambda: "synthetic-commit"), ("git_worktree_dirty", lambda: False),
@@ -400,6 +407,11 @@ def check_evaluation_outputs(root, disabled_skills):
         run_dir = root / "runs" / scenario
         manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["execution_ok"] == (scenario == "success"), scenario
+        if scenario == "skill_staging_error":
+            assert "synthetic Skill staging failure" in manifest["error"]
+            assert manifest["cases"][0]["baseline"]["execution_ok"] is True
+            assert "skill" not in manifest["cases"][0]
+            assert len(commands) == 1, "failed staging must not launch the Skill model"
         assert manifest["disabled_user_skills"] == disabled_skills
         inputs = run_dir / manifest["inputs_directory"]
         assert (inputs / "evals" / "fixtures" / "research_state.md").read_text(encoding="utf-8") == "original state"
