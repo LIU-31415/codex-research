@@ -119,6 +119,31 @@ def check_repository_diagnostics(root):
     assert all("missing anchor" in error for error in errors), errors
     assert "with space.md" in errors[0] and "#renamed" in errors[0], errors
     assert "#inside-a-fence" in errors[1], errors
+    document.write_text(
+        '[encoded](#%E4%B8%AD%E6%96%87) [state](#access_state) '
+        '[duplicate](#repeat-1-1) [explicit](#visible)\n'
+        '## 中文\n## `ACCESS_STATE`\n## Repeat\n## Repeat\n## Repeat-1\n'
+        '<a id="visible"></a>\n'
+        '````markdown\n```\n~~~\n# Hidden\n<a id="hidden"></a>\n'
+        '[example](#not-a-real-link)\n````\n', encoding="utf-8",
+    )
+    errors = []
+    privacy.check_markdown_anchors(repo, errors)
+    assert not errors, errors
+    assert "hidden" not in privacy.heading_anchors(document)
+    outside = root / "outside.md"
+    outside.write_text("## Secret\n", encoding="utf-8")
+    binary = repo / "asset.pdf"
+    binary.write_bytes(b"\xff")
+    document.write_text('[escape](../outside.md#secret) [asset](asset.pdf#page=1)', encoding="utf-8")
+    original_read = privacy.read_text
+    def guarded_read(path):
+        assert path.resolve() not in {outside.resolve(), binary.resolve()}, path
+        return original_read(path)
+    errors = []
+    with patch.object(privacy, "read_text", side_effect=guarded_read):
+        privacy.check_markdown_anchors(repo, errors)
+    assert len(errors) == 1 and "escapes repository" in errors[0], errors
     document.write_text('[escape](%2e%2e/outside.md) [missing](missing.md)', encoding="utf-8")
     errors = []
     privacy.check_markdown_links(repo, errors)
@@ -139,19 +164,26 @@ def check_access_state_contract(root):
     definition = references / "evidence-reasoning.md"
     states = privacy.ACCESS_STATES
     enumerated = "".join(f"- `{state}`;\n" for state in states)
-    skill.write_text(enumerated, encoding="utf-8")
-    definition.write_text(enumerated, encoding="utf-8")
+    skill_heading = "## Preserve evidence access states\n\n"
+    definition_heading = "## Preserve evidence boundaries\n\n"
+    skill.write_text(skill_heading + enumerated, encoding="utf-8")
+    definition.write_text(definition_heading + enumerated, encoding="utf-8")
     errors = []
     privacy.check_access_state_contract(repo, errors)
     assert not errors, errors
-    skill.write_text(enumerated.replace(f"`{states[2]}`;\n", ""), encoding="utf-8")
+    skill.write_text(
+        skill_heading + enumerated.replace(f"- `{states[2]}`;\n", "")
+        + f"\n## Other section\n- `{states[2]}`;\n", encoding="utf-8",
+    )
     errors = []
     privacy.check_access_state_contract(repo, errors)
     assert len(errors) == 1 and states[2] in errors[0], errors
-    skill.write_text("See [evidence boundaries](references/evidence-reasoning.md).\n", encoding="utf-8")
-    errors = []
-    privacy.check_access_state_contract(repo, errors)
-    assert not errors, errors
+    for invalid in ("", enumerated + "- `NEW_STATE`;\n", enumerated + f"- `{states[0]}`;\n"):
+        skill.write_text(skill_heading + invalid, encoding="utf-8")
+        errors = []
+        privacy.check_access_state_contract(repo, errors)
+        assert len(errors) == 1 and "access-state declarations" in errors[0], errors
+    skill.write_text(skill_heading + enumerated, encoding="utf-8")
     definition.unlink()
     errors = []
     privacy.check_access_state_contract(repo, errors)

@@ -123,7 +123,7 @@ Four search-decision cases use independent synthetic records in [search-decision
 - `long_task_state_persistence`: state recovery, preservation of unresolved items, and saving a next action tied to a specific evidence gap. Use `--sandbox workspace-write`.
 - `untrusted_source_material`: prompt-injection handling. The user prompt does not explain the malicious passage in advance, so it does not substitute for the Skill's own rules.
 - `publication_status_change`: a correction, a retraction, and an unverifiable status record, checked for how a notice changes the supported claim. Not yet run against a model.
-- `lawful_fulltext_acquisition`: acquisition-path choice under a synthetic tool listing that includes an unauthorized mirror and an undocumented fallback parameter. Not yet run against a model.
+- `lawful_fulltext_acquisition`: acquisition-path choice under a synthetic tool listing that includes an unauthorized mirror, a documented explicit fallback override with an unknown default, and a separate fallback with unverifiable source controls. Local fixture and mode-required Skill reads are allowed; actual retrieval is not. Not yet run against a model.
 
 `smoke-results.md` and `trigger-results.md` are historical smoke records. They provide design context but do not replace raw run records. After cases or rubrics change, old scores apply only to the tested version. New continuation and gap-follow-up requirements need new runs; static checks cannot establish that they pass.
 

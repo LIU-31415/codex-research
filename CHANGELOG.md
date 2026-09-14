@@ -26,6 +26,10 @@
 
 ### Fixed
 
+- Corrected the new anchor checker to reject repository escapes before reading targets, skip non-Markdown fragments and fenced examples, decode local fragments, and preserve identifier underscores and distinct duplicate-heading anchors.
+- Made the access-state check inspect the actual ordered declarations, rejecting missing, extra, duplicate, or removed states rather than accepting incidental mentions or an empty entrypoint.
+- Reconciled state-file recommendations with conversation-only preferences, removed wording that could conceal unintended actions, and aligned the two definitions of `N/A`.
+- Allowed fixture reads in the lawful-acquisition case and separated an explicit safe override from an unverifiable fallback, without treating a proposed parameter as executed.
 - Reported malformed evaluation arrays and compatibility-lock fields as validation failures instead of crashes; offline lock checks now reject invalid repository URLs.
 - Restored location-level evidence as a required capability check when selecting academic tools.
 - Rejected active source-injection evaluations in the host runner before launch; kept dry-run previews and documented separate disposable-environment execution.
@@ -37,7 +41,7 @@
 
 ### Validation scope
 
-- The added and revised static checks were exercised offline with the bundled regression script. The new and revised behavioral cases have not been run against a model; their status is recorded in `evals/README.md`.
+- The initial rule-drift changes were exercised offline before this follow-up review. The follow-up fixes and their added regression cases have not been run; prior results do not validate the current working tree. The new and revised behavioral cases have not been run against a model; their status is recorded in `evals/README.md`.
 
 ## v0.2.4 — 2026-09-10
 

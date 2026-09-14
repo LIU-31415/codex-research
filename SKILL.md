@@ -178,7 +178,7 @@ Keep these constraints throughout the work:
 
 ## Maintain long research with one state file
 
-For work that is long, revisable, likely to pause across sessions, or intended for formal delivery, explicitly recommend creating or updating `research_state.md`. Follow the triggers and structure in [research-state-and-delivery.md](references/research-state-and-delivery.md) rather than keeping a second trigger list here. Create or update it only within existing write authorization; otherwise explain the target and purpose and ask first, including when the target is an unrelated repository.
+Use `research_state.md` to preserve research that needs a durable record. Read [research-state-and-delivery.md](references/research-state-and-delivery.md) before deciding whether to recommend, create, or update it; apply its triggers and the user's preference for conversation only. Create or update it only within existing write authorization; otherwise explain the target and purpose and ask first, including when the target is an unrelated repository.
 
 Use it as shared working memory for:
 

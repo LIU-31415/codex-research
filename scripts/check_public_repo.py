@@ -40,9 +40,9 @@ SENSITIVE_PATTERNS = [
     ("private key", re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----")),
 ]
 LINK_RE = re.compile(r"\[[^\]]+\]\((<[^>]*>|[^\s)]*)(?:\s+[^)]*)?\)")
-HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
-FENCE_RE = re.compile(r"^\s*(?:```|~~~)")
-EXPLICIT_ANCHOR_RE = re.compile(r"<a\s+[^>]*(?:name|id)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE)
+HEADING_RE = re.compile(r"^ {0,3}(#{1,6})[ \t]+(.+?)\s*$")
+FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
+EXPLICIT_ANCHOR_RE = re.compile(r"<a\b[^>]*\s(?:name|id)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE)
 
 # The ordered access-state vocabulary is enumerated in both the entrypoint and
 # the reference. If the entrypoint is changed to link the definition instead of
@@ -88,32 +88,45 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def markdown_lines(path: Path):
+    """Yield Markdown outside fenced examples, respecting fence type and length."""
+    fence = ""
+    for line in read_text(path).splitlines():
+        match = FENCE_RE.match(line)
+        if fence:
+            if match and match[1][0] == fence[0] and len(match[1]) >= len(fence) and not match[2].strip():
+                fence = ""
+            continue
+        if match and not (match[1][0] == "`" and "`" in match[2]):
+            fence = match[1]
+            continue
+        yield line
+
+
 def heading_anchors(path: Path) -> set[str]:
-    """Collect the anchors a Markdown file exposes, ignoring fenced code blocks."""
+    """Collect the ATX heading and explicit anchors used by this repository."""
     anchors: set[str] = set()
-    counts: dict[str, int] = {}
-    in_fence = False
-    content = read_text(path)
-    for explicit in EXPLICIT_ANCHOR_RE.findall(content):
-        anchors.add(explicit.strip())
-    for line in content.splitlines():
-        if FENCE_RE.match(line):
-            in_fence = not in_fence
-            continue
-        if in_fence:
-            continue
+    generated: set[str] = set()
+    for line in markdown_lines(path):
+        anchors.update(EXPLICIT_ANCHOR_RE.findall(line))
         match = HEADING_RE.match(line)
         if not match:
             continue
-        text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", match.group(2))
-        text = re.sub(r"[`*_]", "", text).strip().lower()
+        text = re.sub(r"[ \t]+#+[ \t]*$", "", match.group(2))
+        text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+        text = re.sub(r"<[^>]*>", "", text)
+        text = re.sub(r"[`*]", "", text).strip().lower()
         slug = re.sub(r"[^\w\s-]", "", text)
-        slug = re.sub(r"\s+", "-", slug).strip("-")
+        slug = re.sub(r"\s", "-", slug)
         if not slug:
             continue
-        index = counts.get(slug, 0)
-        counts[slug] = index + 1
-        anchors.add(slug if index == 0 else f"{slug}-{index}")
+        anchor = slug
+        index = 0
+        while anchor in generated:
+            index += 1
+            anchor = f"{slug}-{index}"
+        generated.add(anchor)
+        anchors.add(anchor)
     return anchors
 
 
@@ -135,7 +148,7 @@ def check_markdown_links(root: Path, errors: list[str]) -> None:
     for path in iter_files(root):
         if path.suffix.lower() != ".md":
             continue
-        content = read_text(path)
+        content = "\n".join(markdown_lines(path))
         for raw_target in LINK_RE.findall(content):
             target = raw_target.strip("<>")
             if (
@@ -157,25 +170,25 @@ def check_markdown_links(root: Path, errors: list[str]) -> None:
 
 
 def check_markdown_anchors(root: Path, errors: list[str]) -> None:
+    anchors: dict[Path, set[str]] = {}
     for path in iter_files(root):
         if path.suffix.lower() != ".md":
             continue
-        anchors: dict[Path, set[str]] = {}
-        for raw_target in LINK_RE.findall(read_text(path)):
+        for raw_target in LINK_RE.findall("\n".join(markdown_lines(path))):
             target = raw_target.strip("<>")
             if not target or target.startswith(("http://", "https://", "mailto:", "data:")):
                 continue
-            if target.startswith("#"):
-                document, fragment = path, target[1:]
-            elif "#" in target:
-                document, _, fragment = target.partition("#")
-                document = (path.parent / unquote(document)).resolve()
-                if not document.is_file():
-                    continue
-                fragment = unquote(fragment)
-            else:
+            if "#" not in target:
                 continue
-            fragment = fragment.strip()
+            relative, _, fragment = target.partition("#")
+            relative = unquote(relative.split("?", 1)[0])
+            document = (path.parent / relative).resolve() if relative else path.resolve()
+            if not document.is_relative_to(root.resolve()):
+                errors.append(f"{path.relative_to(root)}: link escapes repository: {raw_target}")
+                continue
+            if document.suffix.lower() != ".md" or not document.is_file():
+                continue
+            fragment = unquote(fragment)
             if not fragment:
                 continue
             if document not in anchors:
@@ -342,24 +355,23 @@ def check_consent_contract(root: Path, errors: list[str]) -> None:
 
 
 def check_access_state_contract(root: Path, errors: list[str]) -> None:
-    """Compare the access-state sets enumerated in the entrypoint and the reference."""
+    """Check the actual ordered declarations, not incidental mentions elsewhere."""
     entrypoint = root / "SKILL.md"
     definition = root / "references" / "evidence-reasoning.md"
-    for path in (entrypoint, definition):
+    for path, heading in (
+        (entrypoint, "Preserve evidence access states"),
+        (definition, "Preserve evidence boundaries"),
+    ):
         if not path.is_file():
             errors.append(f"{path.relative_to(root)}: missing access-state document")
-            return
-    entry_states = {state for state in ACCESS_STATES if f"`{state}`" in read_text(entrypoint)}
-    definition_states = {state for state in ACCESS_STATES if f"`{state}`" in read_text(definition)}
-    if not entry_states:
-        return
-    if entry_states != definition_states:
-        missing = sorted(definition_states - entry_states)
-        extra = sorted(entry_states - definition_states)
-        errors.append(
-            "SKILL.md access-state set disagrees with references/evidence-reasoning.md "
-            f"(missing: {missing or 'none'}; extra: {extra or 'none'})"
-        )
+            continue
+        content = "\n".join(markdown_lines(path))
+        section = re.search(rf"(?m)^## {re.escape(heading)}\s*\n([\s\S]*?)(?=^## |\Z)", content)
+        states = tuple(re.findall(r"(?m)^- `([A-Z][A-Z0-9_]*)`", section[1])) if section else ()
+        if states != ACCESS_STATES:
+            errors.append(
+                f"{path.relative_to(root)}: access-state declarations must be {ACCESS_STATES}; got {states}"
+            )
 
 
 def main() -> int:
