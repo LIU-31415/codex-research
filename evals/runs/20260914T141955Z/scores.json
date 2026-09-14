@@ -1,0 +1,21 @@
+{
+  "run_id": "20260914T141955Z",
+  "scorer": "Codex",
+  "scored_at_utc": "2026-09-14T14:29:52Z",
+  "cases": [
+    {
+      "case_id": "coverage_depth_and_overlap",
+      "baseline": {
+        "COVERAGE_STOP": "N/A",
+        "SOURCE_ROUTING": "N/A",
+        "GAP_FOLLOWUP": "N/A"
+      },
+      "skill": {
+        "COVERAGE_STOP": 2,
+        "SOURCE_ROUTING": 2,
+        "GAP_FOLLOWUP": 2
+      },
+      "notes": "Scored against the saved inputs and event log. COVERAGE_STOP: final.md identifies the unvisited page-2 cursor and rejects saturation. SOURCE_ROUTING: final.md preserves D for discovery and E for abstract/full-text support instead of discarding overlap. GAP_FOLLOWUP: final.md connects the next actions to reading E's screening abstract and paginating D. Event item_1 initially failed on relative fixture paths, then item_3 and later events successfully read the staged Skill and references; the final answer did not claim a new query or external read."
+    }
+  ]
+}

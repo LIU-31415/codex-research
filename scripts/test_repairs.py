@@ -314,6 +314,13 @@ def check_evaluation_outputs(root, disabled_skills):
         assert "fixtures/loop-entry.md" in prompt and "loop-records.md" not in prompt
         workspace = runner.stage_workspace(root / "entry-staging", with_skill, loop_case, ROOT)
         assert all((workspace / relative).is_file() for relative in loop_case["files"])
+        live_prompt = runner.build_prompt(loop_case, with_skill, workspace)
+        assert (workspace / "fixtures/loop-entry.md").resolve().as_posix() in live_prompt
+        assert "loop-records.md" not in live_prompt
+        skill_path = (workspace / ".agents/skills" / runner.EVAL_SKILL_NAME / "SKILL.md").resolve().as_posix()
+        assert (skill_path in live_prompt) == with_skill
+        state_prompt = runner.build_prompt(case, with_skill, workspace)
+        assert (workspace / "fixtures/research_state.md").resolve().as_posix() in state_prompt
         legacy_prompt = runner.build_prompt({**loop_case, "entry_files": loop_case["files"]}, with_skill)
         assert "fixtures/loop-records.md" in legacy_prompt
         assert "fixtures/research_state.md" in runner.build_prompt(case, with_skill)

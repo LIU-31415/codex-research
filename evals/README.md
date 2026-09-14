@@ -73,7 +73,7 @@ inputs/                     # Skill, references, selected cases, fixtures, rubri
    └─ result.json
 ```
 
-Fixture paths in prompts are relative to the subprocess working directory. `prompt.txt` preserves the actual prompt sent to Codex. This avoids inserting temporary absolute paths into fixture instructions, but does not sanitize events, configuration overrides, errors, or other outputs.
+Execution prompts identify the absolute staged workspace, Skill, fixture, and output paths because a tool shell may start in a different directory. Task-relative paths must be resolved against that workspace. Dry-run previews retain workspace-relative paths because no temporary workspace exists yet. `prompt.txt` preserves the actual prompt, including temporary local paths; review and redact it before publication along with events, configuration overrides, errors, and other outputs.
 
 Raw outputs and saved inputs may contain user questions, local paths, tool traces, credentials, private text, or source excerpts. They are ignored by Git by default and must be reviewed and redacted before publication. On Windows, a subprocess may temporarily retain a handle to the workspace; cleanup failures are recorded in `manifest.json`. Cleanup status is separate from evaluation execution status. On Linux/macOS, each run starts in a new session and timeout termination targets its process group; Windows targets the process tree. Waiting after termination is bounded.
 
@@ -114,7 +114,9 @@ A static check covers only mechanically decidable facts. It does not replace sem
 
 ### Run issue log
 
-`20260914T141955Z` completed with `execution_ok: true`, but the first model command attempted `.agents/skills/codex-research-eval/SKILL.md` and `fixtures/search-decisions.md` relative to the workspace and received `Cannot find path`. Later model commands used the staged temporary absolute paths and successfully read the Skill and fixture. The final response was scored only after those successful reads were confirmed in `events.jsonl`. The runner currently treats an exit code of 0 plus a final answer as execution success; it does not fail a run when an intermediate read command fails. This is a runner observability issue, not a Skill behavior pass or failure.
+`20260914T141955Z`: item_1 failed to read relative paths; item_2 showed that the tool shell was at the drive root rather than the staged workspace. Items 3 and 4 then successfully read the staged Skill and fixture through absolute paths. The runner already passed the workspace as both the process directory and CLI `-C`; the evidence does not establish why the tool shell started elsewhere. Execution prompts now supply absolute staged paths and explicitly anchor task-relative paths to the workspace. A new model run is needed to establish recovery-free execution.
+
+The initial diagnosis that this recovery made `execution_ok: true` incorrect was withdrawn. That field records process/output completion, not behavioral success; recovered intermediate failures do not automatically invalidate a run. Scoring must still inspect successful reads and the final response. Completed scores belong in `scores.json`; the previously filled `score-template.json` has been restored to an unscored template. This run used the CLI's configured default, whose exact model identity was not captured; it does not establish that the model matched the parent conversation. The final answer also mentioned the internal Skill name, a presentation issue outside the three declared checks. No baseline or independent second scoring was performed.
 
 ## Current minimum coverage
 

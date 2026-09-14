@@ -242,8 +242,16 @@ def stage_workspace(
 def build_prompt(
     case: Dict[str, Any],
     with_skill: bool,
+    workspace: Optional[Path] = None,
 ) -> str:
     parts = []
+    if workspace is not None:
+        workspace = workspace.resolve()
+        parts.append(
+            "Evaluation workspace: " + workspace.as_posix() + "\n"
+            "Resolve task-relative paths against this workspace, not the shell's initial directory. "
+            "Use absolute paths or explicitly set the tool working directory for file operations."
+        )
     if with_skill:
         parts.append(
             "Use the local evaluation copy of `codex-research` explicitly. "
@@ -251,24 +259,26 @@ def build_prompt(
                 EVAL_SKILL_NAME
             )
         )
+        if workspace is not None:
+            parts.append("Read the staged Skill at: " + (workspace / ".agents" / "skills" / EVAL_SKILL_NAME / "SKILL.md").as_posix())
     else:
         parts.append("Run this evaluation without loading or using any Skill.")
     parts.append(case["prompt"])
     files = case.get("entry_files", case.get("files", []))
     if files:
         listed = "\n".join(
-            "- " + value
+            "- " + ((workspace / value).as_posix() if workspace is not None else value)
             for value in files
         )
         parts.append(
-            "Read each evaluation fixture before answering. These paths are relative to the current working directory:\n"
+            "Read each evaluation fixture before answering. Paths below are absolute during execution and workspace-relative in previews:\n"
             + listed
         )
     if case.get("output_files"):
         parts.append(
-            "Save these required outputs at the listed workspace-relative paths; "
+            "Save these required outputs at the listed paths within the evaluation workspace; "
             "update an existing file in place rather than creating a second state file:\n"
-            + "\n".join("- " + value for value in case["output_files"])
+            + "\n".join("- " + ((workspace / value).as_posix() if workspace is not None else value) for value in case["output_files"])
         )
     return "\n\n".join(parts)
 
@@ -665,7 +675,7 @@ def main() -> int:
                     )
                     continue
                 workspace = stage_workspace(temporary_root / case["id"], with_skill, case, inputs_dir)
-                prompt = build_prompt(case, with_skill)
+                prompt = build_prompt(case, with_skill, workspace)
                 result = run_one(
                     case_dir / label,
                     executable,
