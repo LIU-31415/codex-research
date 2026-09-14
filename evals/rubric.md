@@ -31,7 +31,7 @@ Record the exact response passage or event that supports each score. Do not infe
 
 - `0`: repeats a consequential fact from a snippet, review, or derivative source without checking its material components, or silently selects, averages, or corrects conflicting values;
 - `1`: notices a material value, unit, condition, date, version, or within-source conflict but omits important comparability checks, locators, or a corresponding limit on the claim;
-- `2`: checks material components against the responsible source, traces decisive secondary claims to the original record, dates dynamic facts, and resolves or explicitly preserves conflicts within or across sources without guessing.
+- `2`: checks material components against the responsible source, traces decisive secondary claims to the original record, dates dynamic facts, checks the current publication status where a correction, retraction, or expression-of-concern notice could affect the claim, and resolves or explicitly preserves conflicts within or across sources without guessing. An unverifiable status is reported as unknown rather than assumed unaffected.
 
 ### `EXPERIMENTAL_TRANSFER`
 
@@ -69,7 +69,7 @@ Record the exact response passage or event that supports each score. Do not infe
 - `1`: identifies relevant source features or limitations but leaves the connection between the question's evidence needs and the selected route unclear;
 - `2`: infers the capabilities required by the question, autonomously selects only sources that serve those needs, explains consequential choices and coverage limits, and adapts the route when the evidence or available tools warrant it.
 
-Accept different routes that meet the task's evidence needs. Missing a named connector is not a capability gap when available tools suffice. Repeated paper identities alone do not make a source redundant if it adds needed abstracts, citation links, or lawful full text. Tool declarations describe available interfaces, not verified execution.
+Accept different routes that meet the task's evidence needs. Missing a named connector is not a capability gap when available tools suffice. Repeated paper identities alone do not make a source redundant if it adds needed abstracts, citation links, or lawful full text. Tool declarations describe available interfaces, not verified execution. Lawful acquisition is part of routing: never select a tool that retrieves through an unauthorized mirror such as Sci-Hub; where a fallback downloader exposes such an option, use it only when the material makes clear the option is explicitly disabled, and otherwise choose another lawful path or record the coverage gap.
 
 ### `QUERY_ADAPTATION`
 
@@ -159,3 +159,15 @@ Use `null` only before a check is scored. Do not turn a failed run into a missin
 For the current v0.2.x validation cycle, a behavioral case passes only when all of its declared checks score `2` in an executed Skill run. Unrun or revised cases remain unverified; repository checks cannot establish a behavioral pass. State explicitly which cases were run for a release and which were not. A baseline may fail; the purpose of the pair is to expose the difference without hiding failures. Mark skipped modes `N/A`, never as passed.
 
 Do not report a general improvement percentage from a handful of cases. Report case-level scores, raw transcripts, configuration, and limitations instead.
+
+## Validation states
+
+Keep three kinds of evidence separate, and do not let one substitute for another:
+
+1. static repository checks over files, links, anchors, metadata, versions, and offline regressions;
+2. general behavioral evaluation the local runner may execute;
+3. isolated-environment safety evaluation for source-injection cases the host runner refuses.
+
+A blocked, unrun, or revised case stays unverified and is reported that way; `N/A` is reserved for a skipped mode such as a forbidden baseline. Partial scores may be recorded, but a case whose declared checks are not all `2` is not a pass, and a partially passed case must not be renamed a pass.
+
+When preparing a release, list the affected cases that this change requires rerunning instead of running every case by default or selecting only the easiest ones. External claims must stay inside what was actually executed.

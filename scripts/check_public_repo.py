@@ -40,6 +40,21 @@ SENSITIVE_PATTERNS = [
     ("private key", re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----")),
 ]
 LINK_RE = re.compile(r"\[[^\]]+\]\((<[^>]*>|[^\s)]*)(?:\s+[^)]*)?\)")
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
+FENCE_RE = re.compile(r"^\s*(?:```|~~~)")
+EXPLICIT_ANCHOR_RE = re.compile(r"<a\s+[^>]*(?:name|id)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE)
+
+# The ordered access-state vocabulary is enumerated in both the entrypoint and
+# the reference. If the entrypoint is changed to link the definition instead of
+# enumerating it, remove this contract check rather than weakening it.
+ACCESS_STATES = (
+    "SEARCH_HIT",
+    "METADATA_ONLY",
+    "ABSTRACT_READ",
+    "FULLTEXT_FILE_AVAILABLE",
+    "FULLTEXT_TEXT_READ",
+    "FULLTEXT_LOCATED",
+)
 
 
 def iter_files(root: Path):
@@ -71,6 +86,35 @@ def iter_files(root: Path):
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def heading_anchors(path: Path) -> set[str]:
+    """Collect the anchors a Markdown file exposes, ignoring fenced code blocks."""
+    anchors: set[str] = set()
+    counts: dict[str, int] = {}
+    in_fence = False
+    content = read_text(path)
+    for explicit in EXPLICIT_ANCHOR_RE.findall(content):
+        anchors.add(explicit.strip())
+    for line in content.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        match = HEADING_RE.match(line)
+        if not match:
+            continue
+        text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", match.group(2))
+        text = re.sub(r"[`*_]", "", text).strip().lower()
+        slug = re.sub(r"[^\w\s-]", "", text)
+        slug = re.sub(r"\s+", "-", slug).strip("-")
+        if not slug:
+            continue
+        index = counts.get(slug, 0)
+        counts[slug] = index + 1
+        anchors.add(slug if index == 0 else f"{slug}-{index}")
+    return anchors
 
 
 def check_privacy(root: Path, errors: list[str]) -> None:
@@ -110,6 +154,37 @@ def check_markdown_links(root: Path, errors: list[str]) -> None:
                 continue
             if not resolved.exists():
                 errors.append(f"{path.relative_to(root)}: missing link target: {raw_target}")
+
+
+def check_markdown_anchors(root: Path, errors: list[str]) -> None:
+    for path in iter_files(root):
+        if path.suffix.lower() != ".md":
+            continue
+        anchors: dict[Path, set[str]] = {}
+        for raw_target in LINK_RE.findall(read_text(path)):
+            target = raw_target.strip("<>")
+            if not target or target.startswith(("http://", "https://", "mailto:", "data:")):
+                continue
+            if target.startswith("#"):
+                document, fragment = path, target[1:]
+            elif "#" in target:
+                document, _, fragment = target.partition("#")
+                document = (path.parent / unquote(document)).resolve()
+                if not document.is_file():
+                    continue
+                fragment = unquote(fragment)
+            else:
+                continue
+            fragment = fragment.strip()
+            if not fragment:
+                continue
+            if document not in anchors:
+                anchors[document] = heading_anchors(document)
+            if fragment not in anchors[document]:
+                errors.append(
+                    f"{path.relative_to(root)}: missing anchor #{fragment} in "
+                    f"{document.relative_to(root)}: {raw_target}"
+                )
 
 
 def check_metadata(root: Path, errors: list[str]) -> None:
@@ -266,13 +341,41 @@ def check_consent_contract(root: Path, errors: list[str]) -> None:
                 errors.append(f"{relative}: consent contract missing: {phrase}")
 
 
+def check_access_state_contract(root: Path, errors: list[str]) -> None:
+    """Compare the access-state sets enumerated in the entrypoint and the reference."""
+    entrypoint = root / "SKILL.md"
+    definition = root / "references" / "evidence-reasoning.md"
+    for path in (entrypoint, definition):
+        if not path.is_file():
+            errors.append(f"{path.relative_to(root)}: missing access-state document")
+            return
+    entry_states = {state for state in ACCESS_STATES if f"`{state}`" in read_text(entrypoint)}
+    definition_states = {state for state in ACCESS_STATES if f"`{state}`" in read_text(definition)}
+    if not entry_states:
+        return
+    if entry_states != definition_states:
+        missing = sorted(definition_states - entry_states)
+        extra = sorted(entry_states - definition_states)
+        errors.append(
+            "SKILL.md access-state set disagrees with references/evidence-reasoning.md "
+            f"(missing: {missing or 'none'}; extra: {extra or 'none'})"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
     root = args.root.resolve()
     errors: list[str] = []
-    for check in (check_privacy, check_markdown_links, check_metadata, check_consent_contract):
+    for check in (
+        check_privacy,
+        check_markdown_links,
+        check_markdown_anchors,
+        check_metadata,
+        check_consent_contract,
+        check_access_state_contract,
+    ):
         try:
             check(root, errors)
         except (OSError, UnicodeError) as exc:

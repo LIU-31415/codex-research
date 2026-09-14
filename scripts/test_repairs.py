@@ -98,16 +98,29 @@ def check_user_skills(root):
 def check_repository_diagnostics(root):
     repo = root / "diagnostics"
     repo.mkdir()
-    (repo / "with space.md").write_text("Synthetic", encoding="utf-8")
+    (repo / "with space.md").write_text("## Section\n\nSynthetic\n", encoding="utf-8")
     document = repo / "README.md"
     document.write_text(
         '[space](<with space.md>) [encoded](with%20space.md#section) '
-        '[title](with%20space.md "Title") [empty]( ) [self]()', encoding="utf-8",
+        '[title](with%20space.md "Title") [empty]( ) [self]() '
+        '[same](#local-heading)\n\n## Local heading\n', encoding="utf-8",
     )
     errors = []
     privacy.check_markdown_links(repo, errors)
+    privacy.check_markdown_anchors(repo, errors)
     assert not errors, errors
+    document.write_text(
+        '[renamed](with%20space.md#renamed) [fenced](#inside-a-fence)\n\n'
+        "```\n# Inside a fence\n```\n", encoding="utf-8",
+    )
+    errors = []
+    privacy.check_markdown_anchors(repo, errors)
+    assert len(errors) == 2, errors
+    assert all("missing anchor" in error for error in errors), errors
+    assert "with space.md" in errors[0] and "#renamed" in errors[0], errors
+    assert "#inside-a-fence" in errors[1], errors
     document.write_text('[escape](%2e%2e/outside.md) [missing](missing.md)', encoding="utf-8")
+    errors = []
     privacy.check_markdown_links(repo, errors)
     assert len(errors) == 2 and "escapes repository" in errors[0] and "missing link target" in errors[1], errors
     document.write_bytes(b"\xff")
@@ -116,6 +129,33 @@ def check_repository_diagnostics(root):
         assert privacy.main() == 1
     assert "PUBLIC_REPO_CHECK_FAILED" in output.getvalue() and "not valid UTF-8" in output.getvalue()
     assert "evals/rubric.md is missing" in output.getvalue()
+
+
+def check_access_state_contract(root):
+    repo = root / "access-states"
+    references = repo / "references"
+    references.mkdir(parents=True)
+    skill = repo / "SKILL.md"
+    definition = references / "evidence-reasoning.md"
+    states = privacy.ACCESS_STATES
+    enumerated = "".join(f"- `{state}`;\n" for state in states)
+    skill.write_text(enumerated, encoding="utf-8")
+    definition.write_text(enumerated, encoding="utf-8")
+    errors = []
+    privacy.check_access_state_contract(repo, errors)
+    assert not errors, errors
+    skill.write_text(enumerated.replace(f"`{states[2]}`;\n", ""), encoding="utf-8")
+    errors = []
+    privacy.check_access_state_contract(repo, errors)
+    assert len(errors) == 1 and states[2] in errors[0], errors
+    skill.write_text("See [evidence boundaries](references/evidence-reasoning.md).\n", encoding="utf-8")
+    errors = []
+    privacy.check_access_state_contract(repo, errors)
+    assert not errors, errors
+    definition.unlink()
+    errors = []
+    privacy.check_access_state_contract(repo, errors)
+    assert any("missing access-state document" in error for error in errors), errors
 
 
 def check_injection_boundary():
@@ -467,11 +507,12 @@ def main():
             return 3
         check_tracked_outputs(root)
         check_repository_diagnostics(root)
+        check_access_state_contract(root)
         check_metadata_and_fingerprint(root)
         check_frozen_inputs(root)
         disabled_skills = check_user_skills(root)
         check_evaluation_outputs(root, disabled_skills)
-    print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, injection boundary, frozen inputs, process-tree termination, tracked privacy, user-skill overrides, state artifacts, execution failures")
+    print("REPAIR_CHECKS_OK: safe paths, unique cases, version failures, injection boundary, frozen inputs, process-tree termination, tracked privacy, user-skill overrides, state artifacts, execution failures, anchor links, access-state contract")
     return 0
 
 

@@ -16,7 +16,7 @@ Use the recommendation only when the work is already long or substantially revis
 - the session is likely to pause or move to another Codex conversation;
 - the user asks for a durable research record.
 
-Create or update it only within existing write authorization, including when the user already requested a persistent research document. Otherwise explain the target and purpose and ask first, including when the target is an unrelated repository. Do not recommend it for a short lookup merely because the answer contains an important claim, or when the user prefers conversation only.
+Create or update it only within existing write authorization, including when the user already requested a persistent research document. Otherwise explain the target and purpose and ask first, including when the target is an unrelated repository. Respond to an explicit user request for a durable research record by creating or updating the file within existing write authorization, even when the other conditions are absent. Do not recommend it for a short lookup merely because the answer contains an important claim, and do not push it when the user prefers conversation only.
 
 ## Update behavior
 
@@ -68,6 +68,12 @@ Adapt this structure to the task. Omit empty sections.
 - Retired or ambiguous terms:
 - Searches and sources covered:
 - Coverage limitations:
+
+### Coverage query record (optional; use for `COVERAGE` searches)
+| Query | Source | Search date | Filters | Sorting | Requested limit | Pages or cursors covered | Reported total or truncation |
+|---|---|---|---|---|---|---|---|
+
+Record the date the search was run separately from any publication-date filter. Mark an unreported total, missing pagination support, or uninspected interface behavior as unknown rather than leaving the cell blank, and state which kind of unknown it is: a retrieval unknown (the interface did not report it) is not the same as a source-reporting unknown (the paper or its methods section does not report it). This table is not required for short or exploratory work.
 
 ## Key papers
 | ID | Stable identifier | Role | Access state | Identity, version, and independence notes |

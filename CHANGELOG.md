@@ -10,6 +10,19 @@
 - Distinguished in-scope follow-up work from user decisions and deferred extensions; scoped field overviews no longer require choosing a specialty first.
 - Added proportionate checks against apparent gaps, incremental explanations for newcomers, and question/gap status in the existing research state.
 - Added a synthetic field-onboarding case and rubric for follow-up evidence use, gap revision, and bounded synthesis. This does not establish real-world retrieval performance.
+- Removed the conditional "when available" wording from the entrypoint's source-safety read, and rewrote evaluation-framed notes inside the runtime documents as ordinary rules.
+- Kept the research-state triggers and structure in one reference; the entrypoint links them instead of enumerating a second trigger list.
+- Gave the coverage query record a home in the state template, and made a user-declared time, cost, or retrieval-count limit an explicit stopping boundary while prohibiting fabricated budgets or access limits.
+- Added checkpoint closing conditions so a reported checkpoint is not treated as resolved while its blocking condition remains.
+- Aligned known-paper validation so the diagnostic paper may come from the user or from an already verified in-scope record, and is run only when it could change a judgment.
+- Added conditional guidance for regional or non-English source coverage, for recording data and code provenance when a conclusion depends on it, for distinguishing a retrieval unknown from a source-reporting unknown, and for qualitative weighting after ruling out vote counting.
+
+### Added
+
+- Added a validation status map in `evals/README.md` linking each tracked rule topic to its rule source, static check, behavioral case, latest executed run, and unverified part.
+- Added two narrow behavioral cases, `publication_status_change` and `lawful_fulltext_acquisition`, with matching rubric conditions for publication status and lawful acquisition.
+- Documented three separate validation states — static checks, general behavioral evaluation, and isolated-environment safety evaluation — while keeping the single all-declared-checks-pass standard for a case and refusing to rename partial results as passes.
+- Added static checks for local Markdown heading anchors, including cross-file and same-page links, and for access-state consistency between the entrypoint and the reference.
 
 ### Fixed
 
@@ -21,6 +34,10 @@
 - Reported malformed metadata values without a misleading secondary length or name error; length errors now include the parsed character count.
 - Validated trigger-evaluation queries and boolean expectations, including missing fields.
 - Clarified release ZIP placement and the distinction between workflow files and bundled license/version metadata.
+
+### Validation scope
+
+- The added and revised static checks were exercised offline with the bundled regression script. The new and revised behavioral cases have not been run against a model; their status is recorded in `evals/README.md`.
 
 ## v0.2.4 — 2026-09-10
 

@@ -136,7 +136,7 @@ Preserve the source and query path for important papers. A source failure is a c
 
 Characterize available sources by their coverage, indexed content, evidence depth, retrieval features, freshness, provenance, and access limits. Infer which capabilities the current question requires, then select and combine only the sources that materially help resolve it. Broad discovery, disciplinary search, citation expansion, and source-native verification are possible roles, not a required sequence or fixed bundle.
 
-Let the question, emerging evidence, and actual tool capabilities determine the route. Revise the selection when a source proves redundant, insufficient, or unable to address a material gap. For consequential source choices, preserve a concise reason and the important coverage limits; do not require a fixed database map or treat an aggregator as authoritative for facts that should be verified at the responsible primary source.
+Let the question, emerging evidence, and actual tool capabilities determine the route. Revise the selection when a source proves redundant, insufficient, or unable to address a material gap. For consequential source choices, preserve a concise reason and the important coverage limits; do not require a fixed database map or treat an aggregator as authoritative for facts that should be verified at the responsible primary source. When language, region, or local practice could change the conclusion, check sources that index that literature and state the resulting coverage limitation if it stays uncovered; name source categories rather than prescribing a fixed database bundle.
 
 ## Candidate identity and deduplication
 
@@ -152,7 +152,7 @@ Do not count multiple records, reports, reviews, or versions as independent evid
 
 ## Known-paper validation
 
-When the user supplies known papers, verify whether they are retrieved and correctly identified. If one is missing, investigate the cause:
+Use diagnostic papers whose in-scope status is already established — supplied by the user or already verified within the current scope — and check whether retrieval returns them and identifies them correctly. Confirm first that the diagnostic paper really fits the scope; a paper outside it neither measures recall nor establishes a coverage problem. If an in-scope paper is missing, investigate the cause:
 
 - terminology or spelling;
 - date or document-type filter;
@@ -161,7 +161,7 @@ When the user supplies known papers, verify whether they are retrieved and corre
 - title or identifier mismatch;
 - query depth or ranking.
 
-Use the result to improve the search strategy. Do not guarantee completeness from known-paper recall alone.
+Prefer an existing verified record over a new search, and run a specific diagnostic when it could change a coverage or gap judgment rather than as a routine extra pass every round. Use the result to improve the search strategy. Do not guarantee completeness from known-paper recall alone.
 
 ## Prioritizing papers for reading
 
@@ -210,7 +210,10 @@ Stop or pause when:
 - remaining gaps require user-provided full text or unavailable access;
 - unresolved disagreement cannot be reduced with accessible evidence;
 - further work belongs to a formal systematic-review protocol;
-- the user chooses to narrow, pause, or conclude.
+- the user chooses to narrow, pause, or conclude;
+- a time, cost, or retrieval-count limit the user declared has been reached.
+
+A budget or access limit counts as a stopping boundary only when the user declares it or it demonstrably exists; do not set one on your own behalf or invent one to end the work early, and do not promise unlimited retrieval. When a declared limit stops retrieval, keep the coverage limitation explicit and do not describe the result as saturation.
 
 For `COVERAGE`, decision sufficiency alone is not a stopping condition. First complete the declared query families and sources, address material expansion gaps, confirm that successive batches add little or no new independent high-relevance evidence, and document the remaining coverage limits.
 

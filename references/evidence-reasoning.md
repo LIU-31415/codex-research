@@ -41,7 +41,7 @@ Use one ordered access-state vocabulary:
 - `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
 - `FULLTEXT_LOCATED`: a supporting passage, table, figure, equation, or section was located in the verified full text.
 
-A discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement remains a candidate asset until its title, authors, stable identifier, document type, and publication-version relationship are checked against the target paper. Until that identity gate passes, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state.
+A discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement remains a candidate asset until its title, authors, stable identifier, document type, and publication-version relationship are checked against the target paper. Until that identity gate passes, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state. Apply the same idea to data and code: when a conclusion depends on a dataset or implementation, record its source relationship, version, and what was actually read or run, and do not treat obtaining or reading code as evidence that the reported result reproduces.
 
 Record `HUMAN_VERIFIED` as an orthogonal verification flag when the user or researcher explicitly checks a relevant source detail. It does not replace or automatically upgrade the access state.
 
@@ -212,7 +212,7 @@ Before aggregating disagreement, classify it:
 
 Then decide whether the evidence should be combined, stratified, explained as heterogeneity, retained as competing conclusions, or left unresolved.
 
-Do not use majority vote. Do not remove a material contradiction to make prose smoother.
+Do not use majority vote. Do not remove a material contradiction to make prose smoother. After ruling out a vote count, a qualitative weighting across directly comparable evidence is allowed when justified by directness, method quality, independence, and comparability; state the reason, and do not invent numerical weights or statistical pooling.
 
 ## Causal and mechanism claims
 

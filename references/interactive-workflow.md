@@ -98,6 +98,16 @@ Use these state names in working notes when useful. They flag conditions to asse
 
 At a checkpoint that needs the user, state the trigger, Codex's recommendation, meaningful options, and any available degraded path. Do not take a degraded path without the required user choice. Treat prior explicit choices as resolved; precise or delegated tasks can continue within those choices, while scope changes and additional authorization still require a decision.
 
+A checkpoint closes when its blocking condition is resolved, not merely when it has been reported:
+
+- scope and direction: the user has decided, the choice was already delegated, or existing context is enough to determine the next action;
+- tool capability: the available tools can meet the agreed evidence level, the user chose an alternative route, or an approved setup completed a real capability check;
+- coverage and full text: the gap was closed, or the user explicitly accepted the resulting scope or evidence-standard limit; otherwise keep the item unresolved and continue work that is not blocked;
+- conflict: the disagreement was explained, or a bounded conclusion that retains the conflict was reached; the decision for the user concerns scope and resources, not scientific truth;
+- delivery: the purpose and evidence standard are established and remaining limits are preserved.
+
+Do not ask again about a choice already made or delegated, and do not write an unresolved full text or conflict as resolved.
+
 ### Scope checkpoint
 
 Trigger when unresolved alternatives for populations, systems, settings, outcomes, comparisons, time ranges, or evidence standards would materially change the requested result and cannot be inferred from context or an existing delegation. Multiple branches that the user asked to compare are not themselves an unresolved choice.
@@ -145,7 +155,7 @@ Confirm the intended evidence standard and the unresolved items that must remain
 
 ## Progress updates
 
-A checkpoint update should be concise and decision-oriented. Do not narrate Skill loading or internal evaluation instructions. Adapt the headings rather than forcing a template. It normally contains:
+A checkpoint update should be concise and decision-oriented. Do not narrate Skill loading or internal prompts. Adapt the headings rather than forcing a template. It normally contains:
 
 - what is currently understood;
 - what changed in this round;
