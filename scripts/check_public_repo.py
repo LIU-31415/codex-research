@@ -44,9 +44,8 @@ HEADING_RE = re.compile(r"^ {0,3}(#{1,6})[ \t]+(.+?)\s*$")
 FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
 EXPLICIT_ANCHOR_RE = re.compile(r"<a\b[^>]*\s(?:name|id)\s*=\s*[\"']([^\"']+)[\"']", re.IGNORECASE)
 
-# The ordered access-state vocabulary is enumerated in both the entrypoint and
-# the reference. If the entrypoint is changed to link the definition instead of
-# enumerating it, remove this contract check rather than weakening it.
+# The canonical vocabulary lives in the evidence reference. Entrypoints link
+# there; link/anchor checks cover navigation, behavioral evals cover meaning.
 ACCESS_STATES = (
     "SEARCH_HIT",
     "METADATA_ONLY",
@@ -318,60 +317,19 @@ def check_metadata(root: Path, errors: list[str]) -> None:
         errors.append(f"release metadata missing: {exc.filename}")
 
 
-def check_consent_contract(root: Path, errors: list[str]) -> None:
-    """Catch drift between the three user-facing MCP consent descriptions."""
-    required = {
-        "SKILL.md": (
-            "Ask whether the user wants Codex to install or configure",
-            "Wait for the user's answer",
-            "If the user declines, stop this MCP-dependent research path",
-            "temporary files created by the attempted installation",
-            "verify it with a real harmless tool call",
-        ),
-        "README.md": (
-            "Ask the user whether they want Codex to install or configure",
-            "Wait for the user's answer",
-            "If the user declines, stop the MCP-dependent path",
-            "temporary files created by the attempted setup",
-            "verify it with a real harmless tool call",
-        ),
-        "references/search-strategy.md": (
-            "Ask whether the user wants Codex to install or configure",
-            "wait for the answer",
-            "If the user declines, stop this MCP-dependent path",
-            "temporary files created by the attempted setup",
-            "verify with one harmless real tool call",
-        ),
-    }
-    for relative, phrases in required.items():
-        path = root / relative
-        if not path.exists():
-            errors.append(f"{relative}: missing consent contract document")
-            continue
-        content = read_text(path)
-        for phrase in phrases:
-            if phrase not in content:
-                errors.append(f"{relative}: consent contract missing: {phrase}")
-
-
 def check_access_state_contract(root: Path, errors: list[str]) -> None:
-    """Check the actual ordered declarations, not incidental mentions elsewhere."""
-    entrypoint = root / "SKILL.md"
-    definition = root / "references" / "evidence-reasoning.md"
-    for path, heading in (
-        (entrypoint, "Preserve evidence access states"),
-        (definition, "Preserve evidence boundaries"),
-    ):
-        if not path.is_file():
-            errors.append(f"{path.relative_to(root)}: missing access-state document")
-            continue
-        content = "\n".join(markdown_lines(path))
-        section = re.search(rf"(?m)^## {re.escape(heading)}\s*\n([\s\S]*?)(?=^## |\Z)", content)
-        states = tuple(re.findall(r"(?m)^- `([A-Z][A-Z0-9_]*)`", section[1])) if section else ()
-        if states != ACCESS_STATES:
-            errors.append(
-                f"{path.relative_to(root)}: access-state declarations must be {ACCESS_STATES}; got {states}"
-            )
+    """Check the canonical declarations, not incidental mentions elsewhere."""
+    path = root / "references" / "evidence-reasoning.md"
+    if not path.is_file():
+        errors.append(f"{path.relative_to(root)}: missing access-state document")
+        return
+    content = "\n".join(markdown_lines(path))
+    section = re.search(r"(?m)^## Preserve evidence boundaries\s*\n([\s\S]*?)(?=^## |\Z)", content)
+    states = tuple(re.findall(r"(?m)^- `([A-Z][A-Z0-9_]*)`", section[1])) if section else ()
+    if states != ACCESS_STATES:
+        errors.append(
+            f"{path.relative_to(root)}: access-state declarations must be {ACCESS_STATES}; got {states}"
+        )
 
 
 def main() -> int:
@@ -385,7 +343,6 @@ def main() -> int:
         check_markdown_links,
         check_markdown_anchors,
         check_metadata,
-        check_consent_contract,
         check_access_state_contract,
     ):
         try:

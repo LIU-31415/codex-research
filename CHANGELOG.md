@@ -4,7 +4,11 @@
 
 ### Changed
 
-- Consolidated detailed capability negotiation, evidence-state definitions, claim appraisal, and publication audit guidance in the existing references, retaining entrypoint constraints and explicit read-before-use links.
+- Consolidated detailed capability negotiation, evidence-state definitions, claim appraisal, and publication audit guidance in the existing references; shortened the entrypoint and description, and routed reference reads by the current action.
+- Made user/host precedence, proportionate evidence records, conditional conclusions, and original grounded hypotheses explicit. State files and full evidence schemas are not prerequisites for a short answer or for useful synthesis during writing.
+- Made full-text access claim-specific, including partial reads, unread supplements, manuscript versions, and reliable identity matches without a DOI. Distinguished shared authors or methods from duplicated underlying evidence.
+- Aligned bounded unresolved delivery with continued independent work and preserved stricter coverage stopping conditions. Field maps are useful research updates, not a mandatory extra deliverable before every search.
+- Distinguished source instructions from separately authorized actions, allowed quiet handling of separable injection, and preserved real research topics in intended user deliverables while keeping public Skill examples neutral.
 - Aligned research-state writes and setup cleanup with existing authorization; otherwise the target and purpose must be explained before asking for approval.
 - Made scoped autonomous investigation the central research loop: analyze questions, check evidence, pursue useful follow-ups, and revise the field map.
 - Distinguished in-scope follow-up work from user decisions and deferred extensions; scoped field overviews no longer require choosing a specialty first.
@@ -21,15 +25,17 @@
 
 - Added a validation status map in `evals/README.md` linking each tracked rule topic to its rule source, static check, behavioral case, latest executed run, and unverified part.
 - Added two narrow behavioral cases, `publication_status_change` and `lawful_fulltext_acquisition`, with matching rubric conditions for publication status and lawful acquisition.
-- Documented three separate validation states — static checks, general behavioral evaluation, and isolated-environment safety evaluation — while keeping the single all-declared-checks-pass standard for a case and refusing to rename partial results as passes.
-- Added static checks for local Markdown heading anchors, including cross-file and same-page links, and for access-state consistency between the entrypoint and the reference.
+- Documented three separate validation states — static checks, general behavioral evaluation, and isolated-environment safety evaluation. A case must satisfy its requested outcome and scope as well as pass all declared checks; release evidence also requires identifiable model/configuration and auditable events.
+- Added static checks for local Markdown heading anchors, including cross-file and same-page links, and for the canonical access-state vocabulary in the evidence reference.
+- Added a partial-full-text case and a proportionate-completion rubric, and strengthened the existing short evidence task to check appropriate stopping.
 
 ### Fixed
 
 - Preserved completed evaluation modes in the manifest before starting the next one; workspace-preparation and output errors now return an explicit failed run instead of losing earlier results from the manifest.
 - Corrected a platform-dependent regression assertion to require the absolute workspace path in the execution prompt using the same path format on Windows and Linux.
 - Corrected the new anchor checker to reject repository escapes before reading targets, skip non-Markdown fragments and fenced examples, decode local fragments, and preserve identifier underscores and distinct duplicate-heading anchors.
-- Made the access-state check inspect the actual ordered declarations, rejecting missing, extra, duplicate, or removed states rather than accepting incidental mentions or an empty entrypoint.
+- Made the access-state check inspect the canonical declarations, rejecting missing, extra, duplicate, or removed states rather than incidental mentions. Removed exact-sentence consent checks and duplicate entrypoint declarations; link checks and behavioral cases cover their respective contracts.
+- Aligned consent/refusal and fact-checking scoring with the case's actual capability gap, authorization, available records, and task boundary, without demanding unperformed future setup or nonexistent cleanup.
 - Reconciled state-file recommendations with conversation-only preferences, removed wording that could conceal unintended actions, and aligned the two definitions of `N/A`.
 - Allowed fixture reads in the lawful-acquisition case and separated an explicit safe override from an unverifiable fallback, without treating a proposed parameter as executed.
 - Reported malformed evaluation arrays and compatibility-lock fields as validation failures instead of crashes; offline lock checks now reject invalid repository URLs.
@@ -43,7 +49,7 @@
 
 ### Validation scope
 
-- The initial rule-drift changes were exercised offline before this follow-up review. The follow-up fixes and their added regression cases have not been run; prior results do not validate the current working tree. The new and revised behavioral cases have not been run against a model; their status is recorded in `evals/README.md`.
+- The goal/connection review passed the offline regression suite and Skill structural validator. A targeted subagent walkthrough produced correct short-answer and partial-full-text responses; it reused the review context and is not a blind or paired evaluation. New and revised cases still lack current paired-run evidence, and no live MCP or real-world retrieval performance was tested. See `evals/README.md` for the validation boundaries.
 
 ## v0.2.4 — 2026-09-10
 

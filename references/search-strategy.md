@@ -123,7 +123,7 @@ Every query should have a purpose. Avoid exhaustive keyword permutations.
 ## Tool-call execution
 
 - Batch independent discovery queries in one call when the tool supports it.
-- Normalize paper identities, version relationships, and duplicates before opening or downloading full text.
+- Screen and deduplicate using available identities and version information before bulk full-text retrieval. When reading a candidate is necessary to establish identity or eligibility, inspect it first; do not require unavailable metadata before opening it. Keep its identity unresolved until the match is established.
 - Retrieve or parse full text only for papers with high decision value or claims that require it.
 - Retry a failed source at most once without a changed reason, then switch to a lawful alternative or record the coverage gap.
 - After each substantial batch, reconcile newly added independent, high-relevance evidence with the current claims and remaining gaps before deciding to continue, refine, or stop.
@@ -203,13 +203,12 @@ Separate a gap in the current search or access from a substantive uncertainty in
 
 For field onboarding, a sufficient result explains the relevant research directions and their relationships, demonstrated progress and conditions, important disputes or limitations, and supported candidate gaps with useful next steps. Deliver this incrementally. Do not chase every adjacent field or require a fixed number of papers or loops. For precise tasks, answer the specific question without forcing a field survey.
 
-Stop or pause when:
+Complete the task when its requested answer and evidence/coverage requirements are met. If they are not met, the following may justify a bounded result or a pause after feasible independent work is complete:
 
-- the user's current decision can be supported at the agreed evidence level;
-- new searches produce little decision-relevant information;
+- targeted searches no longer reduce the material uncertainty, and no feasible in-scope evidence action is likely to change the judgment;
 - remaining gaps require user-provided full text or unavailable access;
 - unresolved disagreement cannot be reduced with accessible evidence;
-- further work belongs to a formal systematic-review protocol;
+- the remaining requested claim requires a formal review method beyond the agreed task;
 - the user chooses to narrow, pause, or conclude;
 - a time, cost, or retrieval-count limit the user declared has been reached.
 

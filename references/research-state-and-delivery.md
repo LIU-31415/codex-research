@@ -39,7 +39,7 @@ Never strengthen a claim merely to make the state concise.
 
 ## Suggested state structure
 
-Adapt this structure to the task. Omit empty sections.
+Adapt this structure to the task. Omit empty sections and merge overlapping ones. Record each decision, claim, or open question once and refer to it elsewhere; the template is not a requirement to duplicate the same gap in several sections. Extend an existing user-approved research record rather than creating a competing file.
 
 ```markdown
 # Research State
@@ -76,7 +76,7 @@ Adapt this structure to the task. Omit empty sections.
 Record the date the search was run separately from any publication-date filter. Mark an unreported total, missing pagination support, or uninspected interface behavior as unknown rather than leaving the cell blank, and state which kind of unknown it is: a retrieval unknown (the interface did not report it) is not the same as a source-reporting unknown (the paper or its methods section does not report it). This table is not required for short or exploratory work.
 
 ## Key papers
-| ID | Stable identifier | Role | Access state | Identity, version, and independence notes |
+| ID | Stable identifier | Role | Access state and material read | Identity, version, independence, and publication-status notes |
 |---|---|---|---|---|
 
 ## Consequential claims
@@ -167,7 +167,7 @@ A final answer should normally include, in an order suited to the task:
 
 ## From state to final report
 
-Generate the report from the confirmed state and source records. Do not perform a fresh, untracked synthesis only during final writing.
+Generate the report from the available source records and current confirmed synthesis, using a state file when one exists. If writing reveals a new consequential inference or changes a conclusion, check its evidence and assumptions before presenting it, and update the relevant record within existing write authorization. Do not require a state file or prohibit useful synthesis merely because it arises during writing.
 
 During editing:
 

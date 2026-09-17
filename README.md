@@ -6,6 +6,8 @@
 
 The Skill is designed for engineering and scientific research across disciplines. It adapts the workflow and final output to the research decision instead of enforcing a fixed paper count, database, or report template.
 
+The entrypoint keeps the shared objective and boundaries, with detailed references read only for the current action. Evidence records scale with the consequence of the claim; a short answer needs neither a full ledger nor a state file. Synthesis and original hypotheses are encouraged when their premises, assumptions, and evidence limits are clear.
+
 ## Project features
 
 - **Question-led retrieval:** clarify the scope, choose sources by evidence needs, and connect each retrieval batch to the next evidence gap or stopping reason.
@@ -66,15 +68,7 @@ An installation request for this repository authorizes installing the Skill. It 
 
 The Skill can refine questions and perform web orientation with the tools already available in Codex. Broader paper discovery, download, or full-text reading may require a separately configured academic connector.
 
-If a research task requires an academic MCP or connector and no suitable tool is available, Codex must:
-
-1. Explain which capability is unavailable and how that limits the requested research.
-2. Ask the user whether they want Codex to install or configure a suitable connector, or continue with existing tools under an explicit coverage or evidence limitation. Present both routes in one checkpoint and recommend one.
-3. Wait for the user's answer only when the user has not already selected a route. Do not install software, edit MCP configuration, start an OAuth flow, or request credentials before the user agrees.
-4. If the user agrees, inspect the connector's current official instructions and the existing Codex configuration before making changes.
-5. Preserve existing configuration and user customizations. Never invent credentials or place secrets in the repository, logs, or public output.
-6. Complete installation and authentication within the approved scope, restart the MCP connection when required, and verify it with a real harmless tool call.
-7. If the user declines, stop the MCP-dependent path immediately. Cleanup is limited to temporary files created by the attempted setup and requires existing authorization; otherwise explain the targets and ask first. Preserve existing user files, credentials, and Codex configuration. Do not call the connector or pretend it is available. Continue with existing tools only when the user selected that route in the same checkpoint or had already requested it; otherwise report the coverage limitation and wait.
+Available tools may already meet the task's needs; a missing connector name alone is not a reason to stop. When a capability gap prevents the agreed result, follow the [capability and consent procedure](references/search-strategy.md#capability-negotiation): explain the limitation, recommend setup or an explicitly limited alternative, and wait for a necessary decision. Setup requires explicit approval and a harmless real verification call. Refusal stops the dependent path; already authorized alternatives may continue. Cleanup requires authorization and must preserve existing user files and configuration.
 
 [openags/paper-search-mcp](https://github.com/openags/paper-search-mcp) is one optional academic connector. It is maintained separately and is not bundled with this Skill.
 
@@ -112,7 +106,7 @@ The fixed evaluation cases and their limits are documented in [`evals/`](evals/)
 
 ## Maintenance checks
 
-- Every push and pull request runs deterministic checks for public-content privacy patterns, Skill metadata, release-version consistency, JSON fixtures, internal Markdown links and heading anchors, entrypoint/reference access-state consistency, and evaluation-runner regressions.
+- Every push and pull request runs deterministic checks for public-content privacy patterns, Skill metadata, release-version consistency, JSON fixtures, internal Markdown links and heading anchors, the canonical access-state vocabulary, and evaluation-runner regressions. Behavioral rules such as consent are assessed by their outcomes, not by matching repeated English sentences.
 - Tracked evaluation outputs and environment files are scanned even when normally ignored. Ignored, untracked local files remain excluded; pattern checks do not replace manual review before publication.
 - A weekly compatibility check compares the tracked `paper-search-mcp` revision with its public upstream revision. A change stops the check for manual review; it never installs or runs the connector automatically.
 - The live MCP smoke record is manual-only. Update it only after a user-authorized end-to-end run, using the actual installation, authentication, restart, and handshake result. CI does not spend tokens on model or live-MCP tests.

@@ -15,7 +15,7 @@ Do not ask Codex to reveal a private chain of thought or to follow a fixed seque
 
 ## Consequential claims
 
-Apply the full claim contract when a statement:
+Use the claim contract to identify the information needed when a statement:
 
 - changes the research direction or another consequential decision;
 - reports a decision-relevant quantitative value;
@@ -30,18 +30,24 @@ Apply the full claim contract when a statement:
 
 Ordinary definitions, bibliographic facts, and low-stakes background can remain lighter, with appropriate sources.
 
+Scale the record to the judgment it supports. The contract is a set of questions to answer where material, not a required schema for every sentence. A brief source report may need only attribution, the relevant result, and its conditions; a disputed comparison or proposed research direction needs the assumptions and alternatives that could change it. Shared source details can be recorded once.
+
 ## Preserve evidence boundaries
 
-Use one ordered access-state vocabulary:
+Use one access-state vocabulary to describe the material actually obtained, not a scientific-quality ranking or mandatory acquisition sequence:
 
 - `SEARCH_HIT`: discovery lead or snippet only;
 - `METADATA_ONLY`: paper identity and bibliographic facts were obtained;
 - `ABSTRACT_READ`: an explicit abstract was opened and read;
 - `FULLTEXT_FILE_AVAILABLE`: an accessible asset passed the paper-identity gate;
 - `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
-- `FULLTEXT_LOCATED`: a supporting passage, table, figure, equation, or section was located in the verified full text.
+- `FULLTEXT_LOCATED`: a claim-relevant passage, table, figure, equation, or section was located in the verified full text.
 
-A discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement remains a candidate asset until its title, authors, stable identifier, document type, and publication-version relationship are checked against the target paper. Until that identity gate passes, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state. Apply the same idea to data and code: when a conclusion depends on a dataset or implementation, record its source relationship, version, and what was actually read or run, and do not treat obtaining or reading code as evidence that the reported result reproduces.
+A discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement remains a candidate asset until the available title, authors, stable identifier, document type, and publication-version relationship establish a reliable match to the target paper. A missing DOI is not a failed identity check when title, authors, year, and provenance establish the match; record missing or conflicting metadata. Until identity is established, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state.
+
+Attach access scope and locators to the evidence used for each claim. A paper-level state is only a summary: `FULLTEXT_TEXT_READ` may cover selected sections, and `FULLTEXT_LOCATED` means a particular claim has a located passage, not that the whole paper or its supplements were read or verified. A verified excerpt can support what it contains but cannot establish that a parameter is absent from unread sections. Track the main article, supplements, and different versions separately when their access differs. In supplied synthetic or excerpt-only tasks, describe the supplied record and locator without inventing real full-text access.
+
+Apply the same idea to data and code: when a conclusion depends on a dataset or implementation, record its source relationship, version, and what was actually read or run. Obtaining or reading code is not evidence that the reported result reproduces.
 
 Record `HUMAN_VERIFIED` as an orthogonal verification flag when the user or researcher explicitly checks a relevant source detail. It does not replace or automatically upgrade the access state.
 
@@ -49,7 +55,7 @@ Full-text access does not imply validation of methods, figures, statistics, retr
 
 ## Publication status
 
-Before relying on a paper for a consequential conclusion, inspect the publisher's current article page and any linked correction, retraction, withdrawal, or expression-of-concern notice. Record the status, source link, check date, and effect on the specific claim separately from the access state. Before formal delivery, resolve missing status checks and refresh them when a new notice or elapsed research interval could change the judgment; do not repeat an unchanged check within a short session.
+Before relying on a paper for a consequential conclusion, inspect its current publisher or responsible repository record and any linked correction, retraction, withdrawal, or expression-of-concern notice. Record the status, source link, check date, and effect on the specific claim separately from the access state. For a preprint or other non-journal work, use the responsible repository's version and withdrawal information rather than requiring a nonexistent publisher page. Before formal delivery, resolve missing checks when feasible and refresh them when a new notice or elapsed research interval could change the judgment; do not repeat an unchanged check within a short session. For tasks explicitly restricted to supplied materials or no external retrieval, use available status records and mark current external status unchecked; do not violate the task boundary to obtain it.
 
 Use corrected findings where a correction affects the claim. Do not use a retracted or withdrawn finding as affirmative support; retain it only when needed to explain the research history or the notice itself. An expression of concern requires stating the affected uncertainty and seeking independent support. If status cannot be checked, record it as unknown rather than assuming the paper is unaffected.
 
@@ -135,6 +141,8 @@ What evidence would change the judgment
 
 This may remain in working state and be summarized naturally for the user. Expand it when the user requests an audit or when the claim carries high research consequence.
 
+Identifiers, separate evidence/claim records, and inference-distance labels are optional organization aids. Reuse them for a long or complex synthesis; do not create empty fields, duplicate shared source details, or print an entire ledger for a short answer.
+
 ## Warrant and inference distance
 
 The warrant is the bridge between evidence and claim. If it cannot be stated clearly, weaken or withhold the claim.
@@ -147,6 +155,8 @@ Use qualitative inference distance:
 - `LONG`: extrapolation, causal attribution from indirect evidence, or a new hypothesis.
 
 A long inference is not automatically invalid. It carries a higher burden to expose assumptions and alternatives.
+
+Use that room for synthesis: compare explanatory power, derive implications from stated premises, propose testable hypotheses, and make conditional recommendations where the task calls for them. An original hypothesis need not already have direct empirical confirmation; its premises must be grounded and its predicted observations distinguished from findings. Missing evidence for one inference need not prevent a supported conclusion elsewhere, and uncertainty does not make all alternatives equally plausible.
 
 ## Match evidence to the research question
 
@@ -177,7 +187,7 @@ Check when feasible:
 - reviews that echo the same primary evidence;
 - citations that ultimately trace to one original result.
 
-If independence is unknown, mark it `INDEPENDENCE_UNKNOWN` and say so. Multiple publications with unknown dependence provide apparent corroboration, not confirmed independent replication.
+Shared authors, institutions, methods, or benchmarks are clues to examine, not proof that observations are duplicated. Distinguish shared underlying data from independent measurements exposed to similar methodological biases. If independence remains unknown, record it as unknown (`INDEPENDENCE_UNKNOWN` in structured notes). Explain it to the user when it affects the conclusion. Multiple publications with unknown dependence do not establish independent replication.
 
 ## Evidence quality dimensions
 

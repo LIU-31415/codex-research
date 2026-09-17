@@ -71,7 +71,7 @@ Skip or abbreviate orientation when the user supplies a precise research questio
 
 ## Direction checkpoint before heavy paper search
 
-Before broad academic retrieval, return a compact field map:
+For an unclear direction, share a provisional field map after enough orientation to make it useful and before committing to a materially different or expensive retrieval route. The map may include:
 
 - current interpretation of the user's goal;
 - important terms or ambiguities discovered;
@@ -80,7 +80,7 @@ Before broad academic retrieval, return a compact field map:
 - a recommended direction;
 - one decision question, only if needed to proceed.
 
-Ask and wait only when a material scope or direction choice remains unresolved and has not been delegated. For a scoped request to understand the field, compare the relevant branches first; do not require a newcomer to choose a specialty before providing the requested overview. A proposed personal research direction or new application still requires the user's decision unless delegated.
+Ask and wait only when a material scope or direction choice remains unresolved and has not been delegated. This is not a required standalone deliverable before every paper search. For a scoped request to understand the field, compare the relevant branches first; do not require a newcomer to choose a specialty before providing the requested overview. Recommend candidate personal research directions when requested; committing to a new objective or application requires the user's decision unless delegated.
 
 Treat a clear instruction already present in the conversation as a resolved checkpoint. Do not ask the user to confirm the same scope, route, or execution preference again.
 
@@ -102,7 +102,7 @@ A checkpoint closes when its blocking condition is resolved, not merely when it 
 
 - scope and direction: the user has decided, the choice was already delegated, or existing context is enough to determine the next action;
 - tool capability: the available tools can meet the agreed evidence level, the user chose an alternative route, or an approved setup completed a real capability check;
-- coverage and full text: the gap was closed, or the user explicitly accepted the resulting scope or evidence-standard limit; otherwise keep the item unresolved and continue work that is not blocked;
+- coverage and full text: the evidence was obtained, or the workflow can conclude with an explicitly bounded or unresolved answer that meets the requested task; the missing evidence itself remains recorded as unresolved. Changing required coverage or lowering an agreed evidence standard still needs the user's decision. Continue independent work while a material item remains blocked;
 - conflict: the disagreement was explained, or a bounded conclusion that retains the conflict was reached; the decision for the user concerns scope and resources, not scientific truth;
 - delivery: the purpose and evidence standard are established and remaining limits are preserved.
 
@@ -155,7 +155,7 @@ Confirm the intended evidence standard and the unresolved items that must remain
 
 ## Progress updates
 
-A checkpoint update should be concise and decision-oriented. Do not narrate Skill loading or internal prompts. Adapt the headings rather than forcing a template. It normally contains:
+A checkpoint update should be concise and decision-oriented. Follow host disclosure requirements without repeatedly narrating Skill loading or internal prompts. Adapt the headings rather than forcing a template. It normally contains:
 
 - what is currently understood;
 - what changed in this round;

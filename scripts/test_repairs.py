@@ -164,26 +164,26 @@ def check_access_state_contract(root):
     definition = references / "evidence-reasoning.md"
     states = privacy.ACCESS_STATES
     enumerated = "".join(f"- `{state}`;\n" for state in states)
-    skill_heading = "## Preserve evidence access states\n\n"
     definition_heading = "## Preserve evidence boundaries\n\n"
-    skill.write_text(skill_heading + enumerated, encoding="utf-8")
+    skill.write_text("[Evidence](references/evidence-reasoning.md#preserve-evidence-boundaries)\n", encoding="utf-8")
     definition.write_text(definition_heading + enumerated, encoding="utf-8")
     errors = []
     privacy.check_access_state_contract(repo, errors)
+    privacy.check_markdown_links(repo, errors)
+    privacy.check_markdown_anchors(repo, errors)
     assert not errors, errors
-    skill.write_text(
-        skill_heading + enumerated.replace(f"- `{states[2]}`;\n", "")
+    definition.write_text(
+        definition_heading + enumerated.replace(f"- `{states[2]}`;\n", "")
         + f"\n## Other section\n- `{states[2]}`;\n", encoding="utf-8",
     )
     errors = []
     privacy.check_access_state_contract(repo, errors)
     assert len(errors) == 1 and states[2] in errors[0], errors
     for invalid in ("", enumerated + "- `NEW_STATE`;\n", enumerated + f"- `{states[0]}`;\n"):
-        skill.write_text(skill_heading + invalid, encoding="utf-8")
+        definition.write_text(definition_heading + invalid, encoding="utf-8")
         errors = []
         privacy.check_access_state_contract(repo, errors)
         assert len(errors) == 1 and "access-state declarations" in errors[0], errors
-    skill.write_text(skill_heading + enumerated, encoding="utf-8")
     definition.unlink()
     errors = []
     privacy.check_access_state_contract(repo, errors)
