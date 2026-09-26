@@ -28,6 +28,7 @@ Record deltas such as:
 - a term was added, narrowed, or excluded;
 - a key paper was verified or reclassified;
 - evidence moved from abstract to located full text;
+- original sections, figures, or supplements were read, remain pending, or could not be reliably extracted;
 - a claim was strengthened, weakened, split, or withdrawn;
 - a follow-up question was answered, selected for investigation, deferred, or blocked by a necessary user decision;
 - a candidate gap was narrowed or withdrawn after contrary or nearby evidence was checked;
@@ -84,6 +85,8 @@ Record the date the search was run separately from any publication-date filter. 
 |---|---|---|---|---|
 
 Add eligibility decisions and reasons when screening affects coverage; retain consequential excluded/pending items rather than only included papers. A comparison matrix can link to these records instead of repeating them.
+
+For long-paper reading, retain the article/version, sections or page ranges and visual objects actually read, relevant supplements, extraction problems, and the next unread part. A parser output or saved summary is not a record of completed reading. Keep abstract-only leads separate from sources whose original evidence supports the synthesis.
 
 ## Consequential claims
 ### C1 — [claim]

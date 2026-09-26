@@ -124,7 +124,7 @@ Every query should have a purpose. Avoid exhaustive keyword permutations.
 
 - Batch independent discovery queries in one call when the tool supports it.
 - Screen and deduplicate using available identities and version information before bulk full-text retrieval. When reading a candidate is necessary to establish identity or eligibility, inspect it first; do not require unavailable metadata before opening it. Keep its identity unresolved until the match is established.
-- Retrieve or parse full text only for papers with high decision value or claims that require it.
+- Prioritize full-text reading by decision value; obtain and read original material for papers used to support substantive scientific conclusions. Use [full-text reading](fulltext-reading.md) to check content, handle truncation, and connect results to methods and qualifications. Discovery-only candidates need not all be downloaded.
 - Retry a failed source at most once without a changed reason, then switch to a lawful alternative or record the coverage gap.
 - After each substantial batch, reconcile newly added independent, high-relevance evidence with the current claims and remaining gaps before deciding to continue, refine, or stop.
 
@@ -154,7 +154,7 @@ Do not count multiple records, reports, reviews, or versions as independent evid
 
 For a multi-paper synthesis or coverage task, make the eligibility criteria explicit enough to apply consistently: the relevant system, question, study types, comparisons, and scope limits. Reuse the agreed scope; do not add an intake gate or require a clinical question framework for unrelated disciplines.
 
-Use titles and abstracts for initial triage, then inspect the relevant full text when eligibility depends on missing details. Distinguish eligible evidence, contextual or methodological background, excluded work, and unresolved eligibility. Missing abstracts or unavailable full text do not establish ineligibility; keep access limitations separate from scientific exclusion. Negative or inconvenient findings remain eligible under the same criteria as positive findings.
+Use titles and abstracts for initial triage, then inspect the relevant full text when eligibility depends on missing details and before using findings as scientific support. Distinguish eligible candidates, evidence actually verified, contextual or methodological background, excluded work, and unresolved eligibility. Missing abstracts or unavailable full text do not establish ineligibility; keep access limitations separate from scientific exclusion. Negative or inconvenient findings remain eligible under the same criteria as positive findings.
 
 Retain the reason for consequential exclusions or pending decisions in existing notes, alongside the stable identifier and scope used. For formal-review support, preserve the screening stage and actual record/report/study counts when required; never reconstruct flow counts from memory. If criteria change, record why and revisit affected earlier decisions rather than applying a favorable exception to one paper. Do not turn a paper's failure to support one claim into exclusion from every other use.
 

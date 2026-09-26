@@ -24,7 +24,7 @@ Adapt to the question's evidence type, including theoretical, experimental, comp
 
 Use the conversation and relevant available materials to establish the current question, scope, exclusions, intended result, known sources, and next important uncertainty. Resume an existing `research_state.md` when relevant; do not restart orientation or search unrelated files for context.
 
-Infer the evidence needed from the task. Bibliographic verification may need metadata; a preliminary source report may use an explicit abstract; a numerical comparison, mechanism, or experimental transfer often needs the relevant methods, results, or supplement. Ask about the evidence standard only when plausible choices would materially change the result. Discussion-only and supplied-material tasks retain those boundaries.
+Infer the evidence needed from the task. Bibliographic verification may use metadata; abstracts serve discovery, screening, and reading priorities. Ground substantive scientific conclusions in the original work's relevant body text, methods, results, figures/tables, and supplements rather than treating abstracts as supporting evidence. Explicit abstract-summary or supplied-material tasks may report what those materials say, with attribution and unverified status; they do not establish the scientific claim or authorize extra retrieval. Preserve discussion-only boundaries.
 
 For a broad or uncertain topic, begin with a light orientation using available authoritative web or supplied sources, then show a provisional map as useful evidence emerges. A scoped field overview authorizes comparing its relevant branches without forcing a newcomer to choose a specialty. Skip orientation for precise questions, known papers, or continued research. Do not treat a web-page conclusion as a premise that later paper search must confirm.
 
@@ -36,6 +36,7 @@ Read the relevant reference or section before the action it governs; do not load
 |---|---|
 | Process retrieved or supplied research material | [Source safety](references/source-safety.md) |
 | Select sources, construct queries, screen identities, expand retrieval, or assess coverage | [Search strategy](references/search-strategy.md) |
+| Acquire or read an original paper, inspect figures/supplements, or verify that returned text is sufficient | [Full-text reading](references/fulltext-reading.md) |
 | Classify evidence or support a consequential claim | [Evidence boundaries](references/evidence-reasoning.md#preserve-evidence-boundaries) and the relevant appraisal, fact-checking, comparison, or inference sections in [Evidence and reasoning](references/evidence-reasoning.md) |
 | Synthesize multiple studies into themes, compare findings, or turn a supported gap into a study idea | [Synthesis and research design](references/synthesis-and-research-design.md) |
 | Resolve a scope, access, conflict, or user-decision checkpoint | [Interactive workflow](references/interactive-workflow.md) |

@@ -1,0 +1,44 @@
+# Read the Original Work
+
+Use this guidance when literature must support a scientific judgment or the user asks to read a paper. Abstracts help find and prioritize papers; they do not substitute for the original evidence. Follow the [identity and access rules](evidence-reasoning.md#preserve-evidence-boundaries), [source safety](source-safety.md), and existing access authorization.
+
+## Obtain readable original material
+
+Start with a supplied file or a reliable article link already available. Otherwise seek the publisher's article body, a lawful repository copy or accepted manuscript, or a source-native full-text service. Use actual tool capabilities; no specific connector or PDF format is required. Match the work and version before using the content. A supplement, correction, review, or citing paper is a separate object, not a replacement for the target article.
+
+Inspect the returned content. A successful download, a tool called "read paper", or a page labeled "full text" may yield only a landing page, abstract, machine summary, login screen, or truncated extraction. A model-generated paper summary is a navigation aid, not a direct reading of the paper. Check whether the body sections and relevant objects are actually present. A file on disk is available material; parsing or searching it does not mean the model has read it.
+
+Prefer readable HTML/XML when it preserves the relevant structure; use PDF or rendered pages when layout, figures, equations, or extraction quality requires them. Follow links to the article body and supplements rather than repeatedly searching for copies of the same abstract. If one representation is incomplete, use an available lawful alternative or read the missing pages/sections; do not infer missing text from the title, abstract, or another model's summary. Install a reader or use an external processing service only within existing authorization.
+
+## Read for the requested scope
+
+Distinguish two tasks:
+
+- **Claim verification:** read the original result with enough surrounding methods, definitions, controls, assumptions, and limitations to assess that claim. Search terms locate passages; isolated search hits are not the reading itself.
+- **Whole-paper reading or critical appraisal:** work through the article's substantive sections, main figures/tables and captions, and the relevant supplements. Cover the question and prior-work context, design or derivation, results, interpretation, and limitations. Do not call a targeted passage read or an abstract/conclusion pair a whole-paper reading.
+
+For a long paper, make a small map of sections, page ranges, figures, and linked supplements. Read it in manageable, identifiable chunks and keep track of what was read, pending, inaccessible, or damaged. Use heading, page, paragraph, table/figure identifiers or stable anchors rather than inventing page numbers for HTML. Follow cross-references that matter to the interpretation. Read past tool-output limits; a truncated return is not the end of the article. Maintain this coverage in existing notes when needed, not a mandatory new file for every paper.
+
+Adapt the route to the work: an experimental claim may depend on the protocol and controls; a theoretical result on definitions, assumptions, derivation, and proof; a computational result on data splits, baselines, metrics, and leakage. Do not force every discipline into an experimental template. A whole-paper task must account for unread substantive sections before claiming completion; unrelated references or ancillary files need not be read recursively.
+
+## Connect the result to what produced it
+
+For the finding that will support the answer, identify the object or population, study design, comparator, measurement or mathematical definition, conditions and time span, result and uncertainty, and the qualifications that could change its meaning. Locate these in the body rather than filling them from expected practice. Distinguish independent units from repeated observations and the tested intervention from background treatment or preparation.
+
+Preserve the source's actual entities, measurement types, and relationships when taking notes and drafting. Do not supply an unstated hierarchy, setting, or more specific measured quantity from plausibility; leave it unspecified or check the original passage. Before delivery, compare the consequential paraphrase with that passage, including whether a claimed relation was actually reported.
+
+Read the table/figure caption, axes, legend, footnotes, units, denominator, and matching methods when they affect a quantitative claim. Compare the relevant panel or row rather than the headline alone. When an equation matters, inspect its definitions and domain of validity; the displayed formula alone may omit essential assumptions.
+
+Inspect the rendered page or figure when the conclusion depends on visual content, or when extraction may have lost signs, exponents, subscripts, columns, labels, or footnotes. Text extraction alone does not establish a morphology, spatial relationship, curve shape, or panel comparison. Label values estimated from a plot; do not fabricate precision or treat an OCR ambiguity as a scientific discrepancy. If visual inspection is unavailable, state which observation remains unverified and avoid the dependent claim.
+
+Read a supplement when a required protocol, uncertainty, control, definition, or validation is placed there. A statement that methods are "in the supplement" is a pointer to read, not evidence that they were checked. If it remains unavailable, preserve that specific limit. Absence from a retrieved fragment does not establish absence from the paper.
+
+Check relevant Discussion/limitations passages for scope, alternatives, and failed or conditional results. A conclusion section is an author's interpretation; compare it with the reported observations. When body, abstract, captions, or versions disagree, apply the [within-source conflict rule](evidence-reasoning.md#fact-checking) rather than automatically preferring whichever statement is strongest or most convenient.
+
+## Use only what the reading supports
+
+Before a paper supports a consequential conclusion, retain a concise connection among the claim, original source/version, actual passage or visual object read, locator, and the conditions/limitations relevant to that claim. A short faithful observation is sufficient; a verbatim quote is not mandatory and cannot replace interpreting a figure or equation. Keep source findings separate from the author's explanation and your own inference.
+
+Abstract-only candidates can remain in the discovery list or field map as unverified leads, but do not count them as supporting studies, independent corroboration, or inputs to a quantitative comparison. Labeling a conclusion "abstract-level" does not make it a supported scientific conclusion. An explicitly requested abstract summary can faithfully describe what the abstract reports while stating that the underlying finding has not been checked.
+
+When needed original material is unavailable, pursue feasible lawful access or an adequately verified alternative source within scope. Do not downgrade the evidence requirement silently, substitute agreement among abstracts, or repeat equivalent failed requests. Continue independent work and mark the affected claim unresolved. Seek user input only when access, scope, resources, or authorization actually requires it; use the [full-text checkpoint](interactive-workflow.md#full-text-checkpoint). Report the best supported answer and the concrete missing material, rather than implying that cautious phrasing completes an unmet original-source task.

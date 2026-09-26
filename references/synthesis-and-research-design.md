@@ -6,6 +6,8 @@ Use this guidance when several studies must become an explanation, comparison, f
 
 Organize around the question's claims, mechanisms, methods, or conditions. Choose themes from the evidence and user's decision; do not force a fixed number of themes or arrange a synthesis as disconnected paper summaries.
 
+Admit findings into the supporting evidence view only after reading the relevant original material as described in [full-text reading](fulltext-reading.md). Keep abstract-only candidates as unverified leads, separately from evidence bearing on the conclusion. For tasks confined to supplied excerpts, state that the comparison covers those excerpts rather than implying original full texts were obtained.
+
 When a matrix makes comparison easier, use one row per relevant study, experiment, or result, retaining its publication links. A paper with several distinct conditions may need several rows; several reports of one experiment do not become several independent studies. Useful columns, selected for the task, are:
 
 | Comparison dimension | Preserve when it affects the judgment |

@@ -25,9 +25,17 @@ Judge the requested outcome and scope in the case prompt as well as its declared
 
 ### `EVIDENCE_BOUNDARY`
 
-- `0`: upgrades metadata, a snippet, an abstract, or an unverified asset into full-text evidence, or treats one located passage as verification of an unread claim, section, or supplement;
+- `0`: uses an abstract as scientific support rather than a discovery lead or explicitly requested attributed summary, upgrades metadata/snippets/unverified assets into full-text evidence, or treats one located passage as verification of an unread claim, section, or supplement;
 - `1`: states a limitation but mixes evidence levels elsewhere;
-- `2`: labels what was actually read, keeps unavailable details unresolved, and does not invent methods, numbers, or limitations.
+- `2`: labels what was actually read, keeps unavailable details unresolved, grounds scientific support in the relevant original material, and does not invent methods, numbers, or limitations. Explicitly supplied-material tasks may report what those materials say without implying full-text verification or adding unauthorized retrieval.
+
+### `ORIGINAL_TEXT_USE`
+
+- `0`: ends at abstracts or a reading plan despite available original material required by the task, counts abstract agreement as scientific corroboration, infers unread content, or treats successful download/parse as completed reading;
+- `1`: reaches some original material but omits a consequential available method, table/caption, supplement, extraction check, or required part of a whole-paper task;
+- `2`: reads the original material needed for the requested claim or whole-paper scope, follows consequential cross-references, handles truncation or damaged extraction using available source material, and grounds the answer in accurate locators and qualifications. Unavailable material remains specifically unresolved. In a decision-only case, correctly requires this work without falsely claiming execution or violating the task boundary.
+
+For an executed reading case, use actual read events and the final source-specific findings to establish access; a claim to have read or a proposed command is insufficient. A supplied-text exercise does not establish PDF/OCR or visual-reading performance. Do not require external retrieval or images when the case provides adequate original text and no visual judgment is at issue.
 
 ### `FACT_CHECKING`
 

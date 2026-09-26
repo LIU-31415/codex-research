@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Made original-source reading the default requirement for substantive scientific support. Abstracts remain discovery/screening leads or explicitly requested summaries, not supporting evidence; unread or inaccessible original material leaves the affected claim unresolved.
+- Added a full-text reading reference covering lawful readable copies, article-wide versus claim-specific reading, long-paper coverage, truncated returns, figure/table interpretation, extraction recovery, and relevant supplements. Parsing a document alone no longer qualifies as having read its body.
 - Added proportionate eligibility decisions and citation expansion across research branches; inaccessible evidence stays distinct from excluded work.
 - Added an action-scoped synthesis reference for comparable evidence views, thematic judgments, and feasible studies that distinguish competing explanations. Preserved short-answer and experimental-transfer boundaries.
 - Separated citation consistency, bibliographic identity, and claim support in formal delivery; added draft-to-source reconciliation, reusable rejected pairings, and incremental review updates.
@@ -26,6 +28,7 @@
 
 ### Added
 
+- Added a linked synthetic original-reading case and an abstract-only corroboration case, with a rubric that distinguishes observed reading from a proposed reading plan. Preserved explicitly supplied-material tasks.
 - Added a pinned comparison of public research Skills, documenting adopted ideas, existing equivalents, and rejected fixed workflows or unsupported gap claims.
 - Added synthetic screening, synthesis/design, and draft/update cases with outcome-based rubric checks. Execution evidence and limits are recorded separately in the evaluation guidance.
 - Added a validation status map in `evals/README.md` linking each tracked rule topic to its rule source, static check, behavioral case, latest executed run, and unverified part.

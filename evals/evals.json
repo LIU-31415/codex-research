@@ -1,5 +1,20 @@
 [
   {
+    "id": "original_fulltext_reading",
+    "prompt": "请从 fixtures/original-reading-entry.md 开始阅读全文并评估这项研究，判断它是否支持‘重新校准能在任意建筑和温度下可靠改善表现至少90天，且已证明温度稳定是原因’。需要的其他原始材料若有本地链接，请自行读取；不要只给后续阅读计划。给出准确的主要结果、方法和适用边界，以及原文定位。仅限这组虚构本地材料，不联网、不写文件，不声称查过真实论文。",
+    "expected_output": "实际读取入口、正文、完整表2及S1，不能把标为 full_text 的截断摘要当全文。将原始完整表的18%及-3%到39%区间、8个独立模块与每模块4800读数、误差降低而非准确率说明清楚；损坏抽取串不能推断或当论文冲突。S1限定7天、23±1摄氏度、低于定量限的12%读数剔除，不能支持90天/全温度/所有建筑/全量程。区分原文讨论与摘要过强表述，保留不一致，不用摘要显著性替代区间判断；温度与老化未区分、无新建筑验证。不夸称查看真实PDF/图像、联网状态或未给的数据文件。报告实际阅读范围，完成判断而非仅建议去读。",
+    "checks": ["ORIGINAL_TEXT_USE", "EVIDENCE_BOUNDARY", "FACT_CHECKING", "STUDY_INDEPENDENCE", "CAUSAL_LANGUAGE", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/original-reading-entry.md", "fixtures/original-reading-body.md", "fixtures/original-reading-table.md", "fixtures/original-reading-supplement.md"],
+    "entry_files": ["fixtures/original-reading-entry.md"]
+  },
+  {
+    "id": "abstracts_are_discovery_only",
+    "prompt": "五篇身份已核实的论文摘要都写某校准方法显著有效，正文和图表均未读。请判断现在能否在科研综述中写‘多项独立研究支持其有效’，以及下一步该做什么。只讨论这些给定条件，不实际检索或写文件。",
+    "expected_output": "不能以多个摘要构成有效性或独立支持；身份和摘要一致不等于读过原文、研究独立或效果已核验。作为候选线索保留，下一步读取关键原始论文方法/结果/图表及相关补充、核查条件/效果/独立性。无法取得原文时明确结论未验证；不得仅加摘要级/初步等修饰后仍称这些论文为支持证据，不编造获取失败或声称已查原文。",
+    "checks": ["ORIGINAL_TEXT_USE", "EVIDENCE_BOUNDARY", "STUDY_INDEPENDENCE", "PROPORTIONATE_COMPLETION"],
+    "files": []
+  },
+  {
     "id": "screening_and_branch_expansion",
     "prompt": "请只依据合成记录 A，给出候选论文的筛选处理和下一步引用追踪建议。目标是形成可追溯的现场研究证据比较；解释哪些可纳入、仅作背景、应排除或暂不能判定，以及当前追踪遗漏可能在哪里。不调用网络、不写文件，不要求我逐篇批准。",
     "expected_output": "按既定范围处理 A1 与 A6，负结果不成为排除理由；A2 与 A1 保留版本关系但不重复计算独立研究；A3 缺材料而资格未定，不写成不相关；A4 为背景或发现线索，A5 不进入现场证据比较。选择 T1 等跨分支种子补 transfer，区分前后向引用可解决的疑问，不把被引当支持。不设置固定论文数或新增授权门槛。",
@@ -122,7 +137,7 @@
   {
     "id": "missing_full_text",
     "prompt": "我给你一组评测用的模拟论文元数据和摘要，想确认‘短期干预会改变某种生理反应的机制’。这些论文的全文、补充材料和表格当前都无法读取。请读取夹具，基于可用材料给出阶段性判断，并说明哪些主张必须等全文后才能下结论。",
-    "expected_output": "严格区分元数据、摘要证据和已定位全文证据；可以总结摘要明确报告的结果，但不得虚构样本、统计量、机制测量或局限。列出全文 Gate，说明哪些关键主张暂缓，以及获取全文后应核验的位置和内容。",
+    "expected_output": "严格区分元数据、摘要线索和原文证据；可以按题目边界转述摘要报告了什么，但明确基础科学结论和机制未核验，不把多个摘要当作支持证据。不得虚构样本、统计量、机制测量或局限。说明哪些主张暂缓，以及获得原文后应核验的方法、结果、图表和相关补充；不因新原文要求违反给定材料边界。",
     "checks": ["EVIDENCE_BOUNDARY"],
     "files": ["fixtures/intervention-abstract-records.md"]
   },
@@ -136,7 +151,7 @@
   {
     "id": "long_task_state_persistence",
     "prompt": "继续一项跨学科文献调研。上次已完成问题界定、检索式草案和 14 个候选来源，但尚未核验全文；其中 4 个来源可能使用同一数据库，2 个结论相互冲突。请先读取并恢复研究状态，不要从头开始，也不要直接写最终综述。整理当前已知、未决问题、证据 Gate、来源依赖、下一步最有价值的动作，并在结束前更新 research_state.md。",
-    "expected_output": "优先读取并使用 research_state.md 恢复上下文，保留已有证据边界和未决事项；区分候选来源、摘要证据和全文证据，标记可能重复的数据来源与冲突。将最有价值的可行下一步动作关联到具体未决主张或问题，说明它能改变什么判断或补足什么证据，避免重新开始广泛检索；将这一关联与继续、暂停或停止的理由写入状态文件。",
+    "expected_output": "优先读取并使用 research_state.md 恢复上下文，保留已有证据边界和未决事项；区分候选来源、摘要线索和原文证据，标记可能重复的数据来源与冲突。将最有价值的可行下一步动作关联到具体未决主张或问题，说明它能改变什么判断或补足什么证据，避免重新开始广泛检索；将这一关联与继续、暂停或停止的理由写入状态文件。",
     "checks": ["STATE_RECOVERY", "EVIDENCE_BOUNDARY", "GAP_FOLLOWUP"],
     "output_files": ["fixtures/research_state.md"],
     "files": ["fixtures/research_state.md", "fixtures/candidate-sources.md"]
@@ -165,7 +180,7 @@
   {
     "id": "available_tools_without_mcp",
     "prompt": "请依据合成记录 D 完成其中的核验任务，并说明证据边界，最多三句话。只使用提供的材料，不安装软件、调用外部工具或写文件；答完即可。",
-    "expected_output": "在三句话内给出年份 2023 及四台设备单次实验室测试的有限结果，保留长期现场表现未评估的限制；不因未安装学术 MCP 而停止或要求安装，不编造全文证据。不添加状态文件、完整证据台账、下一轮检索或无必要确认。",
+    "expected_output": "在三句话内给出年份2023，明确转述摘要称四台设备单次实验室测试漂移降低、未评估长期现场表现，原始结果尚未核验；不把摘要作为科研结论的支持证据。不因未安装学术MCP而停止或要求安装，不编造全文访问。不添加状态文件、完整证据台账、下一轮检索或无必要确认。",
     "checks": ["SOURCE_ROUTING", "INTERACTION_GATE", "EVIDENCE_BOUNDARY", "PROPORTIONATE_COMPLETION"],
     "files": ["fixtures/search-decisions.md"]
   },

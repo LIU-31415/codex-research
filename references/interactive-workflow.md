@@ -128,7 +128,7 @@ Distinguish a refinement needed to answer the current question from a change to 
 
 ### Full-text checkpoint
 
-Identify when a consequential conclusion requires methods, conditions, numbers, figures, tables, limitations, or mechanism details unavailable from the abstract. Keep the affected claim unresolved while checking feasible access options.
+Before relying on a paper for a substantive scientific conclusion, check the original methods or derivation, results, and relevant qualifications using [full-text reading](fulltext-reading.md). This applies even when the abstract appears to answer the question or already contains the desired number. Keep the affected claim unresolved while checking feasible access options.
 
 Before pausing, try one low-cost lawful alternative access path when it is reversible and likely to resolve the missing evidence. Do not repeat equivalent retrieval attempts across sources without a new reason.
 
@@ -139,7 +139,7 @@ List only the papers worth the user's effort. For each, explain:
 - what cannot be verified without the full text;
 - whether an accessible substitute exists.
 
-When access still requires the user, offer the relevant options: provide the full text, pursue an available alternative, or accept an abstract-level result with an explicit limitation. Wait for a necessary access or evidence-standard decision, while continuing independent work within the confirmed scope. If the user does not decide, preserve the affected claim as unresolved.
+When access still requires the user, offer the relevant options: provide the full text, pursue an available original-source alternative, or limit the deliverable to a discovery/abstract summary with the scientific claim left unverified. Such a summary does not satisfy a request for original-source confirmation. Wait only for a necessary access or scope decision, while continuing independent work within the confirmed scope. If the user does not decide, preserve the affected claim as unresolved.
 
 ### Conflict checkpoint
 

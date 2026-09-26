@@ -13,6 +13,7 @@ The entrypoint keeps the shared objective and boundaries, with detailed referenc
 - **Question-led retrieval:** clarify the scope, choose sources by evidence needs, and connect each retrieval batch to the next evidence gap or stopping reason.
 - **Traceable selection:** keep eligibility, access, and background roles separate; retain important screening reasons and expand citations across relevant research branches.
 - **Visible evidence access:** distinguish discovery records, abstracts, verified full text, and located passages; publication reputation helps prioritize reading but does not establish correctness.
+- **Original-source reading:** use abstracts for discovery and screening, then read the original body, relevant methods, figures/tables and supplements before supporting scientific conclusions. Track long-paper coverage and recover missing or damaged extraction without treating a download or parser output as completed reading.
 - **Claim verification:** check values, units, conditions, dates, and versions at the responsible source; separate source reports, synthesis, interpretation, extrapolation, and hypotheses.
 - **Comparable evidence:** examine study conditions, measurements, independence, conflicts, uncertainty, and applicability before combining findings.
 - **Thematic synthesis and study ideas:** organize findings around comparable questions, explain patterns and exceptions, and connect supported gaps to feasible tests that distinguish alternatives.
@@ -105,7 +106,7 @@ The research workflow reads `SKILL.md` and `references/`. The release ZIP also i
 
 ## Scope limits
 
-`codex-research` does not guarantee exhaustive literature coverage, treat abstracts as full-text confirmation, use citation count as a substitute for evidence quality, or upgrade association into causation. It does not by itself complete a formal systematic review or replace experiments, domain experts, and human verification of consequential details.
+`codex-research` does not guarantee exhaustive literature coverage, use abstracts as support for substantive scientific conclusions, use citation count as a substitute for evidence quality, or upgrade association into causation. Explicit abstract-summary or supplied-excerpt tasks remain bounded accounts of that material. Full-text guidance cannot create unavailable access or reading tools; affected findings remain unverified. The Skill does not by itself complete a formal systematic review or replace experiments, domain experts, and human verification of consequential details.
 
 The fixed evaluation cases and their limits are documented in [`evals/`](evals/).
 

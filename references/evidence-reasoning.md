@@ -38,10 +38,10 @@ Use one access-state vocabulary to describe the material actually obtained, not 
 
 - `SEARCH_HIT`: discovery lead or snippet only;
 - `METADATA_ONLY`: paper identity and bibliographic facts were obtained;
-- `ABSTRACT_READ`: an explicit abstract was opened and read;
+- `ABSTRACT_READ`: an explicit abstract was opened and read, for discovery/screening or an attributed abstract summary, not as support for a scientific conclusion;
 - `FULLTEXT_FILE_AVAILABLE`: an accessible asset passed the paper-identity gate;
-- `FULLTEXT_TEXT_READ`: verified article body text was parsed or read;
-- `FULLTEXT_LOCATED`: a claim-relevant passage, table, figure, equation, or section was located in the verified full text.
+- `FULLTEXT_TEXT_READ`: verified article body text was actually read; parsing alone is insufficient;
+- `FULLTEXT_LOCATED`: a claim-relevant body passage, table, figure, equation, or section was located and read in its relevant context in the verified original work.
 
 A discovered or downloaded PDF, HTML page, XML file, repository copy, or supplement remains a candidate asset until the available title, authors, stable identifier, document type, and publication-version relationship establish a reliable match to the target paper. A missing DOI is not a failed identity check when title, authors, year, and provenance establish the match; record missing or conflicting metadata. Until identity is established, retain the paper's existing access state and record the asset separately; do not promote it to any `FULLTEXT_*` state.
 
@@ -52,6 +52,8 @@ Apply the same idea to data and code: when a conclusion depends on a dataset or 
 Record `HUMAN_VERIFIED` as an orthogonal verification flag when the user or researcher explicitly checks a relevant source detail. It does not replace or automatically upgrade the access state.
 
 Full-text access does not imply validation of methods, figures, statistics, retraction status, or scientific truth.
+
+For substantive scientific support, follow [full-text reading](fulltext-reading.md): obtain and read the relevant original material before using a candidate as evidence. Access state describes what was obtained, not permission to support a claim at any lower level. In explicitly abstract-only or supplied-excerpt tasks, give a faithful bounded account of that material without presenting its claims as independently checked findings; do not violate the user's retrieval boundary.
 
 ## Publication status
 
@@ -84,8 +86,9 @@ Faithfully describes what one source reports without strengthening its scope or 
 Preferred language:
 
 > The study reports...
-> The abstract states...
 > Under the tested conditions...
+
+Use "The abstract states..." only for an attributed summary or unverified discovery lead. It does not turn the abstract's scientific claim into supporting evidence for the synthesis.
 
 ### Synthesis
 
