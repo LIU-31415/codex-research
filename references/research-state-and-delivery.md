@@ -37,6 +37,10 @@ Record deltas such as:
 
 Never strengthen a claim merely to make the state concise.
 
+For a revisable synthesis, preserve consequential screening decisions and rejected source/claim pairings as well as accepted evidence. Record the particular claim, source/version, reason, material inspected, and what new evidence would justify reconsideration. Distinguish a checked mismatch from inaccessible evidence. Rejecting a source for one claim does not blacklist the paper; new wording, access, versions, or scope may change the decision. Reuse unchanged decisions instead of repeatedly proposing the same unsupported citation.
+
+When updating an earlier review, reuse its search cutoff, query record, evidence and decisions. Search the changed scope or time interval and follow material citation or publication-status changes. Where indexing dates or delays are uncertain, use an overlapping date window or another targeted check rather than assuming a publication-date cutoff captures all newly indexed work. Reconcile new records with existing identities and update the conclusions that depend on them. Do not rerun the entire review by default or claim complete update coverage from an unexplained date filter.
+
 ## Suggested state structure
 
 Adapt this structure to the task. Omit empty sections and merge overlapping ones. Record each decision, claim, or open question once and refer to it elsewhere; the template is not a requirement to duplicate the same gap in several sections. Extend an existing user-approved research record rather than creating a competing file.
@@ -79,6 +83,8 @@ Record the date the search was run separately from any publication-date filter. 
 | ID | Stable identifier | Role | Access state and material read | Identity, version, independence, and publication-status notes |
 |---|---|---|---|---|
 
+Add eligibility decisions and reasons when screening affects coverage; retain consequential excluded/pending items rather than only included papers. A comparison matrix can link to these records instead of repeating them.
+
 ## Consequential claims
 ### C1 — [claim]
 - Type:
@@ -88,6 +94,7 @@ Record the date the search was run separately from any publication-date filter. 
 - Warrant and assumptions:
 - Inference distance:
 - Current uncertainty:
+- Rejected or unresolved source pairings, reason and reconsideration condition, if consequential:
 - Decision-relevant evidence gap, if any:
 - Next targeted action and why it could change the judgment, or reason to stop:
 

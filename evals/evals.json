@@ -1,5 +1,26 @@
 [
   {
+    "id": "screening_and_branch_expansion",
+    "prompt": "请只依据合成记录 A，给出候选论文的筛选处理和下一步引用追踪建议。目标是形成可追溯的现场研究证据比较；解释哪些可纳入、仅作背景、应排除或暂不能判定，以及当前追踪遗漏可能在哪里。不调用网络、不写文件，不要求我逐篇批准。",
+    "expected_output": "按既定范围处理 A1 与 A6，负结果不成为排除理由；A2 与 A1 保留版本关系但不重复计算独立研究；A3 缺材料而资格未定，不写成不相关；A4 为背景或发现线索，A5 不进入现场证据比较。选择 T1 等跨分支种子补 transfer，区分前后向引用可解决的疑问，不把被引当支持。不设置固定论文数或新增授权门槛。",
+    "checks": ["SCREENING_TRACEABILITY", "STUDY_INDEPENDENCE", "SOURCE_ROUTING", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/synthesis-decisions.md"]
+  },
+  {
+    "id": "thematic_synthesis_and_design",
+    "prompt": "请只依据合成记录 B，用简短比较和综合判断回答：重新校准能否在有人使用的建筑中可靠改善传感器表现？提出一个最值得做的后续研究方案，说明它能区分什么、何种结果会削弱你的解释。不要只列论文，不检索、写文件或实施实验；不要编造样本量和阈值。",
+    "expected_output": "比较六周同建筑评价与十二周新建筑评价，识别 B2 与 B1 重复且 4800 次读数不等于独立样本。保留原始效应/区间、设计差异与训练来源在未读补充材料中未知的边界，不投票、直接合并或把 B3 非显著写成无效。给出有限可用性及外推不足的综合；研究方案用年龄和温度的可区分条件、参考测量及必要的独立建筑验证检验替代解释，明确预测/削弱结果、可行性与建议身份，不要求唯一固定实验设计。",
+    "checks": ["THEMATIC_SYNTHESIS", "STUDY_INDEPENDENCE", "EVIDENCE_BOUNDARY", "DISCRIMINATING_STUDY", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/synthesis-decisions.md"]
+  },
+  {
+    "id": "draft_reconciliation_and_update",
+    "prompt": "请只依据合成记录 C，修正这段研究结论并说明下一步更新动作。分清已经核实、需要重新查证和无需重复核验的部分；不用联网或写文件，不编造参考文献。保持简洁。",
+    "expected_output": "采用 B1 更正后的 12% 及 -4%到28% 区间，修订受影响 C1 的确定性但不称已证实无效；沿用 C2/B1 的范围否决，一年普适仍无支持。识别书目一致不等于支持主张，Fable 为缺失来源/比较，DriftGate 为自己的未测试方案而不强塞外部引文。C4 在旧发表日期内晚入索引，更新需重叠窗口或针对索引延迟的补查，不能只查七月以后；仅摘要不新增数值。保留未受影响 C3，不重做整项调研；不声称实际执行过查询或修改文件。",
+    "checks": ["FACT_CHECKING", "CITATION_RECONCILIATION", "INCREMENTAL_UPDATE", "EVIDENCE_BOUNDARY", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/synthesis-decisions.md"]
+  },
+  {
     "id": "autonomous_field_onboarding",
     "prompt": "我刚接触低成本室内环境传感器的长期稳定性研究。请从 fixtures/loop-entry.md 开始，利用提供的本地材料帮我看清主要研究方向、已有进展和还值得研究的问题。范围仅限这组材料中的室内应用，你自行安排必要阅读和分析；不要上网、写文件或替我选定课题。请给我可理解的综合判断，不要只给论文列表或把查证工作留成问题让我回答。",
     "expected_output": "读取入口及原始记录，利用后续证据纠正早期综述中的季节研究缺失印象；识别季节试验与会议摘要共用数据，不把季节相关结果视为湿度致因。综合标定、现场监测与转移验证方向的进展和边界。区分综述的湿度致因研究建议、现场报告的湿度响应式再校准假设，以及 Agent 自己提出的实验设计，准确归属来源。将跨场地独立验证或区分湿度与老化等问题保留为有依据的候选，说明其价值与已有证据，不能声称全球无人研究。完成范围内综合，自行处理可读材料，不要求用户选择数据库或研究分支；不执行额外实验、外部检索或城市部署扩展，停止时说明当前材料的边界。",

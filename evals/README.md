@@ -123,6 +123,18 @@ The initial diagnosis that this recovery made `execution_ok: true` incorrect was
 
 ## Current minimum coverage
 
+### Research Skill evolution cases
+
+Three supplied-material cases in [synthesis-decisions.md](fixtures/synthesis-decisions.md) cover the 2026-09-27 additions:
+
+- `screening_and_branch_expansion`: eligible, contextual, excluded, and pending records; publication overlap; citation expansion beyond a convenient branch.
+- `thematic_synthesis_and_design`: independent evidence, comparable effects and uncertainty, unaccessed reporting, and a feasible study that distinguishes alternatives.
+- `draft_reconciliation_and_update`: corrected results, rejected pairings, missing named prior work, original proposals, late-indexed records, and unaffected checked claims.
+
+On 2026-09-27 a fresh subagent requested as `gpt-5.6-terra` with `medium` reasoning was given the current Skill and raw fixture paths to answer all three prompts in one call. It was not given the expected outputs, rubric, diff, or source-comparison notes. The primary agent inspected the returned answers. They correctly kept missing-material eligibility pending, separated a preprint from independent evidence, proposed transfer-branch citation expansion, preserved the reported effect intervals, avoided treating the conference report as replication, proposed an age/temperature comparison, adopted the correction, and retained the unsupported year-long claim and missing baseline as unresolved. They also identified late indexing and preserved the unchanged definition.
+
+Limits: this was one bundled, supplied-material exercise using the collaboration tool, not three isolated paired-runner runs. No baseline, runner manifest, frozen-input archive, or release-gate scores were produced. The synthesis answer did not explicitly explain independent sample counts versus repeated readings, so that part of the new case remains undemonstrated. It also cannot establish actual pagination, citation retrieval, update recall, automatic activation, or improvement over the prior Skill. The new cases remain unverified in the paired runner; the targeted exercise is narrower supporting evidence, not a full pass.
+
 `autonomous_field_onboarding` uses a fictional local reading room to examine follow-up evidence use, revision of an apparent gap, accessible direction/progress synthesis, and scope-aware stopping. Its optional `entry_files` lists only the initial reading; all `files` are staged, but the archive must be discovered through the entry's link rather than a runner instruction to read it. Cases without `entry_files` retain the requirement to read every fixture. Inspect actual reading actions and resulting judgments. This does not test real retrieval recall or sustained multi-round autonomy. The question-only `evidence_led_followup_questions` case and existing consent/refusal cases remain separate boundary checks. Structural validation alone does not establish behavioral success.
 
 Four search-decision cases use independent synthetic records in [search-decisions.md](fixtures/search-decisions.md): `cross_source_query_behavior`, `restrictive_query_recall`, `coverage_depth_and_overlap`, and `available_tools_without_mcp`. They examine decisions after interface descriptions and results are supplied. Scoring accepts different sources and operation orders that satisfy the task, without prescribing a database bundle. The coverage case has a historical Skill-only run listed above; none establishes a behavioral pass for the current revision. Structural checks do not establish behavioral success or improved real-world recall.

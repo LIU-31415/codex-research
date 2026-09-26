@@ -4,6 +4,9 @@
 
 ### Changed
 
+- Added proportionate eligibility decisions and citation expansion across research branches; inaccessible evidence stays distinct from excluded work.
+- Added an action-scoped synthesis reference for comparable evidence views, thematic judgments, and feasible studies that distinguish competing explanations. Preserved short-answer and experimental-transfer boundaries.
+- Separated citation consistency, bibliographic identity, and claim support in formal delivery; added draft-to-source reconciliation, reusable rejected pairings, and incremental review updates.
 - Consolidated detailed capability negotiation, evidence-state definitions, claim appraisal, and publication audit guidance in the existing references; shortened the entrypoint and description, and routed reference reads by the current action.
 - Made user/host precedence, proportionate evidence records, conditional conclusions, and original grounded hypotheses explicit. State files and full evidence schemas are not prerequisites for a short answer or for useful synthesis during writing.
 - Made full-text access claim-specific, including partial reads, unread supplements, manuscript versions, and reliable identity matches without a DOI. Distinguished shared authors or methods from duplicated underlying evidence.
@@ -23,6 +26,8 @@
 
 ### Added
 
+- Added a pinned comparison of public research Skills, documenting adopted ideas, existing equivalents, and rejected fixed workflows or unsupported gap claims.
+- Added synthetic screening, synthesis/design, and draft/update cases with outcome-based rubric checks. Execution evidence and limits are recorded separately in the evaluation guidance.
 - Added a validation status map in `evals/README.md` linking each tracked rule topic to its rule source, static check, behavioral case, latest executed run, and unverified part.
 - Added two narrow behavioral cases, `publication_status_change` and `lawful_fulltext_acquisition`, with matching rubric conditions for publication status and lawful acquisition.
 - Documented three separate validation states — static checks, general behavioral evaluation, and isolated-environment safety evaluation. A case must satisfy its requested outcome and scope as well as pass all declared checks; release evidence also requires identifiable model/configuration and auditable events.

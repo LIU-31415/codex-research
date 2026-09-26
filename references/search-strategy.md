@@ -150,6 +150,20 @@ Recognize that a preprint, conference paper, journal extension, correction, and 
 
 Do not count multiple records, reports, reviews, or versions as independent evidence.
 
+## Screening decisions
+
+For a multi-paper synthesis or coverage task, make the eligibility criteria explicit enough to apply consistently: the relevant system, question, study types, comparisons, and scope limits. Reuse the agreed scope; do not add an intake gate or require a clinical question framework for unrelated disciplines.
+
+Use titles and abstracts for initial triage, then inspect the relevant full text when eligibility depends on missing details. Distinguish eligible evidence, contextual or methodological background, excluded work, and unresolved eligibility. Missing abstracts or unavailable full text do not establish ineligibility; keep access limitations separate from scientific exclusion. Negative or inconvenient findings remain eligible under the same criteria as positive findings.
+
+Retain the reason for consequential exclusions or pending decisions in existing notes, alongside the stable identifier and scope used. For formal-review support, preserve the screening stage and actual record/report/study counts when required; never reconstruct flow counts from memory. If criteria change, record why and revisit affected earlier decisions rather than applying a favorable exception to one paper. Do not turn a paper's failure to support one claim into exclusion from every other use.
+
+## Citation expansion
+
+Use backward references to trace original methods or findings, and forward citations to look for later tests, corrections, alternative explanations, or transfer evidence. Select seeds that represent materially different branches of the question when coverage across those branches matters; a convenient or highly cited seed can overrepresent its own community. A fixed number of seeds or citation hops is not required.
+
+For a consequential candidate, retain the seed, direction, and reason it matters. A citation edge or co-citation is a discovery relationship, not endorsement or independent replication; inspect what the citing work actually does. Deduplicate before expanding again and stop a branch when it no longer adds evidence needed for the question or declared coverage. Record unavailable citation directions or truncated lists as coverage limits; one source can establish identity without establishing broad retrieval coverage.
+
 ## Known-paper validation
 
 Use diagnostic papers whose in-scope status is already established — supplied by the user or already verified within the current scope — and check whether retrieval returns them and identifies them correctly. Confirm first that the diagnostic paper really fits the scope; a paper outside it neither measures recall nor establishes a coverage problem. If an in-scope paper is missing, investigate the cause:

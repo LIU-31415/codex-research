@@ -149,6 +149,36 @@ Use actual tool events to establish reads or retrieval, not a narrative that the
 - `1`: removes some identifiers but leaves a specific or linkable private detail;
 - `2`: uses neutral synthetic examples and keeps user-specific topics, paths, credentials, and research state out of public artifacts.
 
+### `SCREENING_TRACEABILITY`
+
+- `0`: excludes a paper solely for unavailable text or an inconvenient result, silently changes eligibility, or treats an unsupported source/claim pairing as a global paper blacklist;
+- `1`: distinguishes some roles but leaves a consequential inclusion, exclusion, or pending decision unexplained;
+- `2`: applies the declared criteria consistently, preserves important reasons and pending eligibility, separates context and access from included evidence, and revisits affected decisions when scope changes.
+
+### `THEMATIC_SYNTHESIS`
+
+- `0`: substitutes a paper list or significance vote for synthesis, equates missing data with zero/no effect, or combines incompatible results without justification;
+- `1`: notices conditions and patterns but leaves the requested judgment or an important uncertainty unresolved despite supplied evidence;
+- `2`: connects comparable findings to the question, explains patterns and exceptions with source locators, preserves effect/uncertainty and missingness distinctions, and gives the strongest warranted conditional conclusion. A table is optional; invented precision is not.
+
+### `DISCRIMINATING_STUDY`
+
+- `0`: offers generic novelty, a confirmatory-only plan, or fabricated validated parameters;
+- `1`: proposes a relevant study but does not connect its comparison or observation to competing explanations and a result that would weaken the proposal;
+- `2`: grounds a feasible study idea in the unresolved evidence, identifies the comparison and observation that could discriminate alternatives, and preserves assumptions, practical limits, and proposal status. Accept different suitable designs; a full protocol or sample-size calculation is not required.
+
+### `CITATION_RECONCILIATION`
+
+- `0`: equates a resolved reference or correct metadata with support, fabricates a missing reference, or reuses an unchanged rejected pairing as affirmative evidence;
+- `1`: flags a problem but leaves an unsupported attribution or missing prior-work comparison in the synthesis;
+- `2`: separates citation consistency, identity, and support; resolves, narrows, or clearly preserves unsupported draft claims and missing prior works. Reuses claim-specific rejection reasons and distinguishes original proposals from external works requiring attribution.
+
+### `INCREMENTAL_UPDATE`
+
+- `0`: ignores a material correction or stale decision, loses unaffected evidence, or claims complete update coverage from a filter demonstrated to miss late-indexed work;
+- `1`: notices changes but leaves their effects on conclusions or the update strategy unclear;
+- `2`: updates the dependent claims and uncertainty, preserves unaffected checked work, and addresses changed scope/status or indexing gaps with a proportionate next action. Planned actions are not reported as completed searches.
+
 ## Score record shape
 
 Copy the generated `score-template.json` to `scores.json` and fill it without changing the declared case IDs or check names. A completed case entry looks like this:

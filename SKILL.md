@@ -37,6 +37,7 @@ Read the relevant reference or section before the action it governs; do not load
 | Process retrieved or supplied research material | [Source safety](references/source-safety.md) |
 | Select sources, construct queries, screen identities, expand retrieval, or assess coverage | [Search strategy](references/search-strategy.md) |
 | Classify evidence or support a consequential claim | [Evidence boundaries](references/evidence-reasoning.md#preserve-evidence-boundaries) and the relevant appraisal, fact-checking, comparison, or inference sections in [Evidence and reasoning](references/evidence-reasoning.md) |
+| Synthesize multiple studies into themes, compare findings, or turn a supported gap into a study idea | [Synthesis and research design](references/synthesis-and-research-design.md) |
 | Resolve a scope, access, conflict, or user-decision checkpoint | [Interactive workflow](references/interactive-workflow.md) |
 | Preserve long research, resume, hand off, or prepare a formal artifact | [Research state and delivery](references/research-state-and-delivery.md) |
 
@@ -45,7 +46,7 @@ References supply conditional detail, not additional mandatory stages. A useful 
 ## Run an evidence-led research loop
 
 1. **Frame the uncertainty.** Turn the objective into answerable questions. For field onboarding, build a map of directions and their relationships; for a focused task, stay with the specific claim or comparison.
-2. **Retrieve and read.** Select sources by what they can establish. Refine queries, screen and deduplicate candidates, check identity and versions, and obtain the relevant evidence without asking the user to manage routine steps. Search snippets remain discovery leads.
+2. **Retrieve and read.** Select sources by what they can establish. Refine queries, screen and deduplicate candidates, check identity and versions, and obtain the relevant evidence without asking the user to manage routine steps. Preserve consequential screening reasons and unresolved eligibility; search snippets remain discovery leads.
 3. **Update the judgment.** Check consequential claims against the material read. Explain what is supported, disputed, or unresolved, including conditions and independence. Separate source findings and source proposals from your synthesis, explanations, and proposed studies.
 4. **Resolve material follow-ups.** Choose the next feasible action by what it could change in the answer or declared coverage. Investigate relevant conflicts, missing comparisons, and apparent gaps within scope; defer tangential extensions. Before recommending a gap, try to disconfirm it with relevant nearby or contrary evidence using [gap-driven retrieval](references/search-strategy.md#gap-driven-retrieval).
 5. **Deliver or continue.** When the requested result is sufficient at the agreed evidence level, deliver. Otherwise continue the necessary evidence work. If a real access/resource boundary or irreducible uncertainty remains, complete independent work and give the current synthesis, unresolved items, and reason for stopping. Apply the stricter [coverage stopping conditions](references/search-strategy.md#stopping) for `COVERAGE`; an answer alone does not fulfill a request to reduce missed literature.
