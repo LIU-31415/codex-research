@@ -43,6 +43,14 @@ For an executed reading case, use actual read events and the final source-specif
 - `1`: notices a material value, unit, condition, date, version, or within-source conflict but omits important comparability checks, locators, or a corresponding limit on the claim;
 - `2`: checks the components material to the current claim against the responsible source, traces decisive secondary claims to the original record, and resolves or explicitly preserves relevant conflicts without guessing. Date dynamic facts and check publication status when material, within the allowed source scope; a supplied-material case does not require external checks. Unverifiable status stays unknown. Do not require every type of check when it cannot affect the judgment.
 
+### `CHECKPOINT_CLOSURE`
+
+- `0`: treats a "checked" label, completed read call, or filled record as resolution; uses unsupported wording; invents a material source conflict; or drops a discovered material conflict from the final judgment;
+- `1`: reaches a bounded judgment but leaves a material abstract/body comparison, source locator, conflict disposition, or final-answer consequence implicit or incomplete;
+- `2`: verifies the relevant original material, compares consequential reporting-layer statements, and gives a supported disposition in the final answer. A real material discrepancy retains both statements/locators and its effect on the claim; a consistent record stays consistent. Missing evidence limits the affected claim, and feasible authorized recovery is performed when required by the task.
+
+Score observable reading and final-answer consequences, not internal labels, mandatory tables, or private reasoning. Short abstracts, ordinary rounding, compatible subsets, and intervals spanning the null do not alone establish a reporting conflict. Structural checks cannot replace source comparison. Decision-only cases need an appropriate decision, not unrequested retrieval or invented execution.
+
 ### `EXPERIMENTAL_TRANSFER`
 
 - `0`: presents an inferred scale-up, missing parameter, acceptance threshold, or troubleshooting hypothesis as if the paper reported it;

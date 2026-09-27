@@ -32,6 +32,24 @@ Ordinary definitions, bibliographic facts, and low-stakes background can remain 
 
 Scale the record to the judgment it supports. The contract is a set of questions to answer where material, not a required schema for every sentence. A brief source report may need only attribution, the relevant result, and its conditions; a disputed comparison or proposed research direction needs the assumptions and alternatives that could change it. Shared source details can be recorded once.
 
+## Checkpoints for consequential claims
+
+Check at the transition from reading to using evidence, from evidence to a judgment, and from that judgment to the final answer. A checkpoint closes with a supported disposition, not with a label such as "checked". Use the existing claim notes or a brief in-context record; no new file, fixed schema, or user approval is required for routine checks.
+
+| Transition | Evidence needed to close the checkpoint | If the check fails |
+|---|---|---|
+| Original material read → usable evidence | Matched work/version; sections and objects actually read; claim-relevant locator and observation; any unread, truncated, or damaged material that could change the finding. Whole-paper tasks also account for substantive reading coverage. | Read the missing relevant material or repair extraction within scope. If unavailable, retain the specific access gap and leave the dependent finding unverified. |
+| Evidence → consequential judgment | Compare the proposed wording with the original finding, its methods/definitions, conditions and uncertainty; compare relevant abstract/conclusion statements with the body and figures/tables/supplements. Decide whether the evidence supports, limits, contradicts, or leaves the claim unresolved. | Revise or narrow the claim, investigate a material discrepancy, or withhold the unsupported component. Do not erase the discrepancy merely by using cautious wording. |
+| Judgment → final answer | Check the actual final wording and adjacent citation against the verified scope. For each material conflict or gap found above, identify where its effect is stated in the answer, or record the source-based reason it no longer affects the judgment. | Repair the affected sentence or missing qualification before delivery. Reopen reading only if that repair needs evidence; do not restart unaffected research. |
+
+A compact record can be: `claim → original source and locator → finding and conditions → conflict/gap → disposition`. Add the final answer location when a material conflict or gap must carry through. "No material discrepancy found in the compared passages" is a valid outcome; do not invent a conflict because an abstract is shorter than the body or a result is uncertain. This is an observable justification, not a request for private reasoning.
+
+For an unresolved reporting conflict, put both statements and their respective locators next to the conflict explanation in the final answer; a citation to only one side is incomplete. Explain the consequence for the claim and distinguish the source's wording from the assessed finding. In that explanation, preserve the difference between "does not establish" and "disproves": uncertainty, absent validation, or an untested mechanism can limit an assertion without refuting it. A generic limitation, a silently weakened conclusion, or a note left only in working state does not close this checkpoint. A reconciled extraction error need not be presented as a scientific conflict; retain the repair basis when it matters to traceability.
+
+Use independent review selectively when a consequential numerical discrepancy, causal/mechanistic interpretation, or extrapolation warrants a second reading and the host/user permits delegation. Give the reviewer the proposed claim and relevant original material/locators, not just the main agent's summary. Ask for a concrete mismatch or supported disposition; the main agent resolves findings against the source. Review is not mandatory for every paper and does not transfer evidence decisions to the user.
+
+When structured claim notes or citation files already exist, available programmatic checks can flag missing sources/locators, abstract-only records mislabeled as verified scientific support, or unresolved citation keys. Use these only as structural checks: populated fields and passing scripts cannot establish semantic support, actual reading, or conflict resolution. This Skill does not supply an automatic semantic gate.
+
 ## Preserve evidence boundaries
 
 Use one access-state vocabulary to describe the material actually obtained, not a scientific-quality ranking or mandatory acquisition sequence:
@@ -288,7 +306,7 @@ Before presenting a formal synthesis, verify:
 - metadata, abstract, and full-text evidence are not mixed;
 - causal language matches the design;
 - versions and shared evidence are not double-counted;
-- contradictions and unresolved gaps remain visible;
+- each material contradiction and unresolved gap has passed the [final-answer checkpoint](#checkpoints-for-consequential-claims), with its effect visible beside the affected judgment;
 - venue prestige and citation count did not substitute for appraisal;
 - source or access failures were not written as evidence of absence;
 - the organization and wording did not strengthen the epistemic status established during analysis.

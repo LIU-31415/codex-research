@@ -96,6 +96,8 @@ Use these state names in working notes when useful. They flag conditions to asse
 - `CONFLICT_REQUIRES_DECISION`
 - `READY_TO_DELIVER`
 
+Apply the [consequential-claim checkpoints](evidence-reasoning.md#checkpoints-for-consequential-claims) within the authorized work. They test reading, judgments, and final wording; they do not create additional user-confirmation gates.
+
 At a checkpoint that needs the user, state the trigger, Codex's recommendation, meaningful options, and any available degraded path. Do not take a degraded path without the required user choice. Treat prior explicit choices as resolved; precise or delegated tasks can continue within those choices, while scope changes and additional authorization still require a decision.
 
 A checkpoint closes when its blocking condition is resolved, not merely when it has been reported:

@@ -33,7 +33,9 @@ Inspect the rendered page or figure when the conclusion depends on visual conten
 
 Read a supplement when a required protocol, uncertainty, control, definition, or validation is placed there. A statement that methods are "in the supplement" is a pointer to read, not evidence that they were checked. If it remains unavailable, preserve that specific limit. Absence from a retrieved fragment does not establish absence from the paper.
 
-Check relevant Discussion/limitations passages for scope, alternatives, and failed or conditional results. A conclusion section is an author's interpretation; compare it with the reported observations. When body, abstract, captions, or versions disagree, apply the [within-source conflict rule](evidence-reasoning.md#fact-checking) rather than automatically preferring whichever statement is strongest or most convenient.
+Check relevant Discussion/limitations passages for scope, alternatives, and failed or conditional results. Explicitly compare the abstract's and conclusion's decision-relevant claims with the original results and their qualifications: direction/magnitude, uncertainty or significance, duration/population, and causal or mechanistic wording. An abstract's omission of detail is not itself a contradiction; check whether it actually asserts something the original evidence does not establish. An interval including the null is not proof of no effect, and a significance discrepancy requires comparing the same outcome, estimand, analysis, and uncertainty definition rather than assuming all intervals and tests are equivalent.
+
+When body, abstract, captions, or versions disagree, apply the [within-source conflict rule](evidence-reasoning.md#fact-checking). Retain both statements and their locators, the reconciliation attempted, and the effect on the conclusion. Do not automatically prefer the strongest statement or silently replace it with the weaker one. A material unresolved discrepancy must reach the final answer through the [claim checkpoints](evidence-reasoning.md#checkpoints-for-consequential-claims).
 
 ## Use only what the reading supports
 

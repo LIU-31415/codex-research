@@ -94,6 +94,7 @@ For long-paper reading, retain the article/version, sections or page ranges and 
 - Scope:
 - Support:
 - Limits or contradictions:
+- Material conflict/gap disposition and where its effect appears in the deliverable, or the source-based reason it no longer affects the judgment:
 - Warrant and assumptions:
 - Inference distance:
 - Current uncertainty:

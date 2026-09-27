@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Added three consequential-claim checkpoints with observable evidence, closing decisions, and targeted recovery: after original reading, when forming a judgment, and before delivery. Required explicit comparison of decision-relevant abstract/conclusion statements with original results and propagation of material conflicts into final wording, without manufacturing discrepancies or mandatory per-sentence records.
+- Added a checkpoint-closure rubric and a consistent-reporting control alongside the original-reading conflict case. Structural validation and model behavior remain separate; run evidence and limits are recorded in the evaluation guide.
 - Made original-source reading the default requirement for substantive scientific support. Abstracts remain discovery/screening leads or explicitly requested summaries, not supporting evidence; unread or inaccessible original material leaves the affected claim unresolved.
 - Added a full-text reading reference covering lawful readable copies, article-wide versus claim-specific reading, long-paper coverage, truncated returns, figure/table interpretation, extraction recovery, and relevant supplements. Parsing a document alone no longer qualifies as having read its body.
 - Added proportionate eligibility decisions and citation expansion across research branches; inaccessible evidence stays distinct from excluded work.
