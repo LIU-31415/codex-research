@@ -165,6 +165,10 @@ Scoring provenance: the independent reviewer completed the instruction review an
 
 The new case's unnecessary `cua.getState` attempt is retained as a separate tool-selection limitation; it failed in sandbox setup and supplied no screen or research data. Thus the targeted semantic closure checks passed, but this is not an all-check pass for the entire batch. The small, synthetic-text sample demonstrates repair of the observed omissions in these runs, not zero omissions for arbitrary papers, other models, real PDF/OCR, or long-document reading.
 
+### Real published paper
+
+The [He et al. real-paper appraisal record](reports/real-paper-20260927.md) extends the synthetic exercises to an actual eight-page PDF, main figures/tables and supporting DOCX files. It separates source acquisition, pre-run checks, model text-reading behavior, a Windows native-image helper failure, and reassessment with original images supplied through CLI attachments. Both unassisted appraisals failed: the first omitted material comparisons, and the second falsely asserted numerical consistency despite having the images. The record then follows explicit source review and assisted correction, which must not be reported as blind detection. Original assets and raw traces remain local; a public source/hash manifest makes provenance inspectable. This single-paper exercise is not a retrieval benchmark or evidence of a stable autonomous loop.
+
 ### Research Skill evolution cases
 
 Three supplied-material cases in [synthesis-decisions.md](fixtures/synthesis-decisions.md) cover the 2026-09-27 additions:

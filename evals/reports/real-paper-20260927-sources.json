@@ -1,0 +1,75 @@
+{
+  "paper": "He et al. (2024), A recirculating device of cooling water powered by solar energy for the laboratory",
+  "doi": "10.1038/s41598-024-66215-6",
+  "pmcid_version": "PMC11227590.1",
+  "license": "CC BY 4.0, as stated by the article",
+  "acquired_on": "2026-09-27",
+  "metadata_url": "https://pmc-oa-opendata.s3.amazonaws.com/metadata/PMC11227590.1.json",
+  "supplementary_zip_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11227590/supplementaryFiles",
+  "acquisition": "PDF via PMC Open Access AWS HTTPS; media and supplements from Europe PMC ZIP; all nine assets matched MD5 from PMC metadata",
+  "assets": [
+    {
+      "file": "PMC11227590.1.pdf",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/PMC11227590.1.pdf",
+      "md5": "655234f180220095682c0306cfdf2d4f",
+      "sha256": "15de914566da7c4c7b4c13c9ce030ec0ba5fe888cd3cbb4d5b8c4cbffb7bf692",
+      "bytes": 2083043
+    },
+    {
+      "file": "41598_2024_66215_Fig1_HTML.jpg",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_Fig1_HTML.jpg",
+      "md5": "3964b96ed898f08993568ec56278d8b4",
+      "sha256": "1657548421cfe97481b1920022f0dd2c7247087ffbbea95f068c011b9e0d2647",
+      "bytes": 135568
+    },
+    {
+      "file": "41598_2024_66215_Fig2_HTML.jpg",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_Fig2_HTML.jpg",
+      "md5": "8cea67094891a5dc6e979401bb952a59",
+      "sha256": "88d97a0c55e6bc7275d35ae5b0dc95af29b8a08055792f4e70cc351d34a75881",
+      "bytes": 164275
+    },
+    {
+      "file": "41598_2024_66215_Fig3_HTML.jpg",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_Fig3_HTML.jpg",
+      "md5": "5ff3c3d3eced4cbcbdce31fd6111f0ef",
+      "sha256": "f7fdbb58c4f523ca3ff086ae94af1e1b3993620d02745e225f0a5d01928d960f",
+      "bytes": 273641
+    },
+    {
+      "file": "41598_2024_66215_Fig4_HTML.jpg",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_Fig4_HTML.jpg",
+      "md5": "ff29ff8b649a65f28c3b919c5dfdc56e",
+      "sha256": "7afdc21c885e58d11ae076476ddb5a5d180b6746f0a562119622427472bd30c3",
+      "bytes": 70493
+    },
+    {
+      "file": "41598_2024_66215_MOESM1_ESM.docx",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_MOESM1_ESM.docx",
+      "md5": "e53d980917c7afc99a42048d2c0e4a4b",
+      "sha256": "f643cd05e822988bb47ce0ce07823b7e9420a9cc5b868c01ffec2da4263af067",
+      "bytes": 14742
+    },
+    {
+      "file": "41598_2024_66215_MOESM2_ESM.docx",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_MOESM2_ESM.docx",
+      "md5": "1cf3210343dfa3cb73a1230541afc9f4",
+      "sha256": "300eb6d6782c563234378592476cc16f32fd55c3cd2bc91fa4c6bffedaf2b6e1",
+      "bytes": 2713050
+    },
+    {
+      "file": "41598_2024_66215_MOESM3_ESM.mp4",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_MOESM3_ESM.mp4",
+      "md5": "58053ae610a2fb5b2580283077208fc1",
+      "sha256": "fafb6eb79e0e846c1c9d1fcf9463e978ad87e83d8a034478f2f14963c8546aea",
+      "bytes": 5093949
+    },
+    {
+      "file": "41598_2024_66215_MOESM4_ESM.avi",
+      "source": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11227590.1/41598_2024_66215_MOESM4_ESM.avi",
+      "md5": "72bc783c48fb768e08cfe5b73f2a4cc4",
+      "sha256": "1c94b9452cde65e91116c6fe184905587359b850dd2981bb61429201af75e4ac",
+      "bytes": 5342016
+    }
+  ]
+}
