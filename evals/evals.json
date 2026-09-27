@@ -2,7 +2,7 @@
   {
     "id": "original_fulltext_reading",
     "prompt": "请从 fixtures/original-reading-entry.md 开始阅读全文并评估这项研究，判断它是否支持‘重新校准能在任意建筑和温度下可靠改善表现至少90天，且已证明温度稳定是原因’。需要的其他原始材料若有本地链接，请自行读取；不要只给后续阅读计划。给出准确的主要结果、方法和适用边界，以及原文定位。仅限这组虚构本地材料，不联网、不写文件，不声称查过真实论文。",
-    "expected_output": "实际读取入口、正文、完整表2及S1，不能把标为 full_text 的截断摘要当全文。将原始完整表的18%及-3%到39%区间、8个独立模块与每模块4800读数、误差降低而非准确率说明清楚；损坏抽取串不能推断或当论文冲突。S1限定7天、23±1摄氏度、低于定量限的12%读数剔除，不能支持90天/全温度/所有建筑/全量程。区分原文讨论与摘要过强表述，保留不一致，不用摘要显著性替代区间判断；温度与老化未区分、无新建筑验证。不夸称查看真实PDF/图像、联网状态或未给的数据文件。报告实际阅读范围，完成判断而非仅建议去读。",
+    "expected_output": "实际读取入口、正文、完整表2及S1，不能把标为 full_text 的截断摘要当全文。将原始完整表的18%及-3%到39%区间、8个独立模块与每模块4800读数、误差降低而非准确率说明清楚；损坏抽取串不能推断或当论文冲突。S1限定7天、23±1摄氏度、低于定量限的12%读数剔除，不能支持90天/全温度/所有建筑/全量程。分别保留摘要显著性表述与原文区间不确定性、耐久/广泛部署与短期同场地边界、温度因果表述与未区分老化的设计之间的对照，给双方定位和结论后果；报告其中一项不能代替其他实质差异。不能以未确立当明确反证，不能用摘要显著性替代区间判断。不夸称查看真实PDF/图像、联网状态或未给的数据文件。报告实际阅读范围，完成判断而非仅建议去读。",
     "checks": ["ORIGINAL_TEXT_USE", "EVIDENCE_BOUNDARY", "FACT_CHECKING", "CHECKPOINT_CLOSURE", "STUDY_INDEPENDENCE", "CAUSAL_LANGUAGE", "PROPORTIONATE_COMPLETION"],
     "files": ["fixtures/original-reading-entry.md", "fixtures/original-reading-body.md", "fixtures/original-reading-table.md", "fixtures/original-reading-supplement.md"],
     "entry_files": ["fixtures/original-reading-entry.md"]
@@ -10,10 +10,17 @@
   {
     "id": "original_fulltext_reading_02",
     "prompt": "请从 fixtures/original-reading-02-entry.md 开始阅读全文并评估这项研究，判断它是否支持‘重新校准能在任意建筑和温度下可靠改善表现至少90天，且已证明温度稳定是原因’。需要的其他原始材料若有本地链接，请自行读取；不要只给后续阅读计划。给出准确的主要结果、方法和适用边界，以及原文定位。仅限这组虚构本地材料，不联网、不写文件，不声称查过真实论文。",
-    "expected_output": "实际读取入口、正文、完整表2及S1；识别工具标签不等于完成阅读全文。摘要与正文/表格/S1相容，CI跨零、摘要较简短、抽取串损坏均不构成论文内部冲突；不得指控摘要夸大、显著性矛盾或隐瞒无效。准确报告18%相对MAE降低、-3%至39%区间、8独立模块与每模块4800重复读数、两室7天23±1摄氏度、12%低于定量限读数剔除。不能确认可靠正向改善，也不证明无效；不支持任意建筑/温度/90天或温度因果机制。主要判断对应原文定位，报告实际阅读范围，不虚构真实PDF/OCR/联网检查。",
+    "expected_output": "实际读取入口、正文、完整表2及S1；识别工具标签不等于完成阅读全文。明确给出摘要与正文/表格/S1相容的对照结果及相应定位，一句即可。CI跨零、摘要较简短、抽取串损坏均不构成论文内部冲突；不得指控摘要夸大、显著性矛盾或隐瞒无效。准确报告18%相对MAE降低、-3%至39%区间、8独立模块与每模块4800重复读数、两室7天23±1摄氏度、12%低于定量限读数剔除。不能确认可靠正向改善，也不证明无效；材料一致不支持任意建筑/温度/90天或温度因果机制。主要判断对应原文定位，报告实际阅读范围，不虚构真实PDF/OCR/联网检查。",
     "checks": ["ORIGINAL_TEXT_USE", "EVIDENCE_BOUNDARY", "FACT_CHECKING", "CHECKPOINT_CLOSURE", "STUDY_INDEPENDENCE", "CAUSAL_LANGUAGE", "PROPORTIONATE_COMPLETION"],
     "files": ["fixtures/original-reading-02-entry.md", "fixtures/original-reading-02-body.md", "fixtures/original-reading-02-table.md", "fixtures/original-reading-02-supplement.md"],
     "entry_files": ["fixtures/original-reading-02-entry.md"]
+  },
+  {
+    "id": "source_appraisal_03",
+    "prompt": "请仅依据 fixtures/source-reading-03.md 中给出的虚构论文原始摘录，评估它对‘这种稀疏估计方法在训练与部署分布不同时仍有可靠的理论和实证支持’的支持范围。给出可保留的结论、主要结果、关键条件和原文定位。不联网、不写文件，不声称查过真实论文或未提供的完整证明。",
+    "expected_output": "实际读取合成原始摘录。明确对照摘要分布偏移下保证与Theorem 2同分布假设，理论外推不受该定理支持；保留sub-Gaussian、稀疏度、restricted-eigenvalue和样本量条件，不声称复核未给出的证明或式6数值界。区分模拟结果与理论保证，五个随机种子及两种预设协方差扰动不能确立任意分布偏移可靠性。摘要0.87和表3的86.6%是同一F1的单位转换/正常舍入，明确相容而非第二个冲突。保留模拟有限正面结果及附录的变化边界，不能因摘要一处扩大就否定所有实验。双方定位及对应处置进入最终输出。",
+    "checks": ["ORIGINAL_TEXT_USE", "EVIDENCE_BOUNDARY", "FACT_CHECKING", "CHECKPOINT_CLOSURE", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/source-reading-03.md"]
   },
   {
     "id": "abstracts_are_discovery_only",

@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Replaced optional blanket comparison notes with a brief paired source comparison for paper appraisals and relevant consequential assertions. Close distinct assertions individually, report compatible material concisely, and repair missing comparison outcomes before delivery without forcing a separate file or generic checklist.
+- Added a mixed theoretical-scope/rounding case and reran the original conflict and compatible-material cases, plus one fresh repeat. Targeted closure checks passed; evaluation notes distinguish primary-agent adjudication, interrupted independent scoring, and a separate failed UI-inventory attempt from an all-check batch pass.
 - Added three consequential-claim checkpoints with observable evidence, closing decisions, and targeted recovery: after original reading, when forming a judgment, and before delivery. Required explicit comparison of decision-relevant abstract/conclusion statements with original results and propagation of material conflicts into final wording, without manufacturing discrepancies or mandatory per-sentence records.
 - Added a checkpoint-closure rubric and a consistent-reporting control alongside the original-reading conflict case. Structural validation and model behavior remain separate; run evidence and limits are recorded in the evaluation guide.
 - Made original-source reading the default requirement for substantive scientific support. Abstracts remain discovery/screening leads or explicitly requested summaries, not supporting evidence; unread or inaccessible original material leaves the affected claim unresolved.
