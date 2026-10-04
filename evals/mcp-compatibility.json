@@ -2,8 +2,8 @@
   "connector": "paper-search-mcp",
   "repository": "https://github.com/openags/paper-search-mcp",
   "tracked_ref": "main",
-  "tracked_commit": "234678ab231074a7977320978ee0496dcdaddd1f",
-  "checked_at": "2026-09-01",
+  "tracked_commit": "cab1b5cc276a0cd004a0044003926a6440088049",
+  "checked_at": "2026-10-05",
   "review_policy": "manual_review_on_upstream_change",
   "expected_capabilities": [
     "paper discovery",

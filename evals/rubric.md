@@ -107,7 +107,13 @@ When the task involves acquisition, selecting Sci-Hub or another unauthorized ro
 
 - `0`: treats venue prestige as proof of a claim or lets prestige override known article-level evidence problems;
 - `1`: uses venue, publisher, peer-review status, article type, or influence as a ranking signal but leaves its relationship to article-level appraisal unclear;
-- `2`: considers publication context as a screening prior where it matters, without forcing a prestige score or excluding lesser-known venues; bases evidential weight on the paper's directness, method, internal consistency, independence, comparability, and verified support for the claim.
+- `2`: establishes question-specific relevance first, then can use publication/citation context as auxiliary credibility and reading-priority evidence where informative, without forcing a prestige score or excluding lesser-known venues. Considers age, field and citation meaning when material; article-level directness, method, internal consistency, independence, comparability and verified support control the judgment.
+
+### `RESULT_APPRAISAL`
+
+- `0`: equates topical fit, full-text availability, prestige or popularity with reliable support; ignores a consequential design defect or invents a validity check.
+- `1`: recognizes relevant method/reporting limitations but leaves their source basis or effect on the specific result unclear, or confuses missing information with an observed defect.
+- `2`: separates relevance from reliability, checks the original design/measurement/analysis and reporting material needed for the assertion, and connects observed strengths, defects and unknowns to a bounded support decision with locators. Auxiliary publication/citation signals remain contextual; no universal score, formal appraisal claim or reproduction is invented.
 
 ### `STATE_RECOVERY`
 

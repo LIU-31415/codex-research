@@ -37,8 +37,10 @@ Read the relevant reference or section before the action it governs; do not load
 | Process retrieved or supplied research material | [Source safety](references/source-safety.md) |
 | Select sources, construct queries, screen identities, expand retrieval, or assess coverage | [Search strategy](references/search-strategy.md) |
 | Acquire or read an original paper, inspect figures/supplements, or verify that returned text is sufficient | [Full-text reading](references/fulltext-reading.md) |
+| Judge candidate fit, result reliability, or promotion to key evidence | [Question-specific fit](references/evidence-reasoning.md#assess-fit-to-the-actual-question), [reliability appraisal](references/evidence-reasoning.md#appraise-reliability-separately-from-relevance), and [reading-depth decisions](references/fulltext-reading.md#choose-reading-depth) |
 | Classify evidence or support a consequential claim | [Evidence boundaries](references/evidence-reasoning.md#preserve-evidence-boundaries) and the relevant appraisal, fact-checking, comparison, or inference sections in [Evidence and reasoning](references/evidence-reasoning.md) |
-| Synthesize multiple studies into themes, compare findings, or turn a supported gap into a study idea | [Synthesis and research design](references/synthesis-and-research-design.md) |
+| Synthesize multiple studies, explain research development, compare findings, or turn a supported gap into a study idea | [Synthesis and research design](references/synthesis-and-research-design.md), including [research development and progress](references/synthesis-and-research-design.md#explain-research-development-and-progress) when requested |
+| Write a literature synthesis, review passage, progress narrative, mechanism discussion, or grounded outlook | [Academic writing](references/academic-writing.md) |
 | Resolve a scope, access, conflict, or user-decision checkpoint | [Interactive workflow](references/interactive-workflow.md) |
 | Preserve long research, resume, hand off, or prepare a formal artifact | [Research state and delivery](references/research-state-and-delivery.md) |
 
@@ -57,6 +59,8 @@ These are revisitable decisions, not mandatory rounds. Show consequential revisi
 ## Negotiate tool capability
 
 Inspect actual tools and returned content, not connector names. Use available tools that meet the task's needs; absence of a named MCP is not itself a capability gap. Read [capability negotiation](references/search-strategy.md#capability-negotiation) when selecting an academic connector or considering setup. `paper-search-mcp` is optional, separately maintained, and not bundled with this Skill.
+
+For actual academic MCP calls, read [practical retrieval guidance](references/mcp-retrieval.md): source roles and query semantics, failure diagnosis, complementary search branches, citation expansion, truncation, and original-text verification. Coverage depends on successfully searched branches, not the number of tools or non-empty batches.
 
 When a missing capability prevents the agreed evidence level, follow that reference's consent procedure: explain the gap, recommend setup or an explicitly limited existing-tool route, and wait for any necessary decision. Setup needs explicit approval and a real harmless verification call. Refusal ends the dependent path; an already authorized alternative may continue. Cleanup also needs authorization and must preserve existing user files and configuration.
 
@@ -80,13 +84,15 @@ Record what was actually accessed and which part supports each consequential cla
 
 Use [evidence and reasoning](references/evidence-reasoning.md) for consequential facts, experimental transfer, mechanisms, comparisons, conflicts, and gap claims. Preserve a concise evidence-to-claim justification with relevant sources, locators, assumptions, applicability, and alternatives. Use only the record fields needed to make the judgment auditable; ordinary background does not need a full claim ledger.
 
-Make the strongest conclusion the evidence warrants, including a conditional recommendation or an original testable hypothesis when requested. Compare explanations, derive implications, and connect evidence across fields where useful; label the inference and its assumptions. Uncertainty does not require treating all explanations as equally supported. Do not rank findings by paper count or prestige, turn association into causality, or invent support for an attractive gap.
+Make the strongest conclusion the evidence warrants, including a conditional recommendation or an original testable hypothesis when requested. Compare explanations, derive implications, and connect evidence across fields where useful; label the inference and its assumptions. Uncertainty does not require treating all explanations as equally supported. Establish relevance first; checked publication and citation context may inform provisional credibility alongside article-level appraisal. Do not rank findings by paper count or prestige alone, turn association into causality, or invent support for an attractive gap.
 
 Use the [claim checkpoints](references/evidence-reasoning.md#checkpoints-for-consequential-claims) when original reading becomes evidence, evidence becomes a judgment, and that judgment enters the final answer. For paper appraisal, retain a [brief paired source comparison](references/evidence-reasoning.md#brief-source-comparison) for the decision-relevant abstract/conclusion assertions and include its result in the answer. Close each distinct assertion, not just one representative discrepancy; compatible material can share one concise disposition. Every material conflict or gap must affect the final wording explicitly or have a source-based resolution.
 
 Before finalizing decisive claims, apply the [publication audit](references/evidence-reasoning.md#publication-audit). Reuse completed checks for unchanged claims and sources. Check any new consequential inference that emerges while writing; narrowing wording must not conceal material contradictions or missing evidence.
 
 ## Deliver and preserve continuity
+
+Before composing substantial research prose, read [academic writing](references/academic-writing.md). Develop the scientific argument from checked findings, make consequential gaps and matching solutions specific, and explain professional concepts in readable prose. Keep the evidence index available without making it the body of every report.
 
 Lead with the requested answer or synthesis. Choose the form that helps the user: a field map, comparison, annotated reading list, claim-verification memo, hypothesis brief, or formal report. Explain the supporting evidence and material limits near each conclusion, with DOI or stable links when available. Do not force empty headings, audit codes, or a generic disclaimer into every answer.
 

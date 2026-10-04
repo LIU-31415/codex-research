@@ -44,7 +44,7 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 
 For `paper-search-mcp`, choose unified `search_papers` with explicitly selected sources or source-specific tools according to the question and the capabilities needed. Neither unified search nor a fixed source bundle is mandatory. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
 
-Always pass `sources` explicitly to unified `search_papers`; do not rely on its default source bundle or treat merged position as relevance ranking. A category/date listing is not keyword search: the currently documented bioRxiv/medRxiv tools accept categories, so use them only for an intended valid category lookup, not a free-text question. Check returned errors and source statistics. A zero count establishes only that no records were returned, not that the source ran successfully or that relevant studies do not exist.
+Always pass `sources` explicitly to unified `search_papers`; do not rely on its default source bundle or treat merged position as relevance ranking. A category/date listing is not keyword search: inspect the installed bioRxiv/medRxiv descriptions for category, interval or exact-DOI support, and do not use a free-text question as a category. Check returned errors and source statistics. A zero count establishes only that no records were returned, not that the source ran successfully or that relevant studies do not exist. Apply [practical MCP retrieval](mcp-retrieval.md) for source-specific query semantics, failure/credential handling, citation tools, and coverage checks; a compatibility lock does not identify the actual running package.
 
 If the agreed evidence level depends on a capability that the current tools do not provide:
 
@@ -92,6 +92,10 @@ Maintain a concept model rather than a flat keyword list. Concepts may represent
 - comparison, exclusion, or competing interpretation.
 
 Within a concept, expand synonyms, abbreviations, spelling variants, controlled vocabulary, formulas, legacy terms, and field-specific phrases. Across concepts, combine only meaningful intersections.
+
+Keep true synonyms separate from broader/narrower concepts and adjacent but different objects. Similar names, formulas, abbreviations or applications do not establish equivalence; different phases, species, versions or measurement definitions may need separate branches. When that distinction could change retrieval or interpretation, check a responsible terminology source or the original study's definitions and retain the intended meaning. Broadening a query for discovery does not broaden the eligible evidence or authorize transferring results between those objects.
+
+For a source with controlled vocabulary, inspect the relevant heading's scope and mapping/expansion behavior when consequential; combine appropriate headings with free-text names for terminology or records the headings may miss. Do not assume a broader heading searches only the desired subtype or that every current record has completed subject indexing. Translate this choice to the actual interface, rather than imposing one database's vocabulary on all sources.
 
 Translate the concept model into the selected interface's declared syntax, searchable fields, and filter scope, using observed behavior where available. Do not assume identical Boolean, phrase, field, or date-filter behavior across sources, including sources behind one unified tool. A capability declaration is not proof that it executed correctly. When an unknown or unexpected behavior could affect the conclusion, consult the relevant tool/source documentation or use a small diagnostic query; retain unresolved behavior as unknown. Filtering returned records cannot recover records omitted during retrieval or establish equivalent coverage.
 
@@ -162,6 +166,8 @@ For any candidate used to answer a scientific question, identify what it actuall
 
 Use titles and abstracts for initial triage, then inspect the relevant full text when eligibility depends on missing details and before using findings as scientific support. Distinguish eligible candidates, evidence actually verified, contextual or methodological background, excluded work, and unresolved eligibility. Missing abstracts or unavailable full text do not establish ineligibility; keep access limitations separate from scientific exclusion. Negative or inconvenient findings remain eligible under the same criteria as positive findings.
 
+For plausible key candidates, use [question-specific fit](evidence-reasoning.md#assess-fit-to-the-actual-question) and [separate reliability appraisal](evidence-reasoning.md#appraise-reliability-separately-from-relevance). Choose [reading depth](fulltext-reading.md#choose-reading-depth), inspect the original structure when needed, and locate the result with its controlling methods and limitations. Screening priority is provisional; a highly relevant abstract does not predetermine evidential weight after reading.
+
 Retain the reason for consequential exclusions or pending decisions in existing notes, alongside the stable identifier and scope used. For formal-review support, preserve the screening stage and actual record/report/study counts when required; never reconstruct flow counts from memory. If criteria change, record why and revisit affected earlier decisions rather than applying a favorable exception to one paper. Do not turn a paper's failure to support one claim into exclusion from every other use.
 
 ## Citation expansion
@@ -196,7 +202,7 @@ Prioritize by decision value:
 - recency when the field changes rapidly;
 - venue, publisher, peer-review status, article type, and scholarly influence as screening priors when they help allocate reading effort.
 
-Use these priors to rank otherwise plausible candidates, not to predetermine whether a claim is true. A credible venue or publisher can raise initial reading priority, while article-level directness, method, internal consistency, independence, comparability, and accessible evidence determine how much support the paper provides. Journal prestige, citation count, author institution, and publication novelty cannot substitute for claim verification.
+Establish relevance to the intended question before using publication or citation context. For relevant candidates, venue standing, peer-review context and citation influence may inform initial credibility and reading priority under [publication and citation context](evidence-reasoning.md#publication-and-citation-context-after-relevance). Consider article age, discipline and actual citation use. Article-level directness, method, internal consistency, independence, comparability and verified support control the evidential judgment; prestige or popularity cannot override a mismatch or known defect.
 
 ## Gap-driven retrieval
 

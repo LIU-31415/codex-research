@@ -1,5 +1,28 @@
 [
   {
+    "id": "paper_appraisal_and_reading_depth",
+    "prompt": "从 fixtures/paper-appraisal-entry.md 开始，评价这组文献能否回答其中的研究问题。对候选分别判断相关性、可信依据和可用角色，自主读取判断所需的已提供原文及链接材料，说明何时需要浏览原文结构、何时需要定位精读，并实际核实关键证据，不能只交后续阅读计划。期刊水平和被引情况可作为相关性确定之后的辅助可信依据。给出阅读优先级和材料能支持的简洁结论，保留原文定位。仅限虚构本地材料，不联网、不写文件，不声称取得真实全文、检查真实期刊或执行复现。",
+    "expected_output": "先识别 A 词汇相关但研究对象不符；B 用于方法背景不能证明现场效果。阅读 C/D 的结构、正文和 D 的 S1：C 同时变采样频率且无并行对照，只能报告 6到4 MAE 的观察，不能归因于重新校准或证明长期；D 控制对比在两场地十天支持 MAE变化差 -1.0单位、区间-1.5到-0.5，12独立设备而非120。D 虽低被引，方法和问题更匹配，证据权重不能被 C 的名气覆盖；期刊/引用可辅助初步可信度但年龄/引文语境未核验有限。E 为 C 的衍生综述非独立复现；F 原文缺失保持潜在相关候选而非90天确证或科学排除。可靠性与相关性分开，并保留 C 摘要/正文不一致及 D 一致的判断、未知盲法/未复现等有范围的限制，不捏造图像检查或完整现实论文阅读。",
+    "checks": ["SCREENING_TRACEABILITY", "CANDIDATE_PRIORITIZATION", "RESULT_APPRAISAL", "ORIGINAL_TEXT_USE", "FACT_CHECKING", "CHECKPOINT_CLOSURE", "STUDY_INDEPENDENCE", "EVIDENCE_BOUNDARY", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/paper-appraisal-entry.md", "fixtures/paper-appraisal-c.md", "fixtures/paper-appraisal-d.md", "fixtures/paper-appraisal-supplement.md"],
+    "entry_files": ["fixtures/paper-appraisal-entry.md"]
+  },
+  {
+    "id": "live_mcp_retrieval_preflight",
+    "prompt": "为 Transformer 原始研究的后续文献调研准备检索方案，并用当前学术 MCP 做一次小规模实际演示。按功能选择互补来源，实际检索并核实《Attention Is All You Need》的种子身份，检查可用的前向和后向引用接口，并读取该论文的相关正文，确认其报告的一个有限发现。检索每个来源最多 3 条、每个引用方向最多 3 条；这只是连接和流程演示，不是全领域覆盖任务，不要扩大成综述或把找回种子当完整性证明。请根据当前工具能力、失败、过滤与截断情况，给出后续更全面检索该主题时应执行的分支和仍缺的条件。仅访问任务所需的公开材料和 Skill；优先使用可用的只读正文接口（例如 fetch_paper_text）；本轮不保存或下载 PDF 文件，不安装或改配置，不写研究状态文件。获取不到所需正文时应明确缺口，不能使用摘要替代科学证据。输出简洁，说明实际执行与仅计划的区别。",
+    "expected_output": "实际事件包含已选学术来源的检索、种子身份核实、前后引用调用或经验证的能力/访问缺口，以及正文读取。原始发现有正文定位和适用范围；不会把 metadata-only、错误文本或摘要当全文，也不宣称小样本完成广泛覆盖。后续计划包含按来源适配的互补查询、引用扩展、截断和失败处理、独立研究及相关性筛选。",
+    "checks": [
+      "SOURCE_ROUTING",
+      "QUERY_ADAPTATION",
+      "COVERAGE_STOP",
+      "ORIGINAL_TEXT_USE",
+      "EVIDENCE_BOUNDARY",
+      "CITATION_RECONCILIATION",
+      "PROPORTIONATE_COMPLETION"
+    ],
+    "files": []
+  },
+  {
     "id": "relevance_screening_and_noise",
     "prompt": "请依据 fixtures/relevance-screening.md 回答给定的现场准确性问题。对六条记录分别决定如何使用并简述依据，给出材料能支持的综述结论，判断这批结果和 Index B 的零结果意味着什么，并选择一个有根据的下一步。仅使用给定虚构材料，不联网、不执行新查询、不写文件，不声称读过真实全文。",
     "expected_output": "SYN-REL-01 只共享词汇、研究经济预测，不能用于设备准确性结论；SYN-REL-02 可作重新校准方法参考，不证明现场效果；SYN-REL-03 支持六台设备单站七天 MAE 从6降至4的有限正面结果；SYN-REL-04 是直接相关的未确立明确改善结果，必须纳入判断，区间跨零不证明无效；SYN-REL-05 身份和主题切合但只有摘要，正文支持待核实，不能作90天效果或独立确认；SYN-REL-06 电池寿命不是准确性指标，不支撑校准准确性。综述保留不同现场结果和适用范围，不以篇数或靠前位置宣称普遍有效。发现合并顺序和分类接口污染，按实际能力选择查询修正、合适源或已核实种子扩展之一，不强制收窄。Index B 的零记录且无执行轨迹不能证明成功无命中或无研究。下一步具体针对仍未解决的准确性证据，不虚构执行。",
@@ -89,7 +112,7 @@
   {
     "id": "venue_as_screening_prior",
     "prompt": "我只能先精读两篇候选论文。一篇发表在知名学会期刊，主题直接相关但摘要与图表有一个数值不一致；一篇发表在较少见的同行评审期刊，方法和条件与我的问题高度匹配且全文数据一致；另有一篇高被引综述。请说明阅读优先级，以及期刊和引用信息在判断中应占什么位置。",
-    "expected_output": "把期刊、出版社、同行评审状态、文章类型和影响力作为分配阅读精力的初始信号，但不把知名期刊视为结论正确的证明。优先级应同时考虑直接相关性、方法匹配、全文可核验性和内部一致性；高被引综述可用于导航，不能替代原始证据。",
+    "expected_output": "先确定对具体问题的相关性，再把期刊、出版社、同行评审状态、文章类型和引用影响力作为初步可信度与阅读优先级的辅助信号，不把知名期刊视为结论正确的证明。判断应结合方法匹配、全文可核验性、内部一致性以及论文年限/学科/引用语境；高被引综述可用于导航，不能替代原始证据。",
     "checks": ["CANDIDATE_PRIORITIZATION"],
     "files": []
   },

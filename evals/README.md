@@ -51,7 +51,15 @@ Execute source-injection evaluations separately only in a disposable VM or equiv
 
 ## Saved outputs
 
+`live_mcp_retrieval_preflight` is a bounded live Skill/MCP case: select complementary sources, verify a Transformer seed, inspect both citation directions, read original body text, and distinguish the completed demonstration from a future coverage plan. It requires user-authorized live access and actual tool-event inspection; no small sample can establish broad recall. Keep it separate from supplied-material and offline checks.
+
+The [2026-10-05 MCP verification record](reports/mcp-retrieval-20261005.md) preserves the incomplete first run, the successful read-only run, source failures and metadata conflicts, local connector changes, and the difference between tool/flow verification and coverage or factual-accuracy claims.
+
 ### Relevance and claim-support cases
+
+`paper_appraisal_and_reading_depth` uses [candidate records](fixtures/paper-appraisal-entry.md), two linked original-material stand-ins and a supplement. It checks question-specific relevance before journal/citation context, result-specific reliability, structural orientation followed by actual contextual reading, a confounded pilot versus a controlled field result, independent units, derivative reviews and inaccessible candidates. It is a synthetic supplied-material case, not a live paper/visual/reproduction benchmark. Execution and scoring must be recorded before claiming a pass.
+
+On 2026-10-05, this case completed in one Skill-only run and all nine declared checks scored 2 under primary-agent review of the answer, events and source locators. The configured default model emitted a metadata-fallback warning; no baseline or independent scorer was used. See [results and limits](reports/paper-appraisal-20261005.md).
 
 `relevance_screening_and_noise` uses [mixed candidate records](fixtures/relevance-screening.md) to check lexical neighbors, direct positive and contrary results, method references, abstract-only candidates, an unrelated outcome, and unknown zero-result status. Score the role of each record and the resulting scientific judgment; a justified source change or seed expansion is as valid as query refinement.
 

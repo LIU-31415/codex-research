@@ -10,6 +10,37 @@ Inspect the returned content. A successful download, a tool called "read paper",
 
 Prefer readable HTML/XML when it preserves the relevant structure; use PDF or rendered pages when layout, figures, equations, or extraction quality requires them. Follow links to the article body and supplements rather than repeatedly searching for copies of the same abstract. If one representation is incomplete, use an available lawful alternative or read the missing pages/sections; do not infer missing text from the title, abstract, or another model's summary. Install a reader or use an external processing service only within existing authorization.
 
+## Choose reading depth
+
+Use the next reading action to resolve a concrete uncertainty. These are choices, not a mandatory full-paper pass for every search hit.
+
+| Current situation | Reading needed | What this permits |
+|---|---|---|
+| Clearly unrelated hit, metadata task, or initial discovery | Title/identity/abstract sufficient for that decision; open missing details only when fit is ambiguous. | Bibliographic facts, provisional screening or an attributed abstract summary; no checked scientific result. |
+| Plausible candidate for consequential evidence, ambiguous eligibility, or unfamiliar/complex article | Inspect the original article's structure and study overview, then follow the relevant evidence route below. | A reading map and firmer eligibility; headings alone do not establish support or reliability. |
+| A specific result, number, mechanism or recommendation will support the answer | Read the result with its necessary methods/assumptions, controls, definitions, uncertainty, limitations and cross-referenced objects. | Support for the checked claim within its actual conditions; no implication that all sections were read. |
+| The user requests a whole-paper appraisal, or unresolved connections among sections could change the judgment | Read substantive sections and main objects across the article; expand to the relevant supplements and linked original findings. | An article-level appraisal when material unread sections are accounted for; do not claim reproduction or validate every inference by default. |
+
+Escalate when a needed definition or control is elsewhere, a result has competing interpretations, a figure/supplement carries decisive evidence, or reports conflict. Stop expanding when the requested judgment is supported at its stated scope and the remaining material cannot change it. Existing verified reading can be reused; a narrower claim does not require rereading unrelated sections.
+
+## Map the original before locating evidence
+
+For a plausible key candidate or article appraisal, first inspect a lightweight map of the actual original: table of contents if present, otherwise section/subsection headings, figure/table list or captions, and supplement links. Check the study overview for what was tested and where methods, results, limitations and versions/corrections reside. Research articles often lack a formal contents page; use their structure instead of inventing a directory or refusing to proceed.
+
+The map should reveal where the answer could be found, including alternative explanations and boundary results, rather than select only passages matching the desired conclusion. A short paper or an already mapped source may need only a brief scan. For long or multi-study papers, retain the relevant section/page/anchor ranges and which experiments each object belongs to. If supplied excerpts omit the structure, record that limit and read the available context without claiming an article-wide map.
+
+A contents scan is orientation, not whole-paper reading. A section heading such as “mechanism” does not show that a mechanism was proved. Follow the [reliability appraisal](evidence-reasoning.md#appraise-reliability-separately-from-relevance) in the sections that can answer it.
+
+## Locate evidence and test the pairing
+
+Break the intended assertion into its material components, such as the tested object, intervention/relation, outcome, value, comparator, conditions and causal strength. Use the map and source search to find candidate passages with synonyms, method names, variables or cited table/figure identifiers; absence of one exact phrase is not absence of evidence.
+
+Read the passage and enough neighboring context to establish what the statement refers to. Follow its method, table/figure, equation, supplement or original-study cross-reference when consequential. Distinguish this paper's own finding from its Introduction's account of earlier literature and from the authors' suggested explanation. A Discussion sentence that cites another study may require reading that original study rather than using this paper as the primary evidence.
+
+Close the check with `proposed assertion → original observation and locator → conditions/design → supports, limits, contradicts or unresolved`. Include a short faithful observation or data row, not just a page number or “evidence found”. Verify every decisive component; one supported number does not close a mechanism, duration or transfer assertion in the same sentence. Preserve source wording, units, uncertainty and qualifications, and test whether neighboring text or another relevant object changes the interpretation. Apply [claim-specific support](evidence-reasoning.md#claim-specific-relevance-and-support) and [source comparison](evidence-reasoning.md#brief-source-comparison).
+
+Use section/subsection plus a distinguishing paragraph phrase, PDF page with printed-page clarification where needed, stable HTML anchor, table row/column/footnote, figure panel/caption, or equation/assumption identifiers as appropriate. Do not invent paragraph/page numbers for unpaginated HTML or a generated extraction. When extraction makes a decisive element ambiguous, inspect an available original representation before relying on it. Keep a missing or unread object specifically pending; finding a convenient passage does not close it.
+
 ## Read for the requested scope
 
 Distinguish two tasks:

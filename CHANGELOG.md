@@ -2,7 +2,16 @@
 
 ## Unreleased
 
+- Added action-scoped academic-writing guidance informed by the current RSC author guide and selected passages from 2025–2026 papers: develop supported judgments, explain abstract relationships, control information density, and match genuine gaps to solutions without defensive boilerplate or fixed paragraph templates. Routed it from the entrypoint and report-writing guidance. This document update did not run behavioral tests.
+
+- Added practical academic-MCP retrieval guidance: distinguish provider failure from zero matches, adapt source syntax and filters, expand complementary query branches and citation directions, account for capped results, and verify original-text identity before synthesis. Connector runtime verification is recorded separately from Skill behavior evaluation.
+
 ### Changed
+
+- Following a document-only goal/execution audit, added semantic distinctions among synonyms, hierarchical terms and neighboring objects; targeted checks for conclusions depending on pivotal or indirect evidence; and a conditional method for reconstructing research development from verified sources. No tests or live research runs were performed for this audit.
+
+- Made candidate relevance, result reliability and key-evidence promotion separate decisions. Added explicit reading-depth choices, original-structure orientation and contextual passage/object verification, without requiring a whole-paper read for every hit or a universal quality score.
+- Allowed checked journal/venue and citation context to inform provisional credibility after relevance is established, while preserving result-specific appraisal and distinguishing citation influence from independent validation.
 
 - Added explicit topical screening, noisy-batch diagnosis and source-specific query semantics; distinguished claim-specific direct support from context, transferred evidence and unverified candidates. Strengthened clause-level factual fidelity and added two synthetic behavior cases for mixed relevance and draft-to-source support. These changes do not establish general retrieval reliability.
 - Added source-first ordering for selective reviews that need to discover omissions: read original material before seeing the draft or earlier findings, then compare, adjudicate and verify the repair. Draft-informed review remains valid but is not labeled source-first; a fresh context is not proof of independent or correct judgment.

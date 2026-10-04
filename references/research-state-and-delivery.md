@@ -64,6 +64,7 @@ Adapt this structure to the task. Omit empty sections and merge overlapping ones
 - Main concepts and relationships:
 - Candidate directions:
 - Demonstrated progress, supporting sources, and conditions by direction:
+- When development is requested: key dated/versioned nodes, what changed between them, checked relationships, current evidence boundary and searched cutoff; link to existing source/claim records:
 - Remaining limitations and supported candidate gaps:
 - Important ambiguities:
 
@@ -177,6 +178,8 @@ A final answer should normally include, in an order suited to the task:
 - traceable references with DOI or stable links when available.
 
 ## From state to final report
+
+Use [academic writing](academic-writing.md) when turning the source records and synthesis into reader-facing research prose. Keep the argument in the report and the deeper verification chain accessible in the existing records; do not turn state fields into a mandatory paragraph template.
 
 Generate the report from the available source records and current confirmed synthesis, using a state file when one exists. If writing reveals a new consequential inference or changes a conclusion, check its evidence and assumptions before presenting it, and update the relevant record within existing write authorization. Do not require a state file or prohibit useful synthesis merely because it arises during writing.
 

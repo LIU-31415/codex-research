@@ -142,9 +142,49 @@ Never present an interpretation, extrapolation, or hypothesis as a direct findin
 
 Topical relevance and scientific support are separate decisions. For each consequential source–claim pairing, retain a concise connection: proposed claim → original observation and locator → how it bears on the claim → supported scope and material limits. Reuse the existing claim record or an in-context sentence; no additional ledger or fixed fields are required. A correct paper identity, shared vocabulary, or relevance to the broad topic does not establish support for the particular assertion.
 
+### Assess fit to the actual question
+
+Start from the use intended for this paper, not its title or an overall relevance score. Compare the question with the original study along the dimensions that can change the answer:
+
+| Dimension | What to compare |
+|---|---|
+| Target | Actual population, material, phase, system or setting; distinguish the studied object from an application mentioned only as motivation. |
+| Relation | Intervention, exposure, comparison or mechanism actually tested; distinguish a measurement/method validation from validation of the application outcome. |
+| Outcome | Measured outcome and its definition; a proxy, prediction metric or preparation yield is not automatically the requested performance or mechanism. |
+| Conditions | Comparator, duration, scale, environment, dose or other decisive boundaries; identify which differences require transfer assumptions. |
+| Evidence type | Original data/derivation, review of earlier findings, simulation, proposed mechanism or speculation; match the type to the assertion. |
+
+Use title/abstract screening to assign provisional roles and reading priority. If a decisive dimension is unstated, keep fit pending and inspect the relevant body; do not infer it from shared keywords or exclude the work solely for an incomplete abstract. A negative or null result can be directly relevant. For each material decision, state the match or mismatch that matters and what the paper can still be used for. Avoid a compulsory checklist for dimensions irrelevant to the question.
+
 Distinguish direct support, indirect or transferred evidence with explicit assumptions, context or methodological reference, contradictory or limiting evidence, and unverified support. Judge the role for the specific claim: a method paper can directly support a method description without establishing an application outcome; a study in another system can inform an interpretation without proving the target-system result. Rejecting one pairing does not exclude the paper from other valid uses. Do not promote weakly related records to key evidence, suppress directly relevant contrary findings, or treat missing original material as verified support.
 
 If only part of a sentence is supported, split or narrow it, obtain the missing evidence within scope, or withhold the unsupported component. Adding “may”, “potentially”, or another hedge does not repair an unsupported factual attribution. A synthesis or hypothesis remains possible when its observations, warrant, changed conditions and uncertainty are explicit; do not write it as a source finding or use several adjacent citations to imply direct or independent confirmation.
+
+### Appraise reliability separately from relevance
+
+A closely matched paper may have weak evidence; a rigorous study in a different system may be useful only as indirect evidence. Appraise the particular result, not an immutable grade for the whole article. Use the original material needed to answer the following questions; an abstract cannot establish these checks.
+
+| Appraisal question | Decision consequence |
+|---|---|
+| Is the work/version authentic and is its current status known? | Apply the identity and publication-status rules. A correction can alter one result without invalidating every use; unverified identity or an affected withdrawn/retracted finding cannot supply affirmative support. |
+| Can the design establish this relation? | Inspect the relevant controls, comparator, definitions, assumptions and alternative explanations under [question-matched appraisal](#match-evidence-to-the-research-question). A confounded before/after observation cannot isolate an intervention's effect. |
+| Are the measurements/analysis adequate for this result? | Check independent units versus repeated observations, reference validity, denominators, uncertainty and material analysis choices. Distinguish imprecision from bias; neither a large sample nor statistical significance repairs a design defect. |
+| Does the reporting support the stated interpretation? | Match methods, result, table/figure/caption and relevant supplement; use the paired comparison for abstract/conclusion claims. Missing information stays unknown; a reporting problem is not automatically misconduct or a demonstrated scientific error. |
+| Is corroboration independent and applicable? | Examine the underlying study/data relationships and changed conditions. Multiple versions or reviews of one result do not add replication, and a reliable local result does not establish broad transfer. |
+
+For each material concern, preserve `observed detail + locator → affected result/claim → consequence`. Distinguish an observed defect, a plausible risk, and information not available for assessment. Choose the consequence: usable within verified scope; usable with an explicit limitation; unresolved pending a specific check; or unusable as affirmative support for the affected claim. Keep unrelated valid findings and contextual uses. Funding or conflicts of interest may guide scrutiny but do not independently prove validity or invalidity. Data/code availability helps determine what can be checked; availability alone is not reproduction.
+
+#### Publication and citation context after relevance
+
+First establish the paper's relevance to its intended use. Then journal/venue standing, editorial and peer-review context, and citation influence may contribute auxiliary evidence to a provisional credibility judgment as well as reading priority. Explain which signal was used and why it is informative; keep it subordinate to the original result's design, consistency, applicability and verified support. A strong venue cannot rescue an irrelevant paper or a demonstrated defect, and low visibility cannot invalidate directly relevant sound evidence.
+
+Use checked information rather than impressions: identify the source/date of a citation count and the year/category/source of a journal metric when that metric matters. Consider article age, discipline, document type and database coverage before comparing counts; a new paper or a narrow field may have few citations. No fixed citation/impact-factor cutoff or automatic numerical weight is required. If treating influence as credibility affects the answer, inspect a proportionate sample of consequential citing work: citation may indicate background use, criticism, extension or independent validation. Unknown citation context is influence, not confirmed endorsement; verified independent corroboration is a stronger signal than the raw count. Keep corrections, retractions and article-level defects controlling the affected evidence judgment.
+
+### Decide whether a result can become key evidence
+
+Before using a result to determine the answer, check that its identity/status is adequate, the claim-relevant original evidence and conditions have been located, the design can support the proposed wording, and material conflicts have been resolved or visibly limit the judgment. Record its actual role and what could change the decision. A directly relevant but methodologically weak finding cannot establish a strong claim; several weak lexical neighbors cannot compensate for missing direct evidence. Indirect evidence may inform an explicitly reasoned inference, with transfer assumptions, rather than being cited as a target-system finding.
+
+Use [reading-depth decisions](fulltext-reading.md#choose-reading-depth) to obtain the missing information. If a required check is unavailable, keep the affected support pending or bounded instead of calling the paper reliable because it was downloaded or assigning a numerical confidence score. Reassess only decisions changed by new scope, material, status or wording. Confidence in a synthesis depends on the appraised, comparable and independent evidence across studies, not the best-looking paper alone.
 
 ## Minimal evidence and claim contracts
 
@@ -342,6 +382,8 @@ These principles draw on, without mechanically reproducing:
 - OpenAI reasoning prompting guidance: https://developers.openai.com/api/docs/guides/reasoning-best-practices
 - Toulmin argument structure: https://owl.purdue.edu/owl/general_writing/academic_writing/historical_perspectives_on_argumentation/toulmin_argument.html
 - Cochrane/GRADE evidence certainty: https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-14
+- Cochrane result-specific risk of bias and domain-based appraisal: https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-07
+- DORA's limitations of journal metrics as proxies for individual-article quality: https://sfdora.org/read/
 - Cochrane interpretation and conclusions: https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-15
 - National Academies causal inference overview: https://www.ncbi.nlm.nih.gov/books/NBK588337/
 - National Academies reproducibility and replicability: https://www.nationalacademies.org/read/25303/chapter/3
