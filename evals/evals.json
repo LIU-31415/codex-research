@@ -1,5 +1,19 @@
 [
   {
+    "id": "relevance_screening_and_noise",
+    "prompt": "请依据 fixtures/relevance-screening.md 回答给定的现场准确性问题。对六条记录分别决定如何使用并简述依据，给出材料能支持的综述结论，判断这批结果和 Index B 的零结果意味着什么，并选择一个有根据的下一步。仅使用给定虚构材料，不联网、不执行新查询、不写文件，不声称读过真实全文。",
+    "expected_output": "SYN-REL-01 只共享词汇、研究经济预测，不能用于设备准确性结论；SYN-REL-02 可作重新校准方法参考，不证明现场效果；SYN-REL-03 支持六台设备单站七天 MAE 从6降至4的有限正面结果；SYN-REL-04 是直接相关的未确立明确改善结果，必须纳入判断，区间跨零不证明无效；SYN-REL-05 身份和主题切合但只有摘要，正文支持待核实，不能作90天效果或独立确认；SYN-REL-06 电池寿命不是准确性指标，不支撑校准准确性。综述保留不同现场结果和适用范围，不以篇数或靠前位置宣称普遍有效。发现合并顺序和分类接口污染，按实际能力选择查询修正、合适源或已核实种子扩展之一，不强制收窄。Index B 的零记录且无执行轨迹不能证明成功无命中或无研究。下一步具体针对仍未解决的准确性证据，不虚构执行。",
+    "checks": ["SCREENING_TRACEABILITY", "QUERY_ADAPTATION", "SOURCE_ROUTING", "EVIDENCE_BOUNDARY", "CONFLICT_HANDLING", "CITATION_RECONCILIATION", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/relevance-screening.md"]
+  },
+  {
+    "id": "claim_support_and_fidelity",
+    "prompt": "请读取 fixtures/claim-support-fidelity.md，逐项判断综述草稿与原始摘录的对应关系，保留可支持的结果、指出不支持的内容，并写出准确的替代段落及定位。还要判断草稿第二句加了‘may’是否解决引用问题。仅依据给定虚构材料，不联网、不写文件，不声称取得真实论文、未提供的完整正文或额外实验。",
+    "expected_output": "原文为6个独立设备、每台100次重复读数、单实验室8小时25±1摄氏度，不是600台设备或90天现场研究。平均MAE从10降至7，相对降低30%，不能改写成测量准确率增加30%；D6从10到11恶化，不能写每台改善。未给区间/检验不能虚构显著性或精确不确定性。稳定温度属于作者未被因果设计验证的解释，不能称证明；未测现场和长期表现，第二句加may仍不能把现场30%当成来源发现。分别对上Methods §2、Results Table 1、Discussion §4，替代段落准确保留有限实验室正面结果、设备差异和未验证范围。允许指出现场效果作为后续待验证问题，不能用谨慎词或宽泛相关性掩盖错误指标/条件，不能因草稿错误否定全部来源结果。",
+    "checks": ["ORIGINAL_TEXT_USE", "FACT_CHECKING", "CHECKPOINT_CLOSURE", "STUDY_INDEPENDENCE", "CAUSAL_LANGUAGE", "CITATION_RECONCILIATION", "PROPORTIONATE_COMPLETION"],
+    "files": ["fixtures/claim-support-fidelity.md"]
+  },
+  {
     "id": "original_fulltext_reading",
     "prompt": "请从 fixtures/original-reading-entry.md 开始阅读全文并评估这项研究，判断它是否支持‘重新校准能在任意建筑和温度下可靠改善表现至少90天，且已证明温度稳定是原因’。需要的其他原始材料若有本地链接，请自行读取；不要只给后续阅读计划。给出准确的主要结果、方法和适用边界，以及原文定位。仅限这组虚构本地材料，不联网、不写文件，不声称查过真实论文。",
     "expected_output": "实际读取入口、正文、完整表2及S1，不能把标为 full_text 的截断摘要当全文。将原始完整表的18%及-3%到39%区间、8个独立模块与每模块4800读数、误差降低而非准确率说明清楚；损坏抽取串不能推断或当论文冲突。S1限定7天、23±1摄氏度、低于定量限的12%读数剔除，不能支持90天/全温度/所有建筑/全量程。分别保留摘要显著性表述与原文区间不确定性、耐久/广泛部署与短期同场地边界、温度因果表述与未区分老化的设计之间的对照，给双方定位和结论后果；报告其中一项不能代替其他实质差异。不能以未确立当明确反证，不能用摘要显著性替代区间判断。不夸称查看真实PDF/图像、联网状态或未给的数据文件。报告实际阅读范围，完成判断而非仅建议去读。",

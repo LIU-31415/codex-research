@@ -93,9 +93,9 @@ When the task involves acquisition, selecting Sci-Hub or another unauthorized ro
 
 ### `QUERY_ADAPTATION`
 
-- `0`: assumes unsupported cross-source query/filter equivalence, interprets a restrictive search as absence of evidence without addressing a demonstrated miss, or claims post-filtering recovers omitted records;
+- `0`: assumes unsupported cross-source query/filter equivalence, treats a vocabulary-matched but off-topic batch as successful retrieval, interprets a restrictive search as absence of evidence without addressing a demonstrated miss, or claims post-filtering recovers omitted records;
 - `1`: notices a syntax, filter, or recall concern but leaves the next action or its effect on the conclusion unclear;
-- `2`: uses the supplied interface and result evidence to distinguish query restrictions, field/filter behavior, and source coverage; selects a proportionate correction or diagnostic, preserves unresolved limits, and does not infer completeness from recovering a known paper. Do not require a fixed query, source order, or extra search when it cannot change the judgment.
+- `2`: uses the supplied interface and result evidence to distinguish query restrictions, field/filter behavior, topical noise, and source coverage; selects a proportionate correction or diagnostic, preserves unresolved limits, and does not infer completeness from recovering a known paper. Accept query revision, source changes, or verified-seed expansion when justified; do not require narrowing every noisy batch, a fixed query, source order, or extra search when it cannot change the judgment.
 
 ### `COVERAGE_STOP`
 
@@ -167,9 +167,9 @@ Use actual tool events to establish reads or retrieval, not a narrative that the
 
 ### `SCREENING_TRACEABILITY`
 
-- `0`: excludes a paper solely for unavailable text or an inconvenient result, silently changes eligibility, or treats an unsupported source/claim pairing as a global paper blacklist;
+- `0`: promotes a lexical neighbor or contextual reference to key evidence for an unsupported claim, excludes a paper solely for unavailable text or an inconvenient result, silently changes eligibility, or treats an unsupported source/claim pairing as a global paper blacklist;
 - `1`: distinguishes some roles but leaves a consequential inclusion, exclusion, or pending decision unexplained;
-- `2`: applies the declared criteria consistently, preserves important reasons and pending eligibility, separates context and access from included evidence, and revisits affected decisions when scope changes.
+- `2`: applies the declared criteria consistently to what each record actually studies, preserves important reasons and pending eligibility, separates direct evidence, context or methods, contrary findings, and unresolved access/support, and revisits affected decisions when scope changes. Judge the dimensions material to the intended use, without requiring every record to match the same object/intervention/outcome/mechanism checklist.
 
 ### `THEMATIC_SYNTHESIS`
 
@@ -185,7 +185,7 @@ Use actual tool events to establish reads or retrieval, not a narrative that the
 
 ### `CITATION_RECONCILIATION`
 
-- `0`: equates a resolved reference or correct metadata with support, fabricates a missing reference, or reuses an unchanged rejected pairing as affirmative evidence;
+- `0`: equates a resolved reference, correct metadata, or broad topical relevance with claim support, attributes an unsupported clause to a paper (including when hedged), fabricates a missing reference, or reuses an unchanged rejected pairing as affirmative evidence;
 - `1`: flags a problem but leaves an unsupported attribution or missing prior-work comparison in the synthesis;
 - `2`: separates citation consistency, identity, and support; resolves, narrows, or clearly preserves unsupported draft claims and missing prior works. Reuses claim-specific rejection reasons and distinguishes original proposals from external works requiring attribution.
 

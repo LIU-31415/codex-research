@@ -44,6 +44,8 @@ Distinguish capabilities rather than assuming that one MCP name guarantees them:
 
 For `paper-search-mcp`, choose unified `search_papers` with explicitly selected sources or source-specific tools according to the question and the capabilities needed. Neither unified search nor a fixed source bundle is mandatory. Prefer source-native and open-access retrieval paths. Do not call a Sci-Hub tool. When `download_with_fallback` or an equivalent tool exposes a `use_scihub` option, set it explicitly to `false`. Otherwise use a fallback downloader only when its current configuration and tool description make clear that unauthorized sources are disabled or excluded. Tool names and capabilities may change; inspect the current tool metadata rather than assuming this exact list.
 
+Always pass `sources` explicitly to unified `search_papers`; do not rely on its default source bundle or treat merged position as relevance ranking. A category/date listing is not keyword search: the currently documented bioRxiv/medRxiv tools accept categories, so use them only for an intended valid category lookup, not a free-text question. Check returned errors and source statistics. A zero count establishes only that no records were returned, not that the source ran successfully or that relevant studies do not exist.
+
 If the agreed evidence level depends on a capability that the current tools do not provide:
 
 1. Explain which capability is unavailable and how that limits the current task.
@@ -101,6 +103,8 @@ As research proceeds:
 - evidence gaps should generate targeted queries;
 - ineffective terms should be retired or marked uncertain.
 
+If a batch is dominated by records that share vocabulary but address a different question, diagnose the mismatch before bulk reading. Check source suitability, actual query interpretation, searchable fields, ranking and failures; then choose a discriminating query, another source, or expansion from a verified in-scope seed. Do not assume every noisy batch is a query-construction defect or require narrowing when a different correction fits the evidence. Inspect representative records to establish the mismatch, and assess whether the corrected route yields eligible candidates; non-empty results alone are not success.
+
 Record where an important term came from and what ambiguity or retrieval gap it resolves.
 
 Distinguish retrieval concepts from screening criteria. Outcomes, mechanisms, and context may be absent from searchable fields even when a study is eligible; do not automatically require all of them in a query. Before relying on a restrictive query to declare coverage complete or a research gap, assess whether optional concepts, field limits, or exclusions could hide relevant work. Choose a proportionate diagnostic, such as relaxing a restriction or checking a known in-scope paper, when it can change the judgment. Sparse results alone do not require another search. First establish that a diagnostic paper fits the scope; a miss may reflect source coverage or indexing rather than query construction, and recovering it does not prove completeness.
@@ -153,6 +157,8 @@ Do not count multiple records, reports, reviews, or versions as independent evid
 ## Screening decisions
 
 For a multi-paper synthesis or coverage task, make the eligibility criteria explicit enough to apply consistently: the relevant system, question, study types, comparisons, and scope limits. Reuse the agreed scope; do not add an intake gate or require a clinical question framework for unrelated disciplines.
+
+For any candidate used to answer a scientific question, identify what it actually studies and why that bears on the current question. Judge the dimensions material to that use, not keyword overlap, source order, or a compulsory object/intervention/outcome/mechanism checklist. Distinguish directly relevant work, contextual or methodological references, unresolved fit, and unrelated records. Mere lexical neighbors cannot become key evidence; a relevant method or transferable observation may remain useful in its stated role. Missing access leaves support pending, and directly relevant contrary or null findings remain eligible. Apply [claim-specific support](evidence-reasoning.md#claim-specific-relevance-and-support) before using a finding in the synthesis.
 
 Use titles and abstracts for initial triage, then inspect the relevant full text when eligibility depends on missing details and before using findings as scientific support. Distinguish eligible candidates, evidence actually verified, contextual or methodological background, excluded work, and unresolved eligibility. Missing abstracts or unavailable full text do not establish ineligibility; keep access limitations separate from scientific exclusion. Negative or inconvenient findings remain eligible under the same criteria as positive findings.
 
