@@ -12,3 +12,5 @@ Before committing evaluation results, review and redact them while retaining:
 - an explanation of failures and the execution environment.
 
 Workspace-relative fixture instructions reduce unnecessary paths in prompts. They do not make raw run records safe to publish without review.
+
+Public reports may link only to reviewed artifacts included in Git. Describe ignored local records with inline paths and an explicit local-only availability statement; do not create repository links to them or publish raw records merely to satisfy link checks.

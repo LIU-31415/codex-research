@@ -37,7 +37,7 @@ The primary agent read the final answer and actual command events, then compared
 | EVIDENCE_BOUNDARY | Preserved fictional/source-excerpt scope, unverified 90-day support and supplied-date status; invented no real access, citation endorsement or reproduction. |
 | PROPORTIONATE_COMPLETION | Completed the bounded local task, answered the question with conditions and stopped without new research or a user decision gate. |
 
-Local private run records: [answer](../runs/20261005-paper-appraisal/paper_appraisal_and_reading_depth/skill/final.md), [events](../runs/20261005-paper-appraisal/paper_appraisal_and_reading_depth/skill/events.jsonl), [result](../runs/20261005-paper-appraisal/paper_appraisal_and_reading_depth/skill/result.json), [manual scores](../runs/20261005-paper-appraisal/scores.json), [manifest](../runs/20261005-paper-appraisal/manifest.json). Raw records remain ignored and require privacy review before sharing.
+Local private run records are retained under `evals/runs/20261005-paper-appraisal/`: `final.md`, `events.jsonl` and `result.json` are in `paper_appraisal_and_reading_depth/skill/`; manual `scores.json` and `manifest.json` are at the run root. These locations describe provenance in the original workspace. Raw records remain ignored, are unavailable in the public repository, and require privacy review before sharing.
 
 ## Validation boundary
 
